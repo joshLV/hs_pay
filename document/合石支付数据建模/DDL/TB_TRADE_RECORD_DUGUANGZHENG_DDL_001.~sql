@@ -1,0 +1,64 @@
+﻿drop table TB_TRADE_RECORD cascade constraints;
+
+/*==============================================================*/
+/* Table: TB_TRADE_RECORD                                       */
+/*==============================================================*/
+create table TB_TRADE_RECORD 
+(
+   TRANS_ID             VARCHAR2(32)         not null,
+   USER_ID              VARCHAR2(32),
+   MONEY                NUMBER(16,6),
+   CREDIT               NUMBER(16,6),
+   MOBILE               VARCHAR2(32),
+   ORDER_ID             VARCHAR2(32),
+   SOURCE_CODE          VARCHAR2(32),
+   OPERATE_TYPE         INTEGER,
+   CREATE_DATE          DATE,
+   CREATE_BY            VARCHAR2(32),
+   UPDATE_DATE          DATE,
+   UPDATE_BY            VARCHAR2(32),
+   REMARK               VARCHAR2(255),
+   constraint PK_TB_TRADE_RECORD primary key (TRANS_ID)
+);
+
+comment on table TB_TRADE_RECORD is
+'交易记录表';
+
+comment on column TB_TRADE_RECORD.TRANS_ID is
+'流水号';
+
+comment on column TB_TRADE_RECORD.USER_ID is
+'用户编号';
+
+comment on column TB_TRADE_RECORD.MONEY is
+'操作金额';
+
+comment on column TB_TRADE_RECORD.CREDIT is
+'操作积分';
+
+comment on column TB_TRADE_RECORD.MOBILE is
+'手机号';
+
+comment on column TB_TRADE_RECORD.ORDER_ID is
+'来源方订单号';
+
+comment on column TB_TRADE_RECORD.SOURCE_CODE is
+'平台来源（SH:商城 P2P:p2p平台 H5:微信）';
+
+comment on column TB_TRADE_RECORD.OPERATE_TYPE is
+'操作类型(1:充值 2:余额支付 3:余额退款 4:积分支付 5:积分退款 6:组合支付-积分与余额 7:组合退款-积分与余额 )';
+
+comment on column TB_TRADE_RECORD.CREATE_DATE is
+'创建时间';
+
+comment on column TB_TRADE_RECORD.CREATE_BY is
+'创建人';
+
+comment on column TB_TRADE_RECORD.UPDATE_DATE is
+'更新时间';
+
+comment on column TB_TRADE_RECORD.UPDATE_BY is
+'更新人';
+
+comment on column TB_TRADE_RECORD.REMARK is
+'备注';
