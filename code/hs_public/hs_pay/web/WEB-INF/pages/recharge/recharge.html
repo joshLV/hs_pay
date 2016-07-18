@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+</head>
+<body>
+<!--头部开始-->
+<h1 class="h2">账户充值</h1>
+<hr/>
+<br/><br/>
+<form class="formx" id="recharge_form" action="${basePath}/recharge/toRecharge" method="post">
+    <input type="hidden" id="onlineBankId" value=""/>
+    <div id="bankList">
+        <div style="margin-left: 20px;background-color: #f5f5f5;font-size: 12px;padding: 10px 10px 10px 30px;line-height: 22px;margin-bottom: 20px;">
+            温馨提示： 招商贷禁止信用卡套现、虚假交易等行为,一经发现将予以处罚,包括但不限于：<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、限制收款、冻结账户、永久停止服务,并有可能影响相关信用记录。<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、充值资金原卡返回，第三方支付返回费用自行承担。
+        </div>
+        <div class="form">
+            <label class="label"><span>*</span> 网银充值</label>
+            <div class="field">
+                <ul class="check">
+                    <li><label><input type="radio" name="onlineBankId" value="19_1025"/><img alt="工商银行"
+                                                                                             src="${basePath}/upload/images/bank/ICBC_OUT.gif"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_104"/><img alt="中国银行"
+                                                                                            src="${basePath}/upload/images/bank/BOC_OUT.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_1051"/><img alt="建设银行"
+                                                                                             src="${basePath}/upload/images/bank/CCB_OUT.gif"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_103"/><img alt="农业银行"
+                                                                                            src="${basePath}/upload/images/bank/ABC_OUT.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_3080"/><img alt="招商银行"
+                                                                                             src="${basePath}/upload/images/bank/CMB_OUT.gif"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_3061"/><img alt="广发银行"
+                                                                                             src="${basePath}/upload/images/bank/GDB_OUT.gif"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_305"/><img alt="民生银行"
+                                                                                            src="${basePath}/upload/images/bank/CMBC_OUT.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_312"/><img alt="光大银行"
+                                                                                            src="${basePath}/upload/images/bank/CEB_OUT.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_307"/><img alt="平安银行"
+                                                                                            src="${basePath}/upload/images/bank/pingan.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_3230"/><img alt="中国邮储银行"
+                                                                                             src="${basePath}/upload/images/bank/yz.jpg"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_311"/><img alt="华夏银行"
+                                                                                            src="${basePath}/upload/images/bank/hx.jpg"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_3407"/><img alt="交通银行"
+                                                                                             src="${basePath}/upload/images/bank/COMM_OUT.gif"
+                                                                                             width="120px"
+                                                                                             height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_313"/><img alt="中信银行"
+                                                                                            src="${basePath}/upload/images/bank/CITIC_OUT.gif"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                    <li><label><input type="radio" name="onlineBankId" value="19_314"/><img alt="浦发银行"
+                                                                                            src="${basePath}/upload/images/bank/pf.jpg"
+                                                                                            width="120px"
+                                                                                            height="35px"/><i></i></label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form">
+            <label class="label"><span>*</span> 第三方支付</label>
+            <div class="field">
+                <ul class="check">
+                    @for(item in map.paymentInterfaceList){
+                    <li><label><input type="radio" name="onlineBankId" value="${item.id}"/><img src="${basePath}/${item.logoUrl}"
+                                                                                                width="120px"
+                                                                                                height="35px"/><i></i></label>
+                    </li>
+                    @}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="form">
+        <label class="label">账户
+            ${ctxPath}</label>
+        <div class="field field-txt">
+            <!--#{user.username}-->
+        </div>
+    </div>
+    <div class="form">
+        <label class="label"><span>*</span> 充值金额</label>
+        <div class="field">
+            <input type="text" class="input input-auto" name="amount" id="amount"/>
+            元
+            <div class="note"></div>
+        </div>
+    </div>
+    <div class="form">
+        <label class="label"><span>*</span> 验证码</label>
+        <div class="field">
+            <input type="text" class="input input-auto" maxlength="4" name="validCaptcha" id="textcode"/>
+            <img id="rechargeCode" src="${basePath}/captchaImage.do?type=rechargeCode"
+                 onclick="this.src='${basePath}/captchaImage.do?type=rechargeCode&'+Math.random()"/>
+            <div class="note"></div>
+        </div>
+    </div>
+    <div class="form" id="showMsg">
+        <label class="label"></label>
+        <div class="field">
+            <div class="login-error" style="min-width: 171px;">
+                <span class="note error"></span>
+            </div>
+        </div>
+    </div>
+    <input type="text" name="sourceCode" id="sourceCode" value="${map.sourceCode}"/>
+    <div class="form form-text"><input type="submit" class="button button-form bg-main" value=" 充值 " id="toRecharge"/>
+    </div>
+</form>
+</main>
+<!--会员结束-->
+</div>
+<br/>
+</div>
+
+<!--对话框开始-->
+<div name="dialogMask" class="mask" style="display: none;"></div>
+<div name="dialogMask" class="dialog" style="display: none;">
+    <span class="close right">&times;</span>
+    <div class="dialog-body">请您在新打开的网上银行页面进行支付，支付完成前请不要关闭该窗口</div>
+    <div class="dialog-foot" align="center">
+        <button class="button bg-sub close buttonOK">已完成充值</button>
+        <button class="button bg-gray buttonCancel">充值遇到问题</button>
+    </div>
+</div>
+<!--对话框结束-->
+</body>
+<script type="text/javascript">
+    var checkAsRedirect = "${map.sourceCode}";
+    console.log(checkAsRedirect);
+    /*$(function(){
+
+     //if($("[title='']").length <= 0) {
+     //   $(".check:last li:last").hide();
+     //}
+
+     if(checkAsRedirect != null && checkAsRedirect != undefined && checkAsRedirect != ""){
+     showErrorMessageDialog("${map.msg}");
+     needReloadUrl = checkAsRedirect;
+     }
+     $("#toRecharge").click(function(){
+
+     var textcode = $("#textcode").val();
+     var amount = $("#amount").val();
+
+     if (amount == "") {
+     showMsg("充值金额不能为空");
+     return;
+     }
+     if (!amount.match(/^\+?(:?(:?\d+\.\d+)|(:?\d+))$/)) {
+     showMsg("充值金额不合法");
+     return;
+     }
+     if (!/^([^0]|.{2,})$/.test(amount)) {
+     showMsg("充值金额不合法");
+     return;
+     }
+     var arr = amount.split(".");
+     if (arr.length == 2) {
+     var xs = arr[1];
+     if (xs.length > 2) {
+     showMsg("充值金额只能保留2位小数");
+     return;
+     }
+     }
+     if (textcode == "" || textcode == null) {
+     showMsg("验证码不能为空！");
+     return;
+     }
+     //获取值
+     var para = {};
+     para.amount = $("#amount").val();
+     para.validCode = $("#textcode").val();
+     para.onlineBankId = $("#onlineBankId").val();
+     var w = window.open();
+     $.ajax({
+     url : "/payment/pay.html",
+     data : para,
+     type : "post",
+     dataType : "json",
+     success : function(data) {
+     showDialog(false);
+     //刷新验证码
+     $("#rechargeCode").attr("src","/generatImage.html?type=rechargeCode&'+Math.random()");
+     if (data.isSuccess) {
+     showDialog(true);
+     if (data.urlType == "FORM") {
+     // form提交方式，post类型接口
+     w.location = "/payment/payform.html?urlData=" + data.url;
+     } else {
+     w.location = data.url;
+     }
+     } else {
+     w.close();
+     showMsg(data.msg);
+     $("#prom-msg").show();
+     }
+     }
+     });
+
+     });
+
+     //$("#toRecharge").unbind("click");
+     //支付方式
+     $("#bankList li").click(function(){
+     $("#bankList li").removeClass("active");
+     $("#bankList li input").attr("checked",false);
+     $(this).addClass("active");
+     $(this).find("input").attr("checked",true);
+     $("#onlineBankId").val($(this).find("input").val())
+     })
+     $("#bankList li").eq(0).click();
+     //消息提示
+     $("#showMsg").hide();
+     //判断资金
+     $("#amount").keyup(function(){
+     validMoney();
+     })
+     //弹出框事件
+     $(".buttonOK").click(function(){
+     window.location = "/user/account/recharge/recordList.html";
+     })
+     $(".buttonCancel").click(function(){
+     showDialog(false);
+     })
+     })
+     function validMoney(){
+     var amount = $("#amount").val();
+     if(amount == ""){
+     showMsg("充值金额不能为空")
+     return false;
+     }
+     if(!amount.match(/^\+?(:?(:?\d+\.\d+)|(:?\d+))$/)){
+     showMsg("充值金额不合法")
+     return false;
+     }
+     if(!/^([^0]|.{2,})$/.test(amount)){
+     showMsg("充值金额不合法");
+     return false;
+     }
+     var arr= amount.split(".");
+     if(arr.length==2){
+     var xs = arr[1];
+     if(xs.length>2){
+     showMsg("充值金额只能保留2位小数");
+     return false;
+     }
+     }
+     $("#showMsg").hide();
+     return true;
+     }
+     function showMsg(msg){
+     $("#showMsg").show();
+     $("#showMsg .error").html(msg);
+     setTimeout( function(){
+     $("#showMsg").hide();
+     } , 2000);
+     }
+     function showDialog(isShow){
+     if(isShow)
+     $("div[name='dialogMask']").show();
+     else
+     $("div[name='dialogMask']").hide();
+     }*/
+</script>
+</html>

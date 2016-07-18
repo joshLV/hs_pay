@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<dubbo:application name="hszsd-code" owner="fzc" organization="dubbox" />
+	
+	<!-- 注册中心地址 目前161为测试环境 -->
+	<dubbo:registry address="zookeeper://192.168.0.164:2181" />
+	<!-- 暴露协议和对应的端口 -->
+	<dubbo:protocol name="rmi" port="1099" /> 
+	<!-- 发布的服务 interface 为接口，ref为实现类的bean-->
+	<dubbo:service interface="com.hszsd.user.service.UserService"  ref="userServiceImpl" protocol="rmi"  version="1.0.1"  >
+	</dubbo:service>
+	<dubbo:service interface="com.hszsd.credit.service.CreditService"  ref="creditServiceImpl" protocol="rmi"  version="1.0.0"  >
+	</dubbo:service>
+	
+</beans>

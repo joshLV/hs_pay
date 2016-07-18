@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:iwbox="http://www.zhaoshangdai.com/schema/iwbox"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.zhaoshangdai.com/schema/iwbox
+    http://www.zhaoshangdai.com/schema/iwbox-1.0.xsd">
+	<!-- 属性配置文件路径 -->
+	<!-- <context:property-placeholder location="/messageSend.properties" /> -->
+	
+	<bean id="messageSendServiceImpl" class="com.hszsd.message.service.impl.MessageSendServiceImpl">
+	    <property name="personal" value="${mail.personal}"></property>
+		<property name="properties" value="/config/messageCode_zh_CN.properties"></property>
+		<property name="smsConfig">
+			<bean class="com.hszsd.message.util.SmsConfig">
+				<property name="smsUrl" value="${sms.smsUrl}"></property>
+				<property name="account" value="${sms.account}"></property>
+				<property name="password" value="${sms.password}"></property>
+				<property name="maxLength" value="${sms.maxLength}"></property>
+				<property name="autograph" value="${sms.autograph}"></property>
+			</bean>
+		</property>
+		<property name="javaMailSender">
+		    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		        <property name="host" value="${mail.host}" /><!--修改为自己的邮箱发送服务 -->
+				<property name="username" value="${mail.username}" /><!--修改为自己的发送邮箱地址 -->
+				<property name="password" value="${mail.password}" /><!--修改为自己的邮箱密码 -->
+				<property name="protocol" value="${mail.protocol}" />
+				<property name="javaMailProperties">
+					<props>
+						<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+						<prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+						<prop key="mail.smtp.port">${mail.smtp.port}</prop>
+						<!-- <prop key="mail.debug">true</prop> -->
+						<prop key="mail.smtp.ssl.enable">true</prop>
+						<prop key="mail.smtp.socketFactory.port">${mail.smtp.port}</prop>
+						<prop key="mail.smtp.socketFactory.fallback">false</prop>
+						<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+					</props>
+				</property>
+		    </bean>
+		</property>
+	</bean>
+</beans>

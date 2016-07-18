@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         id="WebApp_ID" version="2.5">
+    <!-- 设置路径值 -->
+    <context-param>
+        <param-name>WebRootKey</param-name>
+        <param-value>hs_public_webpay.root</param-value>
+    </context-param>
+
+    <!--加载日志配置文件-->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+    <!--设置日志刷新间隔-->
+    <context-param>
+        <param-name>log4jRefreshInterval</param-name>
+        <param-value>60000000</param-value>
+    </context-param>
+
+    <!--配置日志监听器-->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <!--加载spring配置文件-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:applicationContext.xml;
+            classpath:spring-mybatis.xml;
+            classpath:spring-beetl.xml;
+            classpath:dubbo-config.xml
+        </param-value>
+    </context-param>
+
+    <!--spring字符集过滤-->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 单点登录过滤器 -->
+    <filter>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Single Sign Out Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 该过滤器负责用户的认证工作，必须启用它 -->
+    <filter>
+        <filter-name>CASFilter</filter-name>
+        <filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+        <init-param>
+            <param-name>casServerLoginUrl</param-name>
+            <!--该地址目前指向121.40.133.63 请在测试时在host增加域名解析到该地址121.40.133.63	www.zhaoshangdai.com，后期正式环境地址待定  -->
+            <param-value>https://www.zhaoshangdai.com/cas/login</param-value>
+            <!--这里的server是服务端的IP -->
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <!--本地服务的域名地址，请使用https协议，在客户机上需要添加www.zhaoshangdai.com的证书导入 -->
+            <param-value>https://www.hszsdpay.com:8443</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CASFilter</filter-name>
+        <!--需要拦截跳转的地址参数，可以多个filter-mapping 该拦截的地址都会请求道认证中心-->
+
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 该过滤器负责对Ticket的校验工作，必须启用它 -->
+    <filter>
+        <filter-name>CAS Validation Filter</filter-name>
+        <filter-class>
+            org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter
+        </filter-class>
+        <init-param>
+            <param-name>casServerUrlPrefix</param-name>
+            <param-value>https://www.zhaoshangdai.com/cas/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>serverName</param-name>
+            <param-value>https://www.hszsdpay.com:8443</param-value>
+        </init-param>
+        <init-param>
+            <param-name>redirectAfterValidation</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Validation Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 该过滤器负责实现HttpServletRequest请求的包裹， 比如允许开发者通过HttpServletRequest的getRemoteUser()方法获得SSO登录用户的登录名，可选配置。 -->
+    <filter>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <filter-class>
+            org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 该过滤器使得开发者可以通过org.jasig.cas.client.util.AssertionHolder来获取用户的登录名。 比如AssertionHolder.getAssertion().getPrincipal().getName()。 -->
+    <filter>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <filter-class>org.jasig.cas.client.util.AssertionThreadLocalFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CAS Assertion Thread Local Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 配置spring监听器-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- 配置单点登录监听器 -->
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+    <!-- spring mvc核心配置-->
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring-mvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file></welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error/404</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/505</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404</location>
+    </error-page>
+
+</web-app>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>hs_public_service</artifactId>
+		<groupId>com.hszsd</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>hs_public_user_service</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hszsd</groupId>
+			<artifactId>com-hszsd-entity</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hszsd</groupId>
+			<artifactId>hs_public_user_api</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.directory}</targetPath>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes><!-- 包含文件 -->
+					<include>com/hszsd/*/dao/impl/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<!-- <resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>mybatis-configuration.xml</include>
+					<include>*.properties</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource> -->
+		</resources>
+		<plugins>
+			<!-- <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin> -->
+		<!-- 	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						生成的jar中，不要包含pom.xml和pom.properties这两个文件
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifest>
+							是否要把第三方jar放到manifest的classpath中
+							<addClasspath>true</addClasspath>
+							生成的manifest中classpath的前缀，因为要把第三方jar放到lib目录下，所以classpath的前缀是lib/
+							<classpathPrefix>lib/</classpathPrefix>
+							应用的main class
+							<mainClass>com.hszsd.user.main.StatrMain</mainClass>
+						</manifest>
+					</archive>
+					过滤掉不希望包含在jar中的文件
+					<excludes> <exclude>${project.basedir}/src/main/resources/applicationContext.xml</exclude> 
+						<exclude>${project.basedir}/src/main/resources/applicationRmi.xml</exclude> 
+						<exclude>${project.basedir}/src/main/resources/package.xml</exclude> <exclude>package.xml</exclude> 
+						</excludes>
+				</configuration>
+			</plugin> -->
+		<!-- 	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/resources/package.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> -->
+		</plugins>
+	</build>
+</project>
