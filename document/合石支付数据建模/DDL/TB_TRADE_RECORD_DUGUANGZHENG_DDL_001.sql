@@ -14,6 +14,8 @@ create table TB_TRADE_RECORD
    SOURCE_CODE          VARCHAR2(32),
    OPERATE_TYPE         INTEGER,
    TRADE_STATUS         INTEGER,
+   RETURN_URL           VARCHAR2(200),
+   NOTICE_URL           VARCHAR2(200),
    CREATE_DATE          DATE,
    CREATE_BY            VARCHAR2(32),
    UPDATE_DATE          DATE,
@@ -50,7 +52,13 @@ comment on column TB_TRADE_RECORD.OPERATE_TYPE is
 '操作类型(1:充值 2:余额支付 3:余额退款 4:积分支付 5:积分退款 6:组合支付-积分与余额 7:组合退款-积分与余额 )';
 
 comment on column TB_TRADE_RECORD.TRADE_STATUS is
-'交易状态（1:交易成功 2:交易失败）';
+'交易状态（1:等待处理 2:交易成功 3:交易失败）';
+
+comment on column TB_TRADE_RECORD.RETURN_URL is
+'前台回调地址';
+
+comment on column TB_TRADE_RECORD.NOTICE_URL is
+'后台回调地址';
 
 comment on column TB_TRADE_RECORD.CREATE_DATE is
 '创建时间';
