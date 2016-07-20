@@ -3,9 +3,9 @@ package com.hszsd.user.po;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.hszsd.user.dto.User;
+import com.hszsd.user.dto.UserDTO;
 
-public class UserModel extends User implements Serializable{
+public class UserModel extends UserDTO implements Serializable{
 
 	/**
 	 * 

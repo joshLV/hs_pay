@@ -6,18 +6,18 @@ import com.hszsd.common.util.Result;
 import com.hszsd.common.util.ResultCode;
 import com.hszsd.user.dto.User;
 import com.hszsd.user.service.UserService;
-import com.hszsd.webpay.common.Model;
-import com.hszsd.webpay.common.PayType;
+import com.hszsd.webpay.common.RechargeModel;
+import com.hszsd.webpay.common.RechargeType;
 import com.hszsd.webpay.common.ResultConstants;
 import com.hszsd.webpay.common.ValidatorConstants;
 import com.hszsd.webpay.config.BaoFooConfig;
-import com.hszsd.webpay.service.PayBankService;
-import com.hszsd.webpay.service.PayContextService;
+import com.hszsd.webpay.service.RechargeBankService;
+import com.hszsd.webpay.service.RechargeContextService;
 import com.hszsd.webpay.util.JsonUtil;
 import com.hszsd.webpay.validator.RechargeValidator;
-import com.hszsd.webpay.web.dto.PayInDTO;
-import com.hszsd.webpay.web.dto.PayOutDTO;
-import com.hszsd.webpay.web.dto.PaymentInterfaceDTO;
+import com.hszsd.webpay.web.dto.RechargeInDTO;
+import com.hszsd.webpay.web.dto.RechargeOutDTO;
+import com.hszsd.webpay.web.dto.TradeRecordDTO;
 import com.hszsd.webpay.web.form.RechargeForm;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -49,13 +49,13 @@ public class RechargeController {
     private static final Logger logger = LoggerFactory.getLogger(RechargeController.class);
 
     @Autowired
-    private PayBankService payBankService;
+    private RechargeBankService rechargeBankService;
 
     @Autowired
-    private PayContextService payContextService;
+    private RechargeContextService rechargeContextService;
 
-    @Autowired
-    private UserService userService;
+    //@Autowired
+    //private UserService userService;
 
     /**
      * 为controller指定校验器
@@ -70,14 +70,13 @@ public class RechargeController {
      * 账户充值主页面
      * @param request
      * @param response
-     * @param sourceCode 充值操作来源
      * @return
      */
     @RequestMapping({"recharge"})
-    public ModelAndView recharge(HttpServletRequest request, HttpServletResponse response, String sourceCode){
+    public ModelAndView recharge(HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> map = new HashMap<String, Object>();
 
-        String username = request.getRemoteUser();
+        /*String username = request.getRemoteUser();
         if(StringUtils.isEmpty(username)){
             map.put("operator", ResultConstants.SESSION_TIME_OUT);
             JsonUtil.writeJson(map, response);
@@ -88,17 +87,17 @@ public class RechargeController {
             map.put("operator", ResultConstants.SESSION_TIME_OUT);
             JsonUtil.writeJson(map, response);
             return null;
-        }
-        if(StringUtils.isEmpty(sourceCode)){
+        }*/
+        /*if(StringUtils.isEmpty(sourceCode)){
             map.put("operator", ResultConstants.PARAMETERS_ISNULL);
             JsonUtil.writeJson(map, response);
             return null;
         }
 
-        request.getSession().setAttribute("sourceCode", sourceCode);
+        request.getSession().setAttribute("sourceCode", sourceCode);*/
 
         //查询可用的银行信息（银行列表、第三方充值列表）
-        map = payBankService.queryPayBank();
+        map = rechargeBankService.queryRechargeBank();
         if(map != Collections.EMPTY_MAP){
             map.put("operator", ResultConstants.OPERATOR_SUCCESS);
             return new ModelAndView("/recharge/recharge","map",map);
@@ -138,9 +137,9 @@ public class RechargeController {
         }
 
         //封装支付参数
-        PayInDTO payInDto = new PayInDTO(rechargeForm.getBankCode()[0], rechargeForm.getBankCode()[1], rechargeForm.getAmount(), user, request);
+        RechargeInDTO rechargeInDto = new RechargeInDTO(rechargeForm.getBankCode()[0], rechargeForm.getBankCode()[1], rechargeForm.getAmount(), user, request);
         //请求支付并返回支付结果
-        PayOutDTO payOutDto = payContextService.pay(payInDto, Model.PAY);
+        RechargeOutDTO rechargeOutDto = rechargeContextService.recharge(rechargeInDto, RechargeModel.RECHARGE);
         return ;
     }
 
@@ -151,13 +150,13 @@ public class RechargeController {
      * @return
      */
     @RequestMapping({"baoFooFront"})
-    public ModelAndView BaoFooFront(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView baoFooFront(HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> map = new HashMap<String, Object>();
 
-        PayOutDTO payOutDTO = toPay(PayType.BAOFOO, Model.FRONT, request);
+        RechargeOutDTO rechargeOutDTO = callRecharge(RechargeType.BAOFOO, RechargeModel.FRONT, request);
         //判断第三方支付返回结果
-        if(BaoFooConfig.SUCCESS.equals(payOutDTO.getBean()) &&
-                BaoFooConfig.RESULT_SUCCESS.equals(payOutDTO.getResult())){
+        if(BaoFooConfig.SUCCESS.equals(rechargeOutDTO.getBean()) &&
+                BaoFooConfig.RESULT_SUCCESS.equals(rechargeOutDTO.getResult())){
             map.put("operator", ResultConstants.OPERATOR_SUCCESS);
             return new ModelAndView("redirect:/user/account/detail.html", "map", map);
         }
@@ -172,47 +171,47 @@ public class RechargeController {
      * @param response
      */
     @RequestMapping({"baoFooBack"})
-    public void BaoFooBack(HttpServletRequest request, HttpServletResponse response){
+    public void baoFooBack(HttpServletRequest request, HttpServletResponse response){
         //判断第三方支付返回结果
-        PayOutDTO payOutDTO = toPay(PayType.BAOFOO, Model.BACK, request);
+        RechargeOutDTO rechargeOutDTO = callRecharge(RechargeType.BAOFOO, RechargeModel.BACK, request);
         try {
             //写状态回第三方支付接口
-            response.getWriter().print(payOutDTO.getBean());
+            response.getWriter().print(rechargeOutDTO.getBean());
         }catch (IOException e){
             logger.error("BaoFooFront occurs an error and cause by {}", e.getMessage());
         }
     }
 
     /**
-     * 调用第三方支付统一入口
-     * @param payType 支付方式
-     * @param model 调用模式
+     * 调用第三方充值统一入口
+     * @param rechargeType 充值方式
+     * @param rechargeModel 调用模式
      * @param request
-     * @return PayOut 返回操作结果
+     * @return RechargeOutDTO 返回操作结果
      */
-    public PayOutDTO toPay(PayType payType, Model model, HttpServletRequest request){
+    public RechargeOutDTO callRecharge(RechargeType rechargeType, RechargeModel rechargeModel, HttpServletRequest request){
         //封装支付入参
-        PayInDTO payInDTO = new PayInDTO();
-        payInDTO.setType(payType.getCode());
-        payInDTO.setRequest(request);
+        RechargeInDTO rechargeInDTO = new RechargeInDTO();
+        rechargeInDTO.setType(rechargeType.getCode());
+        rechargeInDTO.setRequest(request);
         //调用第三方支付接口
-        PayOutDTO payOutDTO = payContextService.pay(payInDTO, model);
-        return payOutDTO;
+        RechargeOutDTO rechargeOutDTO = rechargeContextService.recharge(rechargeInDTO, rechargeModel);
+        return rechargeOutDTO;
     }
 
     /**
      * 更新支付状态为失败
-     * @param payType 支付方式
+     * @param rechargeType 支付方式
      * @param request
-     * @return PayOutDTO 返回操作结果
+     * @return RechargeOutDTO 返回操作结果
      */
-    public PayOutDTO toSaveForFail(PayType payType, HttpServletRequest request){
+    public RechargeOutDTO toSaveForFail(RechargeType rechargeType, HttpServletRequest request){
         //封装支付入参
-        PayInDTO payInDTO = new PayInDTO();
-        payInDTO.setType(payType.getCode());
-        payInDTO.setRequest(request);
+        RechargeInDTO rechargeInDTO = new RechargeInDTO();
+        rechargeInDTO.setType(rechargeType.getCode());
+        rechargeInDTO.setRequest(request);
         //修改支付状态为失败
-        PayOutDTO payOutDTO = payContextService.saveBackForFail(payInDTO);
-        return payOutDTO;
+        RechargeOutDTO rechargeOutDTO = rechargeContextService.saveBackForFail(rechargeInDTO);
+        return rechargeOutDTO;
     }
 }

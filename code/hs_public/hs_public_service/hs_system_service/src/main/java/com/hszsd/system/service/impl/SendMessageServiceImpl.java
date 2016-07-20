@@ -10,7 +10,7 @@ import com.hszsd.message.dto.SendMailMessage;
 import com.hszsd.message.dto.SmsEntity;
 import com.hszsd.message.service.MessageSendService;
 import com.hszsd.system.service.SendMessageService;
-import com.hszsd.user.dto.UserInfo;
+import com.hszsd.user.dto.UserInfoDTO;
 import com.hszsd.user.service.UserService;
 
 
@@ -38,7 +38,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 	@Override
 	public Result sendPhoneMessage(String userName, String message) {
 		Result res = sendChick(userName, message);
-		UserInfo user = (UserInfo) res.getResult();
+		UserInfoDTO user = (UserInfoDTO) res.getResult();
 		if (ResultCode.RES_OK.equals(res.getCode())) {
 			// 检查用户手机号是否存在
 			if (!StringUtils.isEmpty(user.getPhone())) {
@@ -68,7 +68,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 			}
 		}
 		res = sendChick(userName, message);
-		UserInfo user = (UserInfo) res.getResult();
+		UserInfoDTO user = (UserInfoDTO) res.getResult();
 		if (ResultCode.RES_OK.equals(res.getCode())) {
 			// 检查用户手机号是否存在
 			if (!StringUtils.isEmpty(user.getEmail())) {
@@ -94,7 +94,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 			return res;
 		}
 		// 检查用户是否存在
-		UserInfo user = getTbUser(userName);
+		UserInfoDTO user = getTbUser(userName);
 		if (null == user) {
 			res.setCode(ResultCode.USER_NO_USERNAME);
 			return res;
@@ -108,11 +108,11 @@ public class SendMessageServiceImpl implements SendMessageService {
 	 * @param userName 用户名
 	 * @return
 	 */
-	private UserInfo getTbUser(String userName) {
-		UserInfo user = null;
+	private UserInfoDTO getTbUser(String userName) {
+		UserInfoDTO user = null;
 		Result res=userServiceImpl.getNameUser(userName);
 		if(ResultCode.RES_OK.equals(res.getCode())){
-			user=(UserInfo)res.getResult();
+			user=(UserInfoDTO)res.getResult();
 		}
 		return user;
 	}

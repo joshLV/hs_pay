@@ -786,6 +786,146 @@ public class TradeRecordCondition {
             return (Criteria) this;
         }
 
+        public Criteria andReturnUrlIsNull() {
+            addCriterion("RETURN_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlIsNotNull() {
+            addCriterion("RETURN_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlEqualTo(String value) {
+            addCriterion("RETURN_URL =", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlNotEqualTo(String value) {
+            addCriterion("RETURN_URL <>", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlGreaterThan(String value) {
+            addCriterion("RETURN_URL >", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("RETURN_URL >=", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlLessThan(String value) {
+            addCriterion("RETURN_URL <", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlLessThanOrEqualTo(String value) {
+            addCriterion("RETURN_URL <=", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlLike(String value) {
+            addCriterion("RETURN_URL like", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlNotLike(String value) {
+            addCriterion("RETURN_URL not like", value, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlIn(List<String> values) {
+            addCriterion("RETURN_URL in", values, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlNotIn(List<String> values) {
+            addCriterion("RETURN_URL not in", values, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlBetween(String value1, String value2) {
+            addCriterion("RETURN_URL between", value1, value2, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnUrlNotBetween(String value1, String value2) {
+            addCriterion("RETURN_URL not between", value1, value2, "returnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlIsNull() {
+            addCriterion("NOTICE_URL is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlIsNotNull() {
+            addCriterion("NOTICE_URL is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlEqualTo(String value) {
+            addCriterion("NOTICE_URL =", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlNotEqualTo(String value) {
+            addCriterion("NOTICE_URL <>", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlGreaterThan(String value) {
+            addCriterion("NOTICE_URL >", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("NOTICE_URL >=", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlLessThan(String value) {
+            addCriterion("NOTICE_URL <", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlLessThanOrEqualTo(String value) {
+            addCriterion("NOTICE_URL <=", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlLike(String value) {
+            addCriterion("NOTICE_URL like", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlNotLike(String value) {
+            addCriterion("NOTICE_URL not like", value, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlIn(List<String> values) {
+            addCriterion("NOTICE_URL in", values, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlNotIn(List<String> values) {
+            addCriterion("NOTICE_URL not in", values, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlBetween(String value1, String value2) {
+            addCriterion("NOTICE_URL between", value1, value2, "noticeUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andNoticeUrlNotBetween(String value1, String value2) {
+            addCriterion("NOTICE_URL not between", value1, value2, "noticeUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateDateIsNull() {
             addCriterion("CREATE_DATE is null");
             return (Criteria) this;

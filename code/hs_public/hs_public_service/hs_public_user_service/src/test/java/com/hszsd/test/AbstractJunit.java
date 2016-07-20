@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import net.sf.json.JSONObject;
+//import net.sf.json.JSONObject;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -19,6 +19,6 @@ public abstract class AbstractJunit {
 	//将对象转换为JSON格式再控制台输出
 	public void outObjectJson(Object object, String message) {
 		System.out.println("----------------->" + message);
-		System.out.println(JSONObject.fromObject(object));
+//		System.out.println(JSONObject.fromObject(object));
 	}
 }

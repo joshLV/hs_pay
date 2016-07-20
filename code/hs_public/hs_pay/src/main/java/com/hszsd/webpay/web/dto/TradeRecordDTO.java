@@ -36,8 +36,14 @@ public class TradeRecordDTO implements Serializable {
     //操作类型(1:充值 2:余额支付 3:余额退款 4:积分支付 5:积分退款 6:组合支付-积分与余额 7:组合退款-积分与余额)
     private int operateType;
 
-    //交易状态（1:交易成功 2:交易失败）
+    //交易状态（1:等待处理 2:交易成功 3:交易失败）
     private int tradeStatus;
+
+    //前台回调地址
+    private String returnUrl;
+
+    //后台回调地址
+    private String noticeUrl;
 
     //创建时间
     private Date createDate;
@@ -53,6 +59,9 @@ public class TradeRecordDTO implements Serializable {
 
     //备注
     private String remark;
+
+    //MD5签名信息
+    private String MD5Sign;
 
     public String getTransId() {
         return transId;
@@ -126,6 +135,22 @@ public class TradeRecordDTO implements Serializable {
         this.tradeStatus = tradeStatus;
     }
 
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
+    }
+
+    public String getNoticeUrl() {
+        return noticeUrl;
+    }
+
+    public void setNoticeUrl(String noticeUrl) {
+        this.noticeUrl = noticeUrl;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -166,23 +191,13 @@ public class TradeRecordDTO implements Serializable {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return "TradeRecordDTO{" +
-                "transId='" + transId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", money=" + money +
-                ", credit=" + credit +
-                ", mobile='" + mobile + '\'' +
-                ", orderId='" + orderId + '\'' +
-                ", sourceCode='" + sourceCode + '\'' +
-                ", operateType=" + operateType +
-                ", tradeStatus=" + tradeStatus +
-                ", createDate=" + createDate +
-                ", createBy='" + createBy + '\'' +
-                ", updateDate=" + updateDate +
-                ", updateBy='" + updateBy + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+    public String getMD5Sign() {
+        return MD5Sign;
     }
+
+    public void setMD5Sign(String MD5Sign) {
+        this.MD5Sign = MD5Sign;
+    }
+
+
 }

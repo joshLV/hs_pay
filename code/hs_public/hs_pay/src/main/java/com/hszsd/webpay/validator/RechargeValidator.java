@@ -1,6 +1,7 @@
 package com.hszsd.webpay.validator;
 
 import com.hszsd.webpay.common.ValidatorConstants;
+import com.hszsd.webpay.web.dto.TradeRecordDTO;
 import com.hszsd.webpay.web.form.RechargeForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -39,5 +40,12 @@ public class RechargeValidator implements Validator {
         if (!match.matches()){
             errors.rejectValue("amount", ValidatorConstants.AMOUNT_WRONGFORMAT.getCode(), new Object[]{ValidatorConstants.AMOUNT_WRONGFORMAT}, "");
         }
+    }
+
+    public void test(Object o, Errors errors){
+        ValidationUtils.rejectIfEmpty(errors, "transId", ValidatorConstants.CAPTCHA_ISNULL.getCode(), new Object[]{ValidatorConstants.CAPTCHA_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "userId", ValidatorConstants.BANKID_ISNULL.getCode(), new Object[]{ValidatorConstants.BANKID_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "money", ValidatorConstants.AMOUNT_ISNULL.getCode(), new Object[]{ValidatorConstants.AMOUNT_ISNULL});
+
     }
 }

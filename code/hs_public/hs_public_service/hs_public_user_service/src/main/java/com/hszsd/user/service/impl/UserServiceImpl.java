@@ -1,8 +1,15 @@
 package com.hszsd.user.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
+import com.hszsd.common.util.DESPlus;
+import com.hszsd.common.util.string.StringUtil;
+import com.hszsd.entity.User;
+import com.hszsd.user.dto.GetUserInfoDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +19,8 @@ import com.hszsd.common.util.MD5Util;
 import com.hszsd.common.util.Result;
 import com.hszsd.common.util.ReturnMsg;
 import com.hszsd.user.dao.TbUserMapper;
-import com.hszsd.user.dto.User;
-import com.hszsd.user.dto.UserInfo;
+import com.hszsd.user.dto.UserDTO;
+import com.hszsd.user.dto.UserInfoDTO;
 import com.hszsd.user.po.TbUser;
 import com.hszsd.user.po.TbUserExample;
 import com.hszsd.user.po.UserModel;
@@ -31,7 +38,7 @@ import com.hszsd.user.util.ResultUserCode;
  */
 @Service(value = "userServiceImpl")
 public class UserServiceImpl implements UserService {
-
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	public TbUserMapper tbUserMapper;
 
@@ -207,7 +214,7 @@ public class UserServiceImpl implements UserService {
 						msg.setCode(ResultUserCode.USER_USER_OUT);
 						return msg;
 					}
-					User userR = new User();
+					UserDTO userR = new UserDTO();
 					// 设置返回状态
 					BeanUtils.copyProperties(u, userR);
 					msg.setResult(userR);
@@ -266,7 +273,7 @@ public class UserServiceImpl implements UserService {
 						msg.setCode(ResultUserCode.USER_USER_OUT);
 						return msg;
 					}
-					User userR = new User();
+					UserDTO userR = new UserDTO();
 					// 设置返回状态
 					BeanUtils.copyProperties(u, userR);
 					// 设置返回的用户信息
@@ -308,7 +315,7 @@ public class UserServiceImpl implements UserService {
 			// 设置ID参数
 			user.setUserId(userId);
 			// 查询用户
-			List<UserInfo> list = tbUserMapper.selectUserInfoExample(getExample(user));
+			List<UserInfoDTO> list = tbUserMapper.selectUserInfoExample(getExample(user));
 			if (list.size() > 0) {
 				res.setCode(ResultUserCode.RES_OK);
 				// 返回用户对象
@@ -408,9 +415,8 @@ public class UserServiceImpl implements UserService {
 	 */
 	private TbUserExample getExample(TbUser user) {
 		TbUserExample example = new TbUserExample();
-		example.createCriteria();
+		TbUserExample.Criteria criteria=example.createCriteria();
 		if (null != user) {
-			TbUserExample.Criteria criteria = example.createCriteria();
 			// 构造用户编号条件
 			if (StringUtils.hasLength(user.getUserId())) {
 				criteria.andUserIdEqualTo(user.getUserId());
@@ -435,42 +441,85 @@ public class UserServiceImpl implements UserService {
 		return example;
 	}
 
+
+	/**
+	 * 校验用户支付密码是否正确<br/>
+	 * <b>传递加密过后数据进行处理</b>
+	 * @param userId
+	 *            用户编号
+	 * @param payPassword
+	 *            支付密码，为加密值
+	 * @return
+	 */
+	public Result isExistsUserMD5PayPassword(String userId, String payPassword){
+		logger.info("isExistsUserMD5PayPassword userId ={} ,payPassword ={}",userId,payPassword);
+		Result res = new Result();
+		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(payPassword)) {
+			logger.info("isExistsUserMD5PayPassword userId or payPassword is null");
+			res.setCode(ResultUserCode.RES_NONULL);
+			return res;
+		}
+		try {
+			payPassword= new DESPlus().decrypt(payPassword);
+		} catch (Exception e) {
+			logger.error("isExistsUserMD5PayPassword payPassword deciphering is error,msg={}",e.getMessage());
+			res.setCode(ResultUserCode.RES_NO);
+			return  res;
+		}
+		res=this.isExistsUserPayPassword(userId, payPassword);
+		logger.info("isExistsUserMD5PayPassword payPassword deciphering is success");
+		return res;
+	}
+
 	/**
 	 * 校验用户支付密码是否正确
 	 * 
 	 * @param userId
 	 *            用户编号
-	 * @param plyPassword
+	 * @param payPassword
 	 *            支付密码，为加密原始值
-	 * @return 001成功<br/>
-	 *         002_01 参数缺失 <br/>
-	 *         100账号不存在<br/>
-	 *         102_02 密码错误<br/>
-	 *         102_03 支付密码为空
+	 * @return
 	 */
 	@Override
-	public Result isExistsUserPayPassword(String userId, String plyPassword) {
+	public Result isExistsUserPayPassword(String userId, String payPassword) {
+		logger.info("isExistsUserPayPassword userId ={} ,payPassword ={}",userId,payPassword);
 		Result res = new Result();
-		if (StringUtils.hasLength(userId) && StringUtils.hasLength(plyPassword)) {
-			TbUser user = tbUserMapper.selectByPrimaryKey(userId);
+		if (StringUtils.hasLength(userId) && StringUtils.hasLength(payPassword)) {
+
+			User user =null;
+			try {
+				user=tbUserMapper.selectByPrimaryKey(userId);
+			}catch (Exception e){
+				logger.error("isExistsUserPayPassword is error msg={}",e.getMessage());
+				res.setCode(ResultUserCode.RES_NO);
+				return  res;
+			}
 			if (null == user) {
+				logger.info("isExistsUserPayPassword user is null");
 				res.setCode(ResultUserCode.USER_NO_USER);
 			} else {
+
 				if (StringUtils.hasLength(user.getPaypassword())) {
-					if (MD5Util.verifyPassword(plyPassword, user.getPaypassword())) {
+					if (MD5Util.verifyPassword(payPassword, user.getPaypassword())) {
+						logger.info("isExistsUserPayPassword payPassword validate success");
 						res.setCode(ResultUserCode.RES_OK);
 					} else {
+						logger.info("isExistsUserPayPassword payPassword validate error");
 						res.setCode(ResultUserCode.USER_PLYPASSWORD_ERROR);
 					}
 				} else {
+					logger.info("isExistsUserPayPassword user  payPassword is null");
 					res.setCode(ResultUserCode.USER_PLYPASSWORD_NULL);
 				}
 			}
 		} else {
+			logger.info("isExistsUserPayPassword userId or payPassword is null");
 			res.setCode(ResultUserCode.RES_NONULL);
 		}
 		return res;
 	}
+
+
 
 	@Override
 	public Result getNameUser(String username) {
@@ -480,7 +529,7 @@ public class UserServiceImpl implements UserService {
 			// 设置ID参数
 			user.setUsername(username);
 			// 查询用户
-			List<UserInfo> list = tbUserMapper.selectUserInfoExample(getExample(user));
+			List<UserInfoDTO> list = tbUserMapper.selectUserInfoExample(getExample(user));
 			if (list.size() > 0) {
 				res.setCode(ResultUserCode.RES_OK);
 				// 返回用户对象
@@ -519,7 +568,7 @@ public class UserServiceImpl implements UserService {
 						msg.setCode(ResultUserCode.USER_USER_OUT);
 						return msg;
 					}
-					User userR = new User();
+					UserDTO userR = new UserDTO();
 					// 设置返回状态
 					BeanUtils.copyProperties(u, userR);
 					msg.setResult(userR);
@@ -538,4 +587,105 @@ public class UserServiceImpl implements UserService {
 		}
 		return msg;
 	}
+
+
+	/**
+	 * 根据用户ID获取用户信息
+	 * @param userId 用户ID
+	 * @return 用户详细信息
+	 */
+	@Override
+	public Result getUserInfo(String userId) {
+		logger.info("getUserInfo userId={}",userId);
+		Result result=new Result();
+		if(StringUtils.isEmpty(userId)){
+			logger.info("getUserInfo userId is null");
+			result.setCode(ResultUserCode.RES_NONULL);
+			return result;
+		}
+		TbUser user = new TbUser();
+		// 设置ID参数
+		user.setUserId(userId);
+		// 查询用户
+		List<GetUserInfoDTO> list = Collections.EMPTY_LIST;
+		try {
+			list=tbUserMapper.getUserinfoExample(getExample(user));
+		}catch (Exception e){
+			logger.error("getUserInfo is error msg={}",e.getMessage());
+			result.setCode(ResultUserCode.RES_NO);
+			return result;
+		}
+		if (list.size() > 0) {
+			logger.info("getUserInfo is success, returnMsg={}",list.get(0).toString());
+			result.setCode(ResultUserCode.RES_OK);
+			// 返回用户对象
+			result.setResult(list.get(0));
+			return result;
+		} else {
+			logger.info("getUserInfo is success, returnMsg is null");
+			// 没有找到数据 表示用户不存在
+			result.setCode(ResultUserCode.USER_NO_USER);
+			return result;
+		}
+
+	}
+
+	/**
+	 * 根据用户名或者用户手机获取用户信息
+	 * @param param 用户查询信息用户名或手机
+	 * @return 查询用户信息结果
+	 */
+	@Override
+	public Result getUser(String param) {
+		logger.info("getUser param={}",param);
+		Result result=new Result();
+		if(StringUtils.isEmpty(param)){
+			logger.info("getUser query username param is null");
+			result.setCode(ResultUserCode.RES_NONULL);
+		}
+
+		//封装查询条件参数
+		TbUser username = new TbUser();
+		username.setUsername(param);
+		List<UserDTO> listusername=Collections.EMPTY_LIST;
+		try {
+			listusername=tbUserMapper.getUserExample(getExample(username));
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("getUser is error msg={}",e.getMessage());
+			result.setCode(ResultUserCode.RES_NO);
+			return result;
+		}
+		if (listusername.size() > 0) {
+			logger.info("getUser is success,returnMsg={}",listusername.get(0).toString());
+			result.setCode(ResultUserCode.RES_OK);
+			// 返回用户对象
+			result.setResult(listusername.get(0));
+			return result;
+		}
+		TbUser phone=new TbUser();
+		phone.setPhone(param);
+		List<UserDTO> listphone= Collections.EMPTY_LIST;
+		try {
+			listphone = tbUserMapper.getUserExample( getExample(phone));
+		}catch (Exception e){
+			logger.error("getUser query phone is error msg={}",e.getMessage());
+			result.setCode(ResultUserCode.RES_NO);
+			return result;
+		}
+		if (listphone.size() > 0) {
+			logger.info("getUser is success, returnMsg={}",listphone.get(0).toString());
+			result.setCode(ResultUserCode.RES_OK);
+			// 返回用户对象
+			result.setResult(listphone.get(0));
+			return result;
+		}else {
+			logger.info("getUser is success, returnMsg is null");
+			// 没有找到数据 表示用户不存在
+			result.setCode(ResultUserCode.USER_NO_USER);
+			return result;
+		}
+	}
+
+
 }

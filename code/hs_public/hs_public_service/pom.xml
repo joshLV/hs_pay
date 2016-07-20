@@ -16,7 +16,7 @@
         <module>hs_public_pay_service</module>
         <module>hs_system_service</module>
         <module>hs_public_message-service</module>
-        <module>hs_public_credit_service</module>
+        <!--<module>hs_public_credit_service</module>-->
     </modules>
 
 

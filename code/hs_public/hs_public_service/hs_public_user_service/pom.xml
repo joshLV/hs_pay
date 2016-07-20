@@ -11,16 +11,52 @@
 	<artifactId>hs_public_user_service</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.hszsd</groupId>
-			<artifactId>com-hszsd-entity</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 		<dependency>
 			<groupId>com.hszsd</groupId>
 			<artifactId>hs_public_user_api</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.hszsd</groupId>
+			<artifactId>hs-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hszsd</groupId>
+			<artifactId>com-hszsd-entity</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--srpingmvc包引入开始-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.41</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--srpingmvc包引入结束-->
 	</dependencies>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -35,7 +71,7 @@
 			<resource>
 				<directory>src/main/java</directory>
 				<includes><!-- 包含文件 -->
-					<include>com/hszsd/*/dao/impl/*.xml</include>
+					<include>com/hszsd/*/entity/mapping/*.xml</include>
 				</includes>
 				<filtering>false</filtering>
 			</resource>
@@ -99,6 +135,14 @@
 					</execution>
 				</executions>
 			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

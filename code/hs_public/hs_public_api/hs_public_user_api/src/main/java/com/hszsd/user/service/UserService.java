@@ -2,7 +2,7 @@ package com.hszsd.user.service;
 
 import com.hszsd.common.util.Result;
 import com.hszsd.common.util.ReturnMsg;
-
+import com.hszsd.user.dto.UserInfoDTO;
 
 
 /**
@@ -199,12 +199,25 @@ public interface UserService {
 	 */
 	public Result getNameUser(String username);
 
+
+	/**
+	 * 校验用户支付密码是否正确<br/>
+	 * <b>传递加密过后数据进行处理</b>
+	 * @param userId
+	 *            用户编号
+	 * @param payPassword
+	 *            支付密码，为加密原始值
+	 * @return
+	 */
+	public Result isExistsUserMD5PayPassword(String userId, String payPassword);
+
+
 	/**
 	 * 校验用户支付密码是否正确
 	 * 
 	 * @param userId
 	 *            用户编号
-	 * @param plyPassword
+	 * @param payPassword
 	 *            支付密码，为加密原始值
 	 * @return 001成功<br/>
 	 *         002_01 参数缺失 <br/>
@@ -212,5 +225,19 @@ public interface UserService {
 	 *         102_02 密码错误<br/>
 	 *         102_03 支付密码为空
 	 */
-	public Result isExistsUserPayPassword(String userId, String plyPassword);
+	public Result isExistsUserPayPassword(String userId, String payPassword);
+
+	/**
+	 * 根据用户ID获取用户信息
+	 * @param userId 用户ID
+	 * @return 用户详细信息
+	 */
+	public Result getUserInfo(String userId);
+
+	/**
+	 * 根据用户名或者用户手机获取用户信息
+	 * @param param 用户查询信息用户名或手机
+	 * @return 查询用户信息结果
+     */
+	public Result getUser(String param);
 }

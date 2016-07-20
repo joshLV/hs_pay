@@ -2,17 +2,18 @@ package com.hszsd.user.dao;
 
 import java.util.List;
 
+import com.hszsd.user.dto.GetUserInfoDTO;
+import com.hszsd.user.dto.UserDTO;
 import org.springframework.stereotype.Repository;
 
-import com.hszsd.dao.UserMapper;
-import com.hszsd.user.dto.UserInfo;
+import com.hszsd.user.dto.UserInfoDTO;
 import com.hszsd.user.po.TbUser;
 import com.hszsd.user.po.TbUserExample;
 import com.hszsd.user.po.UserModel;
 
 
 @Repository
-public interface TbUserMapper extends UserMapper{
+public interface TbUserMapper extends UserMapper {
 
 	int countByExample(TbUserExample example);
 
@@ -22,9 +23,9 @@ public interface TbUserMapper extends UserMapper{
 
 	List<UserModel> selectUserExample(TbUserExample example);
 
-	List<UserInfo> selectUserInfoExample(TbUserExample example);
+	List<UserInfoDTO> selectUserInfoExample(TbUserExample example);
 
-	TbUser selectByPrimaryKey(String userId);
+	List<GetUserInfoDTO> getUserinfoExample(TbUserExample example);
 
-	
+	List<UserDTO> getUserExample(TbUserExample example);
 }

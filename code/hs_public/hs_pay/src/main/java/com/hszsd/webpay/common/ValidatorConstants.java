@@ -5,11 +5,11 @@ package com.hszsd.webpay.common;
  * Created by gzhengDu on 2016/7/1.
  */
 public enum ValidatorConstants {
-    CAPTCHA_ISNULL("301", "验证码不能为空，请重新输入！"),
-    BANKID_ISNULL("302", "请选择银行！"),
-    AMOUNT_ISNULL("303", "充值金额不能为空！"),
-    AMOUNT_WRONGFORMAT("304", "输入的金额格式不正确！"),
-    CAPTCHA_ISWRONG("305", "验证码输入错误，请重新输入！");
+    CAPTCHA_ISNULL("2001", "验证码不能为空，请重新输入！"),
+    BANKID_ISNULL("2002", "请选择银行！"),
+    AMOUNT_ISNULL("2003", "充值金额不能为空！"),
+    AMOUNT_WRONGFORMAT("2004", "输入的金额格式不正确！"),
+    CAPTCHA_ISWRONG("2005", "验证码输入错误，请重新输入！");
 
     private String code;
     private String msg;
