@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>com.hszsd</groupId>
     <artifactId>hs_public</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+	<modelVersion>4.0.0</modelVersion>
   <artifactId>hs_public_admin</artifactId>
   <packaging>war</packaging>
   <name>hs_public_admin Maven Webapp</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -46,10 +48,6 @@
 			<version>0.9.1</version>
 		</dependency>
 		<!-- 数据库连接 结束 -->
-		<dependency> 
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-		</dependency>
 
 		<!-- 日志记录依赖包，很多都依赖此包 开始 -->
 		<dependency>
@@ -76,6 +74,11 @@
 		</dependency>
 
 		<!--工具包依赖开始 -->
+	    <dependency>
+			  <groupId>com.alibaba</groupId>
+			  <artifactId>fastjson</artifactId>
+			  <version>1.1.41</version>
+		</dependency>
 		<!--工具包依赖结束 -->
 		<!-- Spring 配置包开始 -->
 		<dependency>
@@ -98,6 +101,25 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+	    <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-web</artifactId>
+		  <version>${org.springframework.version}</version>
+	    </dependency>
+	    <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-webmvc</artifactId>
+		  <version>${org.springframework.version}</version>
+	   </dependency>
+	   <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-context-support</artifactId>
+	   </dependency>
+	   <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-oxm</artifactId>
+		  <version>${org.springframework.version}</version>
+	   </dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
@@ -123,24 +145,48 @@
 			<classifier>jdk15</classifier>
 		</dependency>
 		<!-- JSON 结束 -->
-
+	  <!--springmvc配置包-->
+	  <dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-databind</artifactId>
+		  <version>2.5.1</version>
+	  </dependency>
+	  <!--springmv配置开始-->
+	  <!--本地引入包-->
+	  <dependency>
+		  <groupId>com.hszsd</groupId>
+		  <artifactId>hs-common</artifactId>
+		  <version>1.0-SNAPSHOT</version>
+	  </dependency>
+	  <dependency>
+		<groupId>com.hszsd</groupId>
+		<artifactId>hs_public_user_service</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	  </dependency>
 		<dependency>
-			<groupId>com.hszsd</groupId>
-			<artifactId>hs_public_user_service</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.hszsd</groupId>
-			<artifactId>hs_public_credit_service</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.hszsd</groupId>
-			<artifactId>hs_system_service</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.3.3</version>
+			<!-- 排除log4j包冲突 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>log4j-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
   </dependencies>
   <build>
     <finalName>hs_public_admin</finalName>
+	 <!--  <plugins>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <configuration>
+				  <source>1.6</source>
+				  <target>1.6</target>
+			  </configuration>
+		  </plugin>
+	  </plugins> -->
   </build>
 </project>

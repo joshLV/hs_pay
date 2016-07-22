@@ -11,6 +11,34 @@
 
     <artifactId>hs_pay</artifactId>
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}</targetPath>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes><!-- 包含文件 -->
+                    <include>com/hszsd/*/dao/mapper/*.xml</include>
+                    <include>config/*.properties</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes><!-- 包含文件 -->
+                    <include>application*.xml</include>
+                    <include>dubbo-*.xml</include>
+                    <include>*.properties</include>
+                    <include>spring-*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -190,7 +218,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.6.0</version>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.jiangshikun</groupId>
@@ -201,6 +229,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>3.2.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+            <version>1.6</version>
         </dependency>
     </dependencies>
 

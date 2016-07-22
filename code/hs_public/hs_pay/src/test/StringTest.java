@@ -1,3 +1,4 @@
+import com.hszsd.webpay.web.form.TradeForm;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,6 +15,9 @@ public class StringTest {
         map.put("1", "");
         map.put("2", "");
         map.put("3", "");
-        System.in.read();
+        Object o = "12312";
+        o = new TradeForm();
+        System.out.print(o instanceof TradeForm);
+        //System.in.read();
     }
 }

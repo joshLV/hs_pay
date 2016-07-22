@@ -18,59 +18,37 @@ public class Result implements Serializable {
 	/**
 	 * 返回代号
 	 */
-	private String code;
+	private String resCode;
 	/**
 	 * 提示信息
 	 */
-	private String message;
+	private String resMsg;
 	/**
 	 * 业务数据
 	 */
 	private Object result;
 
-	/**
-	 * @return the 返回代号
-	 */
-	public String getCode() {
-		return code;
+	public String getResCode() {
+		return resCode;
 	}
 
-	/**
-	 * @param 返回代号
-	 *            the code to set
-	 */
-	public void setCode(String code) {
-		this.code = code;
+	public void setResCode(String resCode) {
+		this.resCode = resCode;
 	}
 
-	/**
-	 * @return the 提示信息
-	 */
-	public String getMessage() {
-		return message;
+	public String getResMsg() {
+		return resMsg;
 	}
 
-	/**
-	 * @param 提示信息
-	 *            the message to set
-	 */
-	public void setMessage(String message) {
-		this.message = message;
+	public void setResMsg(String resMsg) {
+		this.resMsg = resMsg;
 	}
 
-	/**
-	 * @return the 业务数据
-	 */
 	public Object getResult() {
 		return result;
 	}
 
-	/**
-	 * @param 业务数据
-	 *            the result to set
-	 */
 	public void setResult(Object result) {
 		this.result = result;
 	}
-
 }

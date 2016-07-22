@@ -7,12 +7,9 @@
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://$MODULE_DIR$/../hs_public_pay/web" relative="/" />
+          <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/../hs_public_pay/src/main/java" />
-          <root url="file://$MODULE_DIR$/../hs_public_pay/src/main/resources" />
-        </sourceRoots>
+        <sourceRoots />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -103,8 +100,8 @@
     <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.7.6" level="project" />
     <orderEntry type="library" name="Maven: oracle.xdb:xdb-core:RELEASE" level="project" />
     <orderEntry type="library" name="Maven: xml:xmlparserv:2.0" level="project" />
-    <orderEntry type="library" name="Maven: redis.clients:jedis:2.6.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.0" level="project" />
+    <orderEntry type="library" name="Maven: redis.clients:jedis:2.1.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.6" level="project" />
     <orderEntry type="library" name="Maven: com.jiangshikun:parrot:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:3.2.8.RELEASE" level="project" />
   </component>

@@ -3,6 +3,7 @@ package com.hszsd.webpay.validator;
 import com.hszsd.webpay.common.ValidatorConstants;
 import com.hszsd.webpay.web.dto.TradeRecordDTO;
 import com.hszsd.webpay.web.form.RechargeForm;
+import com.hszsd.webpay.web.form.TradeForm;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -17,7 +18,29 @@ import java.util.regex.Pattern;
 public class RechargeValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {
-        return RechargeForm.class.equals(aClass);
+        return TradeForm.class.equals(aClass) || RechargeForm.class.equals(aClass);
+    }
+
+    /**
+     * 根据参数对象类型触发相应校验方法
+     * @param o 分装校验数据的参数对象
+     * @param errors 封装错误提示信息
+     */
+    @Override
+    public void validate(Object o, Errors errors) {
+
+        //
+        if(o instanceof TradeForm){
+            rechargeValidate(o, errors);
+            return ;
+        }
+
+        //
+        if(o instanceof RechargeForm){
+            toRechargeValidate(o, errors);
+            return ;
+        }
+
     }
 
     /**
@@ -27,9 +50,18 @@ public class RechargeValidator implements Validator {
      * @param o 充值数据对象
      * @param errors 封装错误提示信息
      */
-    @Override
-    public void validate(Object o, Errors errors) {
+    public void rechargeValidate(Object o, Errors errors){
+        ValidationUtils.rejectIfEmpty(errors, "userId", ValidatorConstants.BANKID_ISNULL.getCode(), new Object[]{ValidatorConstants.BANKID_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "mobile", ValidatorConstants.AMOUNT_ISNULL.getCode(), new Object[]{ValidatorConstants.AMOUNT_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "sourceCode", ValidatorConstants.CAPTCHA_ISNULL.getCode(), new Object[]{ValidatorConstants.CAPTCHA_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "returnUrl", ValidatorConstants.BANKID_ISNULL.getCode(), new Object[]{ValidatorConstants.BANKID_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "noticeUrl", ValidatorConstants.AMOUNT_ISNULL.getCode(), new Object[]{ValidatorConstants.AMOUNT_ISNULL});
+        ValidationUtils.rejectIfEmpty(errors, "MD5Sign", ValidatorConstants.CAPTCHA_ISNULL.getCode(), new Object[]{ValidatorConstants.CAPTCHA_ISNULL});
 
+        TradeForm tradeForm = (TradeForm) o;
+    }
+
+    public void toRechargeValidate(Object o, Errors errors){
         ValidationUtils.rejectIfEmpty(errors, "validCaptcha", ValidatorConstants.CAPTCHA_ISNULL.getCode(), new Object[]{ValidatorConstants.CAPTCHA_ISNULL});
         ValidationUtils.rejectIfEmpty(errors, "onlineBankId", ValidatorConstants.BANKID_ISNULL.getCode(), new Object[]{ValidatorConstants.BANKID_ISNULL});
         ValidationUtils.rejectIfEmpty(errors, "amount", ValidatorConstants.AMOUNT_ISNULL.getCode(), new Object[]{ValidatorConstants.AMOUNT_ISNULL});
@@ -40,12 +72,5 @@ public class RechargeValidator implements Validator {
         if (!match.matches()){
             errors.rejectValue("amount", ValidatorConstants.AMOUNT_WRONGFORMAT.getCode(), new Object[]{ValidatorConstants.AMOUNT_WRONGFORMAT}, "");
         }
-    }
-
-    public void test(Object o, Errors errors){
-        ValidationUtils.rejectIfEmpty(errors, "transId", ValidatorConstants.CAPTCHA_ISNULL.getCode(), new Object[]{ValidatorConstants.CAPTCHA_ISNULL});
-        ValidationUtils.rejectIfEmpty(errors, "userId", ValidatorConstants.BANKID_ISNULL.getCode(), new Object[]{ValidatorConstants.BANKID_ISNULL});
-        ValidationUtils.rejectIfEmpty(errors, "money", ValidatorConstants.AMOUNT_ISNULL.getCode(), new Object[]{ValidatorConstants.AMOUNT_ISNULL});
-
     }
 }

@@ -60,9 +60,6 @@ public class TradeRecordDTO implements Serializable {
     //备注
     private String remark;
 
-    //MD5签名信息
-    private String MD5Sign;
-
     public String getTransId() {
         return transId;
     }
@@ -191,13 +188,25 @@ public class TradeRecordDTO implements Serializable {
         this.remark = remark;
     }
 
-    public String getMD5Sign() {
-        return MD5Sign;
+    @Override
+    public String toString() {
+        return "TradeRecordDTO{" +
+                "transId='" + transId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", money=" + money +
+                ", credit=" + credit +
+                ", mobile='" + mobile + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", sourceCode='" + sourceCode + '\'' +
+                ", operateType=" + operateType +
+                ", tradeStatus=" + tradeStatus +
+                ", returnUrl='" + returnUrl + '\'' +
+                ", noticeUrl='" + noticeUrl + '\'' +
+                ", createDate=" + createDate +
+                ", createBy='" + createBy + '\'' +
+                ", updateDate=" + updateDate +
+                ", updateBy='" + updateBy + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
-
-    public void setMD5Sign(String MD5Sign) {
-        this.MD5Sign = MD5Sign;
-    }
-
-
 }

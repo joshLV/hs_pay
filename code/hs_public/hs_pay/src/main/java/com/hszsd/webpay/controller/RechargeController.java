@@ -1,7 +1,5 @@
 package com.hszsd.webpay.controller;
 
-import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
-
 import com.hszsd.common.util.Result;
 import com.hszsd.common.util.ResultCode;
 import com.hszsd.user.dto.User;
@@ -17,9 +15,10 @@ import com.hszsd.webpay.util.JsonUtil;
 import com.hszsd.webpay.validator.RechargeValidator;
 import com.hszsd.webpay.web.dto.RechargeInDTO;
 import com.hszsd.webpay.web.dto.RechargeOutDTO;
-import com.hszsd.webpay.web.dto.TradeRecordDTO;
 import com.hszsd.webpay.web.form.RechargeForm;
+import com.hszsd.webpay.web.form.TradeForm;
 import org.apache.commons.lang.StringUtils;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
+
 /**
  * 账户充值控制器
  * Created by gzhengDu on 2016/6/28.
@@ -54,8 +55,8 @@ public class RechargeController {
     @Autowired
     private RechargeContextService rechargeContextService;
 
-    //@Autowired
-    //private UserService userService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 为controller指定校验器
@@ -73,21 +74,29 @@ public class RechargeController {
      * @return
      */
     @RequestMapping({"recharge"})
-    public ModelAndView recharge(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView recharge(HttpServletRequest request, HttpServletResponse response, @Validated TradeForm tradeForm, BindingResult result){
         Map<String, Object> map = new HashMap<String, Object>();
 
-        /*String username = request.getRemoteUser();
+        if(result.hasErrors()){
+
+        }
+
+        AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
+        Map attributes = principal.getAttributes();
+        String username = (String) attributes.get("username");
+
+
         if(StringUtils.isEmpty(username)){
             map.put("operator", ResultConstants.SESSION_TIME_OUT);
             JsonUtil.writeJson(map, response);
             return null;
         }
         Result userResult = userService.getNameUser(username);
-        if(userResult == null || ResultCode.RES_OK.equals(userResult.getCode())){
+        if(userResult == null || ResultCode.RES_OK.equals(userResult.getResCode())){
             map.put("operator", ResultConstants.SESSION_TIME_OUT);
             JsonUtil.writeJson(map, response);
             return null;
-        }*/
+        }
         /*if(StringUtils.isEmpty(sourceCode)){
             map.put("operator", ResultConstants.PARAMETERS_ISNULL);
             JsonUtil.writeJson(map, response);

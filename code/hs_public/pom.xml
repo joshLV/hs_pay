@@ -120,6 +120,7 @@
 				<includes><!-- 包含文件 -->
 					<include>com/hszsd/*/dao/impl/*.xml</include>
 					<include>com/hszsd/*/dao/mapper/*.xml</include>
+					<include>config/*.xml</include>
 				</includes>
 				<filtering>false</filtering>
 			</resource>
