@@ -1,16 +1,16 @@
 package com.hszsd.webpay.controller;
 
-import com.hszsd.common.util.Result;
-import com.hszsd.common.util.ResultCode;
 import com.hszsd.user.dto.User;
 import com.hszsd.user.service.UserService;
 import com.hszsd.webpay.common.RechargeModel;
 import com.hszsd.webpay.common.RechargeType;
 import com.hszsd.webpay.common.ResultConstants;
-import com.hszsd.webpay.common.ValidatorConstants;
+import com.hszsd.webpay.common.ResultInfo;
 import com.hszsd.webpay.config.BaoFooConfig;
 import com.hszsd.webpay.service.RechargeBankService;
 import com.hszsd.webpay.service.RechargeContextService;
+import com.hszsd.webpay.service.TradeRecordService;
+import com.hszsd.webpay.util.HttpUtils;
 import com.hszsd.webpay.util.JsonUtil;
 import com.hszsd.webpay.validator.RechargeValidator;
 import com.hszsd.webpay.web.dto.RechargeInDTO;
@@ -56,6 +56,9 @@ public class RechargeController {
     private RechargeContextService rechargeContextService;
 
     @Autowired
+    private TradeRecordService tradeRecordService;
+
+    @Autowired
     private UserService userService;
 
     /**
@@ -73,38 +76,32 @@ public class RechargeController {
      * @param response
      * @return
      */
-    @RequestMapping({"recharge"})
+    @RequestMapping(value = {"recharge"}, method = RequestMethod.POST)
     public ModelAndView recharge(HttpServletRequest request, HttpServletResponse response, @Validated TradeForm tradeForm, BindingResult result){
+        logger.info("recharge is starting and tradeForm={}", tradeForm);
+
         Map<String, Object> map = new HashMap<String, Object>();
-
+        //参数校验
         if(result.hasErrors()){
-
+            if(StringUtils.isEmpty(tradeForm.getReturnUrl())){
+                map.put("operator", ResultConstants.PARAMETERS_ISNULL);
+                return new ModelAndView("/common/500", "map", map);
+            }
+            //向请求方返回错误提示
+            HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), (ResultConstants) result.getFieldError().getArguments()[0]);
+            return null;
         }
 
+        //获取登录信息
         AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
         Map attributes = principal.getAttributes();
         String username = (String) attributes.get("username");
-
-
         if(StringUtils.isEmpty(username)){
-            map.put("operator", ResultConstants.SESSION_TIME_OUT);
-            JsonUtil.writeJson(map, response);
-            return null;
-        }
-        Result userResult = userService.getNameUser(username);
-        if(userResult == null || ResultCode.RES_OK.equals(userResult.getResCode())){
-            map.put("operator", ResultConstants.SESSION_TIME_OUT);
-            JsonUtil.writeJson(map, response);
-            return null;
-        }
-        /*if(StringUtils.isEmpty(sourceCode)){
-            map.put("operator", ResultConstants.PARAMETERS_ISNULL);
-            JsonUtil.writeJson(map, response);
-            return null;
+            //向请求方返回错误提示
+            HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.SESSION_TIME_OUT);
         }
 
-        request.getSession().setAttribute("sourceCode", sourceCode);*/
-
+        ResultInfo result = tradeRecordService.createTradeRecord();
         //查询可用的银行信息（银行列表、第三方充值列表）
         map = rechargeBankService.queryRechargeBank();
         if(map != Collections.EMPTY_MAP){
@@ -140,7 +137,7 @@ public class RechargeController {
         //验证码校验
         String code = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
         if(StringUtils.isEmpty(code) || !code.toUpperCase().equals(rechargeForm.getValidCaptcha())){
-            map.put("operator", ValidatorConstants.CAPTCHA_ISWRONG);
+            map.put("operator", ResultConstants.CAPTCHA_ISWRONG);
             JsonUtil.writeJson(map, response);
             return ;
         }
@@ -171,7 +168,7 @@ public class RechargeController {
         }
         map.put("operator", ResultConstants.OPERATOR_FAIL);
         logger.error("BaoFooFront occurs an error and cause by {}", request.getParameter("ResultDesc"));
-        return new ModelAndView("/error/error", "map", map);
+        return new ModelAndView("/common/500", "map", map);
     }
 
     /**
