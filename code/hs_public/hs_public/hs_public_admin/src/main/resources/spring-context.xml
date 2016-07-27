@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      ">
+    <!--引入jdbc配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--扫描文件（自动将service层注入）-->
+    <context:component-scan base-package="com.hszsd.*.service"/>
+	<import resource="dubbo-provider.xml"/>
+ 	<bean id="casUtil" class="com.hszsd.admin.util.CasUtil">
+		<property name="casUrl" value="https://www.zsd-test.com/cas/oauth2.0/accessToken"/>
+		<property name="clientId" value="this_is_the_key"/>
+		<property name="clientSecret" value="this_is_the_secret"/>
+		<property name="redirectUri" value="https://www.zsd-test.com/data-center/public/user/checkName.do"/>
+		<property name="grantType" value="authorization_code"/>
+	</bean> 
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+	
+</beans>

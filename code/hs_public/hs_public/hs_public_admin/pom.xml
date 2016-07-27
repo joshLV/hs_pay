@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <parent>
+    <groupId>com.hszsd</groupId>
+    <artifactId>hs_public</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+	<modelVersion>4.0.0</modelVersion>
+  <artifactId>hs_public_admin</artifactId>
+  <packaging>war</packaging>
+  <name>hs_public_admin Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- 数据库连接 开始 -->
+		<!-- oracle的数据库驱动包 -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>10.2.0.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.cloudhopper.proxool</groupId>
+			<artifactId>proxool</artifactId>
+			<version>0.9.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-javamail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-jms</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.cloudhopper.proxool</groupId>
+			<artifactId>proxool-cglib</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<!-- 数据库连接 结束 -->
+
+		<!-- 日志记录依赖包，很多都依赖此包 开始 -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- 日志记录依赖包，很多都依赖此包 结束 -->
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.4.8</version>
+		</dependency>
+
+		<!--工具包依赖开始 -->
+	    <dependency>
+			  <groupId>com.alibaba</groupId>
+			  <artifactId>fastjson</artifactId>
+			  <version>1.1.41</version>
+		</dependency>
+		<!--工具包依赖结束 -->
+		<!-- Spring 配置包开始 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+	    <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-web</artifactId>
+		  <version>${org.springframework.version}</version>
+	    </dependency>
+	    <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-webmvc</artifactId>
+		  <version>${org.springframework.version}</version>
+	   </dependency>
+	   <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-context-support</artifactId>
+	   </dependency>
+	   <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-oxm</artifactId>
+		  <version>${org.springframework.version}</version>
+	   </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<!-- Spring 配置包结束 -->
+		<!-- 下面的包是在配置事务的时候用到的 spring的依赖包 -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- mybatis 结束 -->
+		
+		<!-- JSON 开始 -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<!-- JSON 结束 -->
+	  <!--springmvc配置包-->
+	  <dependency>
+		  <groupId>com.fasterxml.jackson.core</groupId>
+		  <artifactId>jackson-databind</artifactId>
+		  <version>2.5.1</version>
+	  </dependency>
+	  <!--springmv配置开始-->
+	  <!--本地引入包-->
+	  <dependency>
+		  <groupId>com.hszsd</groupId>
+		  <artifactId>hs-common</artifactId>
+		  <version>1.0-SNAPSHOT</version>
+	  </dependency>
+	  <dependency>
+		<groupId>com.hszsd</groupId>
+		<artifactId>hs_public_user_service</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	  </dependency>
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.3.3</version>
+			<!-- 排除log4j包冲突 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>log4j-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+  </dependencies>
+  <build>
+    <finalName>hs_public_admin</finalName>
+	 <!--  <plugins>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <configuration>
+				  <source>1.6</source>
+				  <target>1.6</target>
+			  </configuration>
+		  </plugin>
+	  </plugins> -->
+  </build>
+</project>

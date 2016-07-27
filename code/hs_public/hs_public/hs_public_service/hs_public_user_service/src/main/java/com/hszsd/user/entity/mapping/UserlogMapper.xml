@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.UserlogMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Userlog">
+    <id column="LOG_ID" jdbcType="DECIMAL" property="logId" />
+    <result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+    <result column="USERS" jdbcType="VARCHAR" property="users" />
+    <result column="GEN_TIME" jdbcType="DECIMAL" property="genTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    LOG_ID, MESSAGE, USERS, GEN_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.UserlogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_USERLOG_046
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_USERLOG_046
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from HSPRD.TB_USERLOG_046
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.UserlogExample">
+    delete from HSPRD.TB_USERLOG_046
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.entity.Userlog">
+    insert into HSPRD.TB_USERLOG_046 (LOG_ID, MESSAGE, USERS, 
+      GEN_TIME)
+    values (#{logId,jdbcType=DECIMAL}, #{message,jdbcType=VARCHAR}, #{users,jdbcType=VARCHAR}, 
+      #{genTime,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Userlog">
+    insert into HSPRD.TB_USERLOG_046
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        LOG_ID,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+      <if test="users != null">
+        USERS,
+      </if>
+      <if test="genTime != null">
+        GEN_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logId != null">
+        #{logId,jdbcType=DECIMAL},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="users != null">
+        #{users,jdbcType=VARCHAR},
+      </if>
+      <if test="genTime != null">
+        #{genTime,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.UserlogExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_USERLOG_046
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_USERLOG_046
+    <set>
+      <if test="record.logId != null">
+        LOG_ID = #{record.logId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.message != null">
+        MESSAGE = #{record.message,jdbcType=VARCHAR},
+      </if>
+      <if test="record.users != null">
+        USERS = #{record.users,jdbcType=VARCHAR},
+      </if>
+      <if test="record.genTime != null">
+        GEN_TIME = #{record.genTime,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_USERLOG_046
+    set LOG_ID = #{record.logId,jdbcType=DECIMAL},
+      MESSAGE = #{record.message,jdbcType=VARCHAR},
+      USERS = #{record.users,jdbcType=VARCHAR},
+      GEN_TIME = #{record.genTime,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Userlog">
+    update HSPRD.TB_USERLOG_046
+    <set>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="users != null">
+        USERS = #{users,jdbcType=VARCHAR},
+      </if>
+      <if test="genTime != null">
+        GEN_TIME = #{genTime,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Userlog">
+    update HSPRD.TB_USERLOG_046
+    set MESSAGE = #{message,jdbcType=VARCHAR},
+      USERS = #{users,jdbcType=VARCHAR},
+      GEN_TIME = #{genTime,jdbcType=DECIMAL}
+    where LOG_ID = #{logId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.VipMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Vip">
+    <id column="VIPID" jdbcType="DECIMAL" property="vipid" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="CREDIT" jdbcType="DECIMAL" property="credit" />
+    <result column="USE_MONEY" jdbcType="DECIMAL" property="useMoney" />
+    <result column="ADDTIME" jdbcType="DECIMAL" property="addtime" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    VIPID, USER_ID, TYPE, CREDIT, USE_MONEY, ADDTIME, STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.VipExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_VIP_058
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_VIP_058
+    where VIPID = #{vipid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from HSPRD.TB_VIP_058
+    where VIPID = #{vipid,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.VipExample">
+    delete from HSPRD.TB_VIP_058
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.entity.Vip">
+    insert into HSPRD.TB_VIP_058 (VIPID, USER_ID, TYPE, 
+      CREDIT, USE_MONEY, ADDTIME, 
+      STATUS)
+    values (#{vipid,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{credit,jdbcType=DECIMAL}, #{useMoney,jdbcType=DECIMAL}, #{addtime,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Vip">
+    insert into HSPRD.TB_VIP_058
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vipid != null">
+        VIPID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="credit != null">
+        CREDIT,
+      </if>
+      <if test="useMoney != null">
+        USE_MONEY,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vipid != null">
+        #{vipid,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="useMoney != null">
+        #{useMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.VipExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_VIP_058
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_VIP_058
+    <set>
+      <if test="record.vipid != null">
+        VIPID = #{record.vipid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=DECIMAL},
+      </if>
+      <if test="record.credit != null">
+        CREDIT = #{record.credit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.useMoney != null">
+        USE_MONEY = #{record.useMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addtime != null">
+        ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_VIP_058
+    set VIPID = #{record.vipid,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=DECIMAL},
+      CREDIT = #{record.credit,jdbcType=DECIMAL},
+      USE_MONEY = #{record.useMoney,jdbcType=DECIMAL},
+      ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Vip">
+    update HSPRD.TB_VIP_058
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="credit != null">
+        CREDIT = #{credit,jdbcType=DECIMAL},
+      </if>
+      <if test="useMoney != null">
+        USE_MONEY = #{useMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="addtime != null">
+        ADDTIME = #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where VIPID = #{vipid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Vip">
+    update HSPRD.TB_VIP_058
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      CREDIT = #{credit,jdbcType=DECIMAL},
+      USE_MONEY = #{useMoney,jdbcType=DECIMAL},
+      ADDTIME = #{addtime,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where VIPID = #{vipid,jdbcType=DECIMAL}
+  </update>
+</mapper>

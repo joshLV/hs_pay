@@ -1,0 +1,346 @@
+body {
+    font-family: "微软雅黑";
+   background: #ECECEC;
+}
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+.header{
+	  height: 120px;
+	   background: #fff;
+	  width: 100%;
+}
+
+.toplogo{
+	 width:1010px;
+	 /*border:1px solid red;*/
+	 margin: 0 auto;
+	 /*text-align: center;*/
+	 line-height: 120px;
+	
+}
+.chognzhi{
+	margin-left: 30px;
+	color: #FF6650;
+	font-size: 30px;
+}
+.toplogo  img{margin-top:25px;}
+/*页面公共区域css*/  
+.contbox{
+  width: 980px;
+  min-height: 500px;
+  /*border:1px solid #E7E7E7;*/
+  margin:20px auto;
+  padding: 30px ;
+  background: #fff;
+  border-radius: 6px;
+}
+.contbox .leftbox{
+   float: left;
+    width:260px;
+    min-height: 400px;
+    border:1px solid #E7E7E7;
+       border-radius:6px;
+  /*  box-shadow:1px 1px 2px #E7E7E7;
+    -webkit-box-shadow: 1px 1px 2px #E7E7E7;
+    -moz-box-shadow:1px 1px 2px #E7E7E7;*/
+}
+.contbox .rightbox{
+   float: right;
+    width:660px;
+    min-height: 400px;
+    border:1px solid #E7E7E7;
+    box-sizing:border-box;
+    border-radius:6px;
+   /*  box-shadow:1px 1px 3px #E7E7E7;
+    -webkit-box-shadow: 1px 1px 3px #E7E7E7;
+    -moz-box-shadow:1px 1px 3px #E7E7E7;*/
+}
+.contbox .rightbox .button{
+   height: 35px;
+   padding: 6px 20px;
+   border:none;
+   background: #169BD5;
+   border-radius:6px;
+   color: #fff;
+   text-align: center;
+   cursor: pointer;
+   font-size: 16px;
+   font-weight: 700;
+}
+
+/*支付页面的css*/
+.leftbox{
+
+}
+.leftbox .paytitle{
+     margin-left: 15px;
+     font-size: 16px;
+     font-weight: 700;
+     margin-top:20px;
+     margin-bottom:10px;
+}
+.leftbox ul li{
+	margin-left: 15px;
+	line-height: 35px;
+	font-size: 14px;
+}
+.leftbox ul li .spanprice{
+  color: #FF5758;
+  font-size: 16px;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.leftbox ul li  label{margin-right:8px}
+.rightbox ul li{
+	 margin-left: 80px;
+	 margin-bottom: 30px;
+}
+
+.rightbox ul li:first-child{
+          margin-top: 30px; 
+}
+.rightbox ul li label{
+	margin-right: 10px;
+}
+.rightbox ul li  .yeprice{
+     font-size: 15px;
+     color: #FF5758;
+     font-weight: bold;
+     margin-right: 6px;
+}
+.rightbox ul li .spanatn{
+   margin-right: 30px;
+}
+.rightbox ul li  .ahideshow{
+      color: #169BD5;
+}
+.rightbox ul li em{color: #169BD5;margin-right:2px;margin-left: 2px; font-size: 12px;
+
+ }
+ .rightbox ul li .intext{
+  width: 150px;
+  height: 35px;
+ }
+ .aems{
+ 	  display:inline-block;
+ 	  float: right;
+ 	 /* border:1px solid red;*/
+ 	  width: 338px;
+ }
+  .rightbox ul  .errli{
+    margin-left: 170px;
+    margin-top: -20px;
+ }
+  .rightbox ul .butli{
+ 	margin-left: 170px;
+ }
+ .errorem{
+ 	color: red;
+ 	font-size: 12px;
+ }
+ .hideshowli{display: none;}
+/*充值页面*/
+.form{width: 100%;overflow: hidden;float: left; 
+    /*border:1px solid blue;*/
+         margin-top: 20px;
+   }
+   .form label{float: left; width: 120px;
+   /*	border:1px solid red;*/
+   	/*text-align: center;*/
+   	font-size: 16px;
+   	color: #000;
+   }
+   .check li {
+    display: inline-block;
+    margin-bottom: 5px;
+    border: solid 1px #ddd;
+    position: relative;
+    height: 35px;
+}
+.form .fildprice{
+	 color: #FF6600;
+}
+.check li input{
+	display: none;
+}
+.check{
+	float: right;
+	width: 820px
+}
+
+.check li.active i {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url(../images/checks.png) no-repeat;
+    width: 14px;
+    height: 14px;
+}
+.form .input {
+    padding:1px 5px;
+    line-height: 20px;
+    border: solid 1px #ddd;
+    height: 38px;
+    width: 200px;
+ 
+}
+.formx .form .field {
+    float: left;
+    /*width: 80%;*/
+}
+.form .button {
+    height: 38px;
+    font-size: 16px;
+    padding: 8px 50px;
+    background: #169BD5;
+    border: none;
+    color: #fff;
+    font-family: "微软雅黑";
+    border-radius: 6px;
+    margin-left: 120px;
+     cursor: pointer;
+}
+#showMsg{display: none;}
+.login-error {
+  /*  border: solid 1px #faebcc;
+    background: #fcf8e3;*/
+    padding: 3px;
+    margin-bottom: 10px;
+    margin-left: 120px;
+
+}
+.note.error {
+    color: #f60;
+    background: url(../images/error.png)  no-repeat;
+
+}
+.login-error .error {
+    display: block;
+    font-size: 14px;
+    padding-top: 0;
+    padding: 0px 22px;
+    background-position: 0 2px;}
+
+input:focus {
+    outline:none;
+}
+.check  img{width: 120px;height:33px;}
+
+
+/*充值页面弹窗的css样式*/
+.mask {
+    background: #fff;
+    position: fixed;
+    opacity: 0.85;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 8;
+}
+.dialog {
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 3px 9px #7F7F7F;
+    -webkit-box-shadow: 0px 3px 9px #7F7F7F;
+    background-color: #fff;
+    position: absolute;
+    top: 35%;
+    left: 30%;
+    z-index: 10;
+    width: 40%;
+}
+.dialog .close.right {
+    float: right;
+    font-size: 24px;
+    margin: 10px 10px 0 0;
+    cursor: pointer;
+}
+.dialog .dialog-body {
+    padding: 20px;
+}
+.dialog .dialog-foot {
+    padding-bottom: 15px;
+}
+.dialog .dialog-foot .button {
+    height: 32px;
+}
+.button.bg-sub {
+    border-color: #faaf16;
+    color: #fff;
+    background: #faaf16;
+}
+.button.bg-gray {
+    border-color: #999;
+    color: #fff;
+}
+.button {
+    border: solid 1px #f7f7f7;
+    border-radius: 18px;
+    height: 26px;
+    padding: 5px 15px;
+    line-height: 20px;
+}
+.dialogMask{
+	display: none;
+}
+.h2{font-size:20px;}
+/*支付成功的界面*/
+.succ{
+	width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: top;
+	margin-top: 60px;
+}
+.succ img{
+	margin-bottom: 15px;
+}
+.succ .succp{
+      font-size: 26px;
+      margin-top: 5px;
+}
+.succ .times{
+	margin-top: 30px;
+	letter-spacing: 2px;
+}
+.succ .times  a{
+	color: #009DDA;
+}
+.succ .times  a:first-child{
+   float: left;
+   margin-left: 100px;
+}
+.succ .times  a:last-child{
+   float: right;
+   margin-right: 100px;
+
+}
+#showsucc{display: none;}
+#showyos{display: none;}
+#showerrow{display: none;}
+/*底部的css样式*/
+.bottom{
+	 width: 100%;
+}
+.bottom .foot{
+   width: 1000px;
+   height: 150px;
+   /*border:1px solid #ccc;*/
+   margin:40px auto;
+   text-align: center;
+}
+.bottom .foot p:first-child{
+	font-size: 14px;
+}
+.bottom .foot p{
+	margin: 15px;
+}
+.bottom .foot p img{margin: 10px}

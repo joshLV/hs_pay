@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Message">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="SENT_USER" jdbcType="DECIMAL" property="sentUser" />
+    <result column="RECEIVE_USER" jdbcType="VARCHAR" property="receiveUser" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="ADD_TIME" jdbcType="DECIMAL" property="addTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hszsd.entity.Message">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, SENT_USER, RECEIVE_USER, NAME, STATUS, TYPE, ADD_TIME
+  </sql>
+  <sql id="Blob_Column_List">
+    CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.hszsd.entity.example.MessageExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from HSPRD.TB_MESSAGE_041
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.MessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_MESSAGE_041
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from HSPRD.TB_MESSAGE_041
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.hszsd.entity.Message">
+    insert into HSPRD.TB_MESSAGE_041 (ID, SENT_USER, RECEIVE_USER, 
+      NAME, STATUS, TYPE, 
+      ADD_TIME, CONTENT)
+    values (#{id,jdbcType=DECIMAL}, #{sentUser,jdbcType=DECIMAL}, #{receiveUser,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{type,jdbcType=DECIMAL}, 
+      #{addTime,jdbcType=DECIMAL}, #{content,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Message">
+    insert into HSPRD.TB_MESSAGE_041
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sentUser != null">
+        SENT_USER,
+      </if>
+      <if test="receiveUser != null">
+        RECEIVE_USER,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="addTime != null">
+        ADD_TIME,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="sentUser != null">
+        #{sentUser,jdbcType=DECIMAL},
+      </if>
+      <if test="receiveUser != null">
+        #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.MessageExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_MESSAGE_041
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_MESSAGE_041
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sentUser != null">
+        SENT_USER = #{record.sentUser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.receiveUser != null">
+        RECEIVE_USER = #{record.receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addTime != null">
+        ADD_TIME = #{record.addTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.content != null">
+        CONTENT = #{record.content,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update HSPRD.TB_MESSAGE_041
+    set ID = #{record.id,jdbcType=DECIMAL},
+      SENT_USER = #{record.sentUser,jdbcType=DECIMAL},
+      RECEIVE_USER = #{record.receiveUser,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      TYPE = #{record.type,jdbcType=DECIMAL},
+      ADD_TIME = #{record.addTime,jdbcType=DECIMAL},
+      CONTENT = #{record.content,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_MESSAGE_041
+    set ID = #{record.id,jdbcType=DECIMAL},
+      SENT_USER = #{record.sentUser,jdbcType=DECIMAL},
+      RECEIVE_USER = #{record.receiveUser,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      TYPE = #{record.type,jdbcType=DECIMAL},
+      ADD_TIME = #{record.addTime,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Message">
+    update HSPRD.TB_MESSAGE_041
+    <set>
+      <if test="sentUser != null">
+        SENT_USER = #{sentUser,jdbcType=DECIMAL},
+      </if>
+      <if test="receiveUser != null">
+        RECEIVE_USER = #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="addTime != null">
+        ADD_TIME = #{addTime,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hszsd.entity.Message">
+    update HSPRD.TB_MESSAGE_041
+    set SENT_USER = #{sentUser,jdbcType=DECIMAL},
+      RECEIVE_USER = #{receiveUser,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ADD_TIME = #{addTime,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=CLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Message">
+    update HSPRD.TB_MESSAGE_041
+    set SENT_USER = #{sentUser,jdbcType=DECIMAL},
+      RECEIVE_USER = #{receiveUser,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ADD_TIME = #{addTime,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

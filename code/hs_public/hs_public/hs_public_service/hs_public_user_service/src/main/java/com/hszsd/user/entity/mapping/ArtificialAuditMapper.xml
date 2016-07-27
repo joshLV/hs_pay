@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.ArtificialAuditMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.ArtificialAudit">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="REALNAME" jdbcType="VARCHAR" property="realname" />
+    <result column="CARD_ID" jdbcType="VARCHAR" property="cardId" />
+    <result column="CARD_PIC1" jdbcType="VARCHAR" property="cardPic1" />
+    <result column="CARD_PIC2" jdbcType="VARCHAR" property="cardPic2" />
+    <result column="ADDTIME" jdbcType="DECIMAL" property="addtime" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="SREMARK" jdbcType="VARCHAR" property="sremark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, USER_ID, MOBILE, EMAIL, REALNAME, CARD_ID, CARD_PIC1, CARD_PIC2, ADDTIME, TYPE, 
+    SREMARK
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.ArtificialAuditExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ARTIFICIALAUDIT_050
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ARTIFICIALAUDIT_050
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.hszsd.entity.ArtificialAudit">
+    insert into HSPRD.TB_ARTIFICIALAUDIT_050 (ID, USER_ID, MOBILE, 
+      EMAIL, REALNAME, CARD_ID, 
+      CARD_PIC1, CARD_PIC2, ADDTIME, 
+      TYPE, SREMARK)
+    values (#{id,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, 
+      #{cardPic1,jdbcType=VARCHAR}, #{cardPic2,jdbcType=VARCHAR}, #{addtime,jdbcType=DECIMAL}, 
+      #{type,jdbcType=DECIMAL}, #{sremark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.ArtificialAudit">
+    insert into HSPRD.TB_ARTIFICIALAUDIT_050
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="realname != null">
+        REALNAME,
+      </if>
+      <if test="cardId != null">
+        CARD_ID,
+      </if>
+      <if test="cardPic1 != null">
+        CARD_PIC1,
+      </if>
+      <if test="cardPic2 != null">
+        CARD_PIC2,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="sremark != null">
+        SREMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic1 != null">
+        #{cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic2 != null">
+        #{cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="sremark != null">
+        #{sremark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.ArtificialAuditExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_ARTIFICIALAUDIT_050
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_ARTIFICIALAUDIT_050
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null">
+        REALNAME = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardId != null">
+        CARD_ID = #{record.cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardPic1 != null">
+        CARD_PIC1 = #{record.cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardPic2 != null">
+        CARD_PIC2 = #{record.cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sremark != null">
+        SREMARK = #{record.sremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_ARTIFICIALAUDIT_050
+    set ID = #{record.id,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      REALNAME = #{record.realname,jdbcType=VARCHAR},
+      CARD_ID = #{record.cardId,jdbcType=VARCHAR},
+      CARD_PIC1 = #{record.cardPic1,jdbcType=VARCHAR},
+      CARD_PIC2 = #{record.cardPic2,jdbcType=VARCHAR},
+      ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      TYPE = #{record.type,jdbcType=DECIMAL},
+      SREMARK = #{record.sremark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.ArtificialAudit">
+    update HSPRD.TB_ARTIFICIALAUDIT_050
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null">
+        REALNAME = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        CARD_ID = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic1 != null">
+        CARD_PIC1 = #{cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic2 != null">
+        CARD_PIC2 = #{cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        ADDTIME = #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="sremark != null">
+        SREMARK = #{sremark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.ArtificialAudit">
+    update HSPRD.TB_ARTIFICIALAUDIT_050
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      REALNAME = #{realname,jdbcType=VARCHAR},
+      CARD_ID = #{cardId,jdbcType=VARCHAR},
+      CARD_PIC1 = #{cardPic1,jdbcType=VARCHAR},
+      CARD_PIC2 = #{cardPic2,jdbcType=VARCHAR},
+      ADDTIME = #{addtime,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL},
+      SREMARK = #{sremark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

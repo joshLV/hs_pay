@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.VipscopeMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Vipscope">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="GRADE_LEVEL" jdbcType="VARCHAR" property="gradeLevel" />
+    <result column="MINIMUM" jdbcType="DECIMAL" property="minimum" />
+    <result column="MAXIMAL" jdbcType="DECIMAL" property="maximal" />
+    <result column="LITPIC_URL" jdbcType="VARCHAR" property="litpicUrl" />
+    <result column="ADDTIME" jdbcType="DECIMAL" property="addtime" />
+    <result column="DISCOUNT" jdbcType="DECIMAL" property="discount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, GRADE_LEVEL, MINIMUM, MAXIMAL, LITPIC_URL, ADDTIME, DISCOUNT
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.VipscopeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_VIPSCOPE_051
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_VIPSCOPE_051
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from HSPRD.TB_VIPSCOPE_051
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.VipscopeExample">
+    delete from HSPRD.TB_VIPSCOPE_051
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.entity.Vipscope">
+    insert into HSPRD.TB_VIPSCOPE_051 (ID, GRADE_LEVEL, MINIMUM, 
+      MAXIMAL, LITPIC_URL, ADDTIME, 
+      DISCOUNT)
+    values (#{id,jdbcType=DECIMAL}, #{gradeLevel,jdbcType=VARCHAR}, #{minimum,jdbcType=DECIMAL}, 
+      #{maximal,jdbcType=DECIMAL}, #{litpicUrl,jdbcType=VARCHAR}, #{addtime,jdbcType=DECIMAL}, 
+      #{discount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Vipscope">
+    insert into HSPRD.TB_VIPSCOPE_051
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="gradeLevel != null">
+        GRADE_LEVEL,
+      </if>
+      <if test="minimum != null">
+        MINIMUM,
+      </if>
+      <if test="maximal != null">
+        MAXIMAL,
+      </if>
+      <if test="litpicUrl != null">
+        LITPIC_URL,
+      </if>
+      <if test="addtime != null">
+        ADDTIME,
+      </if>
+      <if test="discount != null">
+        DISCOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeLevel != null">
+        #{gradeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="minimum != null">
+        #{minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="maximal != null">
+        #{maximal,jdbcType=DECIMAL},
+      </if>
+      <if test="litpicUrl != null">
+        #{litpicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.VipscopeExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_VIPSCOPE_051
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_VIPSCOPE_051
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gradeLevel != null">
+        GRADE_LEVEL = #{record.gradeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minimum != null">
+        MINIMUM = #{record.minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maximal != null">
+        MAXIMAL = #{record.maximal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.litpicUrl != null">
+        LITPIC_URL = #{record.litpicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null">
+        ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.discount != null">
+        DISCOUNT = #{record.discount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_VIPSCOPE_051
+    set ID = #{record.id,jdbcType=DECIMAL},
+      GRADE_LEVEL = #{record.gradeLevel,jdbcType=VARCHAR},
+      MINIMUM = #{record.minimum,jdbcType=DECIMAL},
+      MAXIMAL = #{record.maximal,jdbcType=DECIMAL},
+      LITPIC_URL = #{record.litpicUrl,jdbcType=VARCHAR},
+      ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      DISCOUNT = #{record.discount,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Vipscope">
+    update HSPRD.TB_VIPSCOPE_051
+    <set>
+      <if test="gradeLevel != null">
+        GRADE_LEVEL = #{gradeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="minimum != null">
+        MINIMUM = #{minimum,jdbcType=DECIMAL},
+      </if>
+      <if test="maximal != null">
+        MAXIMAL = #{maximal,jdbcType=DECIMAL},
+      </if>
+      <if test="litpicUrl != null">
+        LITPIC_URL = #{litpicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        ADDTIME = #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null">
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Vipscope">
+    update HSPRD.TB_VIPSCOPE_051
+    set GRADE_LEVEL = #{gradeLevel,jdbcType=VARCHAR},
+      MINIMUM = #{minimum,jdbcType=DECIMAL},
+      MAXIMAL = #{maximal,jdbcType=DECIMAL},
+      LITPIC_URL = #{litpicUrl,jdbcType=VARCHAR},
+      ADDTIME = #{addtime,jdbcType=DECIMAL},
+      DISCOUNT = #{discount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

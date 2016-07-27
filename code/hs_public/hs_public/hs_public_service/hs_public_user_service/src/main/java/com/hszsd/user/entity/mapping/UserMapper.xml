@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.User">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="TYPE_ID" jdbcType="DECIMAL" property="typeId" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="PAYPASSWORD" jdbcType="VARCHAR" property="paypassword" />
+    <result column="ISLOCK" jdbcType="DECIMAL" property="islock" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="GROWTHVALUE" jdbcType="DECIMAL" property="growthvalue" />
+    <result column="OLD_USERNAME" jdbcType="VARCHAR" property="oldUsername" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    USER_ID, TYPE_ID, USERNAME, PASSWORD, PAYPASSWORD, ISLOCK, STATUS, GROWTHVALUE, OLD_USERNAME
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_USER_023
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_USER_023
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from HSPRD.TB_USER_023
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.UserExample">
+    delete from HSPRD.TB_USER_023
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.entity.User">
+    insert into HSPRD.TB_USER_023 (USER_ID, TYPE_ID, USERNAME, 
+      PASSWORD, PAYPASSWORD, ISLOCK, 
+      STATUS, GROWTHVALUE, OLD_USERNAME
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{typeId,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{paypassword,jdbcType=VARCHAR}, #{islock,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{growthvalue,jdbcType=DECIMAL}, #{oldUsername,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.User">
+    insert into HSPRD.TB_USER_023
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="typeId != null">
+        TYPE_ID,
+      </if>
+      <if test="username != null">
+        USERNAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="paypassword != null">
+        PAYPASSWORD,
+      </if>
+      <if test="islock != null">
+        ISLOCK,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="growthvalue != null">
+        GROWTHVALUE,
+      </if>
+      <if test="oldUsername != null">
+        OLD_USERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null">
+        #{paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="islock != null">
+        #{islock,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="growthvalue != null">
+        #{growthvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="oldUsername != null">
+        #{oldUsername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.UserExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_USER_023
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_USER_023
+    <set>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null">
+        TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.username != null">
+        USERNAME = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        PASSWORD = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paypassword != null">
+        PAYPASSWORD = #{record.paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.islock != null">
+        ISLOCK = #{record.islock,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.growthvalue != null">
+        GROWTHVALUE = #{record.growthvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oldUsername != null">
+        OLD_USERNAME = #{record.oldUsername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_USER_023
+    set USER_ID = #{record.userId,jdbcType=VARCHAR},
+      TYPE_ID = #{record.typeId,jdbcType=DECIMAL},
+      USERNAME = #{record.username,jdbcType=VARCHAR},
+      PASSWORD = #{record.password,jdbcType=VARCHAR},
+      PAYPASSWORD = #{record.paypassword,jdbcType=VARCHAR},
+      ISLOCK = #{record.islock,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      GROWTHVALUE = #{record.growthvalue,jdbcType=DECIMAL},
+      OLD_USERNAME = #{record.oldUsername,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.User">
+    update HSPRD.TB_USER_023
+    <set>
+      <if test="typeId != null">
+        TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null">
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paypassword != null">
+        PAYPASSWORD = #{paypassword,jdbcType=VARCHAR},
+      </if>
+      <if test="islock != null">
+        ISLOCK = #{islock,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="growthvalue != null">
+        GROWTHVALUE = #{growthvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="oldUsername != null">
+        OLD_USERNAME = #{oldUsername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.User">
+    update HSPRD.TB_USER_023
+    set TYPE_ID = #{typeId,jdbcType=DECIMAL},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      PAYPASSWORD = #{paypassword,jdbcType=VARCHAR},
+      ISLOCK = #{islock,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      GROWTHVALUE = #{growthvalue,jdbcType=DECIMAL},
+      OLD_USERNAME = #{oldUsername,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

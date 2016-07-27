@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hszsd.user.dao.CertificationMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Certification">
+    <id column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="REAL_STATUS" jdbcType="DECIMAL" property="realStatus" />
+    <result column="EMAIL_STATUS" jdbcType="DECIMAL" property="emailStatus" />
+    <result column="PHONE_STATUS" jdbcType="DECIMAL" property="phoneStatus" />
+    <result column="VIDEO_STATUS" jdbcType="DECIMAL" property="videoStatus" />
+    <result column="SCENE_STATUS" jdbcType="DECIMAL" property="sceneStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    USER_ID, REAL_STATUS, EMAIL_STATUS, PHONE_STATUS, VIDEO_STATUS, SCENE_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.CertificationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_CERTIFICATION_025
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_CERTIFICATION_025
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.hszsd.entity.Certification">
+    insert into HSPRD.TB_CERTIFICATION_025 (USER_ID, REAL_STATUS, EMAIL_STATUS, 
+      PHONE_STATUS, VIDEO_STATUS, SCENE_STATUS
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{realStatus,jdbcType=DECIMAL}, #{emailStatus,jdbcType=DECIMAL}, 
+      #{phoneStatus,jdbcType=DECIMAL}, #{videoStatus,jdbcType=DECIMAL}, #{sceneStatus,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Certification">
+    insert into HSPRD.TB_CERTIFICATION_025
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="realStatus != null">
+        REAL_STATUS,
+      </if>
+      <if test="emailStatus != null">
+        EMAIL_STATUS,
+      </if>
+      <if test="phoneStatus != null">
+        PHONE_STATUS,
+      </if>
+      <if test="videoStatus != null">
+        VIDEO_STATUS,
+      </if>
+      <if test="sceneStatus != null">
+        SCENE_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="realStatus != null">
+        #{realStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="emailStatus != null">
+        #{emailStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneStatus != null">
+        #{phoneStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="videoStatus != null">
+        #{videoStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="sceneStatus != null">
+        #{sceneStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.CertificationExample" resultType="java.lang.Integer">
+    select count(*) from HSPRD.TB_CERTIFICATION_025
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HSPRD.TB_CERTIFICATION_025
+    <set>
+      <if test="record.userId != null">
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realStatus != null">
+        REAL_STATUS = #{record.realStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.emailStatus != null">
+        EMAIL_STATUS = #{record.emailStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneStatus != null">
+        PHONE_STATUS = #{record.phoneStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.videoStatus != null">
+        VIDEO_STATUS = #{record.videoStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sceneStatus != null">
+        SCENE_STATUS = #{record.sceneStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HSPRD.TB_CERTIFICATION_025
+    set USER_ID = #{record.userId,jdbcType=VARCHAR},
+      REAL_STATUS = #{record.realStatus,jdbcType=DECIMAL},
+      EMAIL_STATUS = #{record.emailStatus,jdbcType=DECIMAL},
+      PHONE_STATUS = #{record.phoneStatus,jdbcType=DECIMAL},
+      VIDEO_STATUS = #{record.videoStatus,jdbcType=DECIMAL},
+      SCENE_STATUS = #{record.sceneStatus,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Certification">
+    update HSPRD.TB_CERTIFICATION_025
+    <set>
+      <if test="realStatus != null">
+        REAL_STATUS = #{realStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="emailStatus != null">
+        EMAIL_STATUS = #{emailStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneStatus != null">
+        PHONE_STATUS = #{phoneStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="videoStatus != null">
+        VIDEO_STATUS = #{videoStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="sceneStatus != null">
+        SCENE_STATUS = #{sceneStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Certification">
+    update HSPRD.TB_CERTIFICATION_025
+    set REAL_STATUS = #{realStatus,jdbcType=DECIMAL},
+      EMAIL_STATUS = #{emailStatus,jdbcType=DECIMAL},
+      PHONE_STATUS = #{phoneStatus,jdbcType=DECIMAL},
+      VIDEO_STATUS = #{videoStatus,jdbcType=DECIMAL},
+      SCENE_STATUS = #{sceneStatus,jdbcType=DECIMAL}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>
