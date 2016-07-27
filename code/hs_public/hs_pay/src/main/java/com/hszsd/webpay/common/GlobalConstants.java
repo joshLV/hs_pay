@@ -96,11 +96,12 @@ public interface GlobalConstants {
         int ASSEMBLE_REFUND = 7;
 
         /**
-         *交易状态（1:等待处理 2:交易成功 3:交易失败）
+         *交易状态（1:等待处理 2:交易成功 3:交易失败 4:第三方充值成功，资金记录修改失败）
          */
         int TRADE_STATUS_1 =1;
         int TRADE_STATUS_2 =2;
         int TRADE_STATUS_3 =3;
+        int TRADE_STATUS_4 =4;
     }
 
 

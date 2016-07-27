@@ -30,4 +30,10 @@ public interface TradeRecordService {
      * @return ResultInfo 处理结果对象
      */
     ResultInfo queryTradeRecordByCondition(TradeRecordCondition condition);
+
+    /**
+     * 根据交易流水号删除交易回调记录
+     * @param transId 交易流水号
+     */
+    void delTradeCallbackByTransId(String transId);
 }

@@ -1,5 +1,6 @@
 package com.hszsd.webpay.controller;
 
+import com.hszsd.webpay.service.TradeRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,9 @@ import java.util.Map;
 public class CommonController {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
+
+    @Autowired
+    TradeRecordService tradeRecordService;
 
     /**
      * 主页跳转
@@ -50,11 +54,15 @@ public class CommonController {
         return new ModelAndView(StringUtils.join("common/",number), "map", map);
     }
 
-    @RequestMapping({"/logout"})
-    public String logout(HttpServletRequest request, HttpServletResponse response){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("123","123");
-        System.out.print("23123");
-        return "redirect:https://www.zhaoshangdai.com/cas/logout?service=https://www.hszsdpay.com:8443/error/404";
+    /**
+     * 商户确认接收到异步通知接口
+     * @param request
+     * @param response
+     * @param transId 交易流水号
+     * @return
+     */
+    @RequestMapping({"/confirm"})
+    public void confirm(HttpServletRequest request, HttpServletResponse response, String transId){
+        tradeRecordService.delTradeCallbackByTransId(transId);
     }
 }

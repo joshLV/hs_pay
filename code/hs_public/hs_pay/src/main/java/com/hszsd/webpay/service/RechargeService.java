@@ -96,8 +96,7 @@ public abstract class RechargeService {
      * @return
      */
     public abstract RechargeOutDTO query(RechargeInDTO rechargeInDTO);
-
-
+    
     /**
      * 根据不同充值方式初始化相应充值接口数据
      * @param paymentInterfaceDTO 充值接口配置信息
@@ -163,14 +162,15 @@ public abstract class RechargeService {
             TradeRecordDTO tradeRecordDTO = tradeRecordDao.selectByPrimaryKey(transId);
             TradeRecordPO tradeRecordPO = new TradeRecordPO();
             BeanUtils.copyProperties(tradeRecordPO, tradeRecordDTO);
-            tradeRecordPO.setTradeStatus(GlobalConstants.TRADE_RECORD.TRADE_STATUS_2);
             tradeRecordPO.setUpdateDate(new Date());
-            tradeRecordDao.updateByPrimaryKeySelective(tradeRecordPO);
+            tradeRecordPO.setTradeStatus(GlobalConstants.TRADE_RECORD.TRADE_STATUS_2);
 
             boolean accountFlag = true;//账户、资金记录 dubbo调用
+            //dubbo调用调用失败，将交易状态设置为4（表示需要修复数据）
             if(!accountFlag){
-                throw new RuntimeException();
+                tradeRecordPO.setTradeStatus(GlobalConstants.TRADE_RECORD.TRADE_STATUS_4);
             }
+            tradeRecordDao.updateByPrimaryKeySelective(tradeRecordPO);
 
             keyDao.delKey(transId);
         }

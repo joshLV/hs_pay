@@ -4,6 +4,7 @@ import com.hszsd.webpay.common.GlobalConstants;
 import com.hszsd.webpay.common.ResultConstants;
 import com.hszsd.webpay.common.ResultInfo;
 import com.hszsd.webpay.condition.TradeRecordCondition;
+import com.hszsd.webpay.dao.TradeCallbackDao;
 import com.hszsd.webpay.dao.TradeRecordDao;
 import com.hszsd.webpay.po.TradeRecordPO;
 import com.hszsd.webpay.service.TradeRecordService;
@@ -31,6 +32,9 @@ public class TradeRecordServiceImpl implements TradeRecordService{
 
     @Autowired
     TradeRecordDao tradeRecordDao;
+
+    @Autowired
+    TradeCallbackDao tradeCallbackDao;
 
     /**
      * 根据map中的数据创建交易记录信息并保存
@@ -119,5 +123,14 @@ public class TradeRecordServiceImpl implements TradeRecordService{
         resultInfo.setResult(ResultConstants.OPERATOR_SUCCESS);
         resultInfo.setParams(tradeRecordDTOs);
         return resultInfo;
+    }
+
+    /**
+     * 根据交易流水号删除交易回调记录
+     * @param transId 交易流水号
+     */
+    @Override
+    public void delTradeCallbackByTransId(String transId) {
+        tradeCallbackDao.deleteByPrimaryKey(transId);
     }
 }
