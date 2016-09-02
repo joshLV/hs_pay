@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mui.css">
+	<link rel="stylesheet" type="text/css" href="css/wx.css" />
+	<link rel="stylesheet" href="iconfont/iconfont.css">
+	<style type="text/css">
+     body{position: relative;}
+	</style>
+</head>
+<body>
+     <header class="mui-bar mui-bar-nav">
+	      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">招商贷支付平台</h1>
+	</header>
+	 <div class="mui-content">
+			 <ul class="mui-table-view">
+				    <li class="mui-table-view-cell liu"><label class="spname">订单信息</label><span class="spuser">zsd182861525522</span></li>
+				 	 <li class="mui-table-view-cell liu"><span class="spname">订单编号</span><span class="spuser">zsd182861525522</span></li>
+			 </ul>
+              <ul class="mui-table-view">
+				 <li class="mui-table-view-cell liu"><span class="spname">支付金额</span><span class="spprice">100000.00 <em>元</em></span>
+					</li>
+				 	 <li class="mui-table-view-cell liu"><span class="spname">支付账号</span><span class="spuser">zsd182861525522</span></li>
+		         <li class="mui-table-view-cell liu" id="paymanner"><a class="mui-navigate-right"><span class="spname">支付方式</span><div class="fright"><i class="bankts">可用余额</i><span class="spprice" id="payprices">(100000.00元)<em></em></span></div>
+					</a></li>
+				<!--   <li class="mui-table-view-cell liu" id="addcard"><a class="mui-navigate-right"><span class="spname">支付方式</span><div class="fcard">添加快捷支付</div>
+					</a></li>    -->
+					<!-- 都没有的时候绑定快捷卡 -->
+		         <div class="mui-input-row pwdfix">
+					<label class="label">支付密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="输入支付密码">
+				</div>
+			 </ul>
+			 	<button id='addpay' class="mui-btn mui-btn-block mui-btn-primary">支付</button>
+	      </div>
+	       <div style="clear:both;height:2em;background:#fff"></div>
+      
+  <div class="msgbg"></div>
+  <div class="dialogs"> 
+          <div class="diabog">
+          	   <div class="ctiitle" id="ctiitle"><span class="tits">选择支付方式</span><span class="mui-icon mui-icon-closeempty mui-pull-right"></span></div>
+          	   <div class="">
+          	   	  <ul class="mui-table-view mui-table-view-radio">
+				<li class="mui-table-view-cell bogli">
+					<a class="mui-navigate-right msrigh">
+						<div class="iconfont icon-gongshang incos"></div>
+						   <div class="mutitle">
+						   	    <div class="mubank"><span class="banktxt">工商银行</span><span class="banknum">(尾号8888)</span></div>
+						   	    <!-- <div class="fright"><i>工商银行</i><span class="spprice">(尾号8888)</div> -->
+						   	    <!-- <div class="mubank mulimit">可充值额度(100000.00)元</div> -->
+				      </div>   
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-selected  bogli">
+				 <a class="mui-navigate-right msrigh">
+					   <div class="iconfont icon-qian incos"></div>
+					   <div class="mutitle">
+					   <div class="mubank"><span class="banktxt">可用余额</span><span class="banknum">(1000.00元)</span></div>
+					   </div>
+					 </a>
+				</li>
+				<!-- 余额不足的时候显示 -->
+				<li class="cellhu boghide">
+					   <div class="iconfont icon-qian incos"></div>
+					   <div class="mutitle">
+					   <div class="mubank"><span class="banktxt">可用余额</span><span class="banknum">(余额不足)</span></div>
+					   </div>
+				
+				</li>
+			</ul>
+          	</div>
+          </div>
+ </div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script src="js/castapp.js"></script>
+        <script type="text/javascript">
+            $(function(){
+            	   ca.init();
+            	   var pays={
+                        inIt:function(){
+                        	   this.diAolg();
+                        	   this.ckBank();
+                        	   this.adData();
+                        },
+                         //弹出银行卡
+                        diAolg:function(){
+                             var paymanner=ca.id("paymanner");
+                             var ctiitle=ca.id("ctiitle");
+                             paymanner.addEventListener("tap",function(){
+                             	  $(".dialogs").css({"height":$(window).height()/2}); 
+                             	  $(".msgbg").show(); 
+                             	  $(".dialogs").slideDown("slow");
+                             	  return false;
+                             });
+                             ctiitle.addEventListener("tap",function(){
+                                   $(".dialogs").css({"height":"0px"}); 
+                             	  $(".msgbg").hide(); 
+                             	  $(".dialogs").slideUp("slow");
+                             	 return false;
+                             });
+
+                        },
+                        //替换值
+                        ckBank:function(){
+                             var bogli=$(".bogli");
+                             bogli.on("click",function(){
+                             	  var textbank=$(this).find('.banktxt').text();
+                             	  var banknum=$(this).find(".banknum").text();
+                             	  $(".bankts").text(textbank);
+                             	  $("#payprices").text(banknum);
+                             	  $(".dialogs").css({"height":"0px"}); 
+                             	  $(".msgbg").hide(); 
+                             	  $(".dialogs").slideUp("slow");
+                             })
+                        },
+                       // 提交数据
+                       adData:function(){
+                             var addpay=ca.id("addpay");
+                             addpay.addEventListener("tap",function(){
+						             var password=$("#password").val();
+                             	    if (password==""){
+                             	    	// ca.prompt("密码不能为空");return;
+                             	    	castapp.prompt('密码不能为空'); return;
+                             	  	 }
+                             	  	
+                             });
+                       },
+    
+            	   }
+            	   pays.inIt();
+             })
+        </script>
+ 
+</body>
+</html>

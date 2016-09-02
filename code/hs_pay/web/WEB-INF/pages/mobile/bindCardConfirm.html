@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>绑卡操作</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	     <link rel="stylesheet" href="${basePath}/static/css/mui.css">
+	     <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+	    <link rel="stylesheet" href="${basePath}/static/iconfont/iconfont.css">
+		<link rel="stylesheet" href="${basePath}/static/css/wx.css">
+	</head>
+
+	<body>
+	
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定快捷支付</h1>
+		</header>
+		<div class="mui-content">
+	            <div class="boxshows">
+					<div class="mui-input-row banktbom">
+						<label style="width:35%">短信验证码</label>
+					<input style="width:65%" type="number" class="" name="code" id="code" placeholder="输入短信验证码">
+					<button  class="codebutn"  id="codeads">重新获取</button>
+					</div>
+			
+			    <button class="nextbg casnext" id="addcode">提交</button>
+			   </div>
+		        <div class="success">
+		        	  <div class="suctitle">绑定成功</div>
+		        	  <div class="iconfont icon-chenggong"></div>
+		        	   <div class="times"><span class="timtrees">3</span>秒后自动跳转</div>
+		        </div> 
+
+		</div>
+		 <input type="hidden"  value="${map.userId}"  id="userId">
+         <input type="hidden"  value="${map.transId}"  id="transId">
+         <input type="hidden"  value="${map.requestId}"  id="requestId">
+         <input type="hidden"  value="${map.cardNo}"  id="cardNo">
+         <input type="hidden"  value="${map.phone}"  id="phone">
+		<script src="${basePath}/static/js/mui.min.js"></script>
+		<script src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+		<script src="${basePath}/static/js/castapp.js"></script>
+		<script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+		<script type="text/javascript" src="${basePath}/static/js/public.js"></script>
+		<script>
+		    $(function(){
+                    ca.init();
+                    $("#addcode").attr("disabled","disabled");
+                  var codes={
+                         inIt:function(){
+                         	  this.doWncode();
+                              this.suCcs();
+                              this.yzCode();
+                              this.opCode();
+                         },
+                          doWncode:function(){
+					            var wait=60;
+					             ca.id("codeads").removeAttribute("disabled");  
+					             var codeads=ca.id("codeads");
+					            time(codeads);
+					           function time(o) {
+							        if (wait == 0) {
+							            codeads.removeAttribute("disabled");            
+							            codeads.innerHTML="重新获取";
+							            wait = 60;
+							        } else {
+							           codeads.setAttribute("disabled", true);
+							           codeads.innerHTML="(" + wait + ")秒";
+							            wait--;
+							            setTimeout(function() {
+							                time(codeads);
+							            },1000);
+							            
+							        }
+							     }
+                         },
+                      // 验证操作
+                      yzCode:function(){
+                             $("#code").keyup(function() {
+		                      if ($(this).val()=="") {
+		                      	   $("#addcode").prop("disabled","disabled"); return;
+		                      }
+		                     if ($(this).val()!="") {
+		                      	   $("#addcode").prop("disabled","");
+		                      }
+		                  });
+                      },
+                    suCcs:function(){
+                         	  var This=this;
+                         	  var times=$(".timtrees");
+                         	  var casnext=$('.casnext');
+					             casnext.on(_event,function(){
+					             	 var dis=$(this).attr("disabled");
+                                     if (dis=="disabled") {
+                                         return false;
+                                      }
+					                  	  var  code=$("#code").val();
+					                  	  var  userid=$("#userId").val();
+                  	                       var transid=$("#transId").val();
+                  	                       var requestid=$("#requestId").val();
+					                  	 if (code=="") {
+					                  	    	  ca.prompt("验证码不能为空");return;
+					                  	    }
+					                  	var  code=$("#code").val();
+					                  	 if (code.length!=6) {
+					                  	    	  ca.prompt("验证码长度不正确");return;
+					                  	    }
+					                   var datas={"transId":transid,"userId":userid,smsCode:code,requestId:requestid};
+					                    laytip.waIt();
+					                  	   $.ajax({
+					                  	   	     	type: "post",
+							                        url:"${basePath}/yeePay/bindCardConfirm.do",
+							                        data:datas,
+							                        dataType: "json",
+							                        success: function(data){
+							                        	 laytip.cloSe();
+                                                         if (data.resCode=="0000") {
+                                                                 $(".boxshows").hide();
+										                  	     $(".success").show();
+					                                          This.aDtime(times,data.callBackUrl,transid,userid);   
+                                                         }else{
+                                                              ca.prompt(data.resMsg);return;
+                                                         }
+							                        },error:function(){
+							                        	  	 laytip.cloSe();
+							                        	  ca.prompt("请求错误"); return;
+							                        }
+											    }) 
+					               })  
+					      }, 
+					      aDtime:function(mtrees,url,transid,userid){
+        	               var m=3;
+                          var timer=setInterval(function(){
+                             m--;
+                             mtrees.html(m);
+                             if(m==0){
+                              window.location.href=url+'?transId='+transid+'&userId='+userid+'';
+                               clearTimeout(timer);
+                              }
+                      	  },1500);
+                 
+                     },
+                     // 重新获取验证码
+                      opCode:function(){
+                      	  var This=this;
+                      	  codeads=$("#codeads");
+                      	  codeads.on(_event,function(){
+                      	  	This.doWncode();
+                      	  	 var  userid=$("#userId").val();
+  	                         var  transid=$("#transId").val();
+  	                         var  requestid=$("#requestId").val();
+  	                         var  cardno=$("#cardNo").val();
+  	                         var  phone=$("#phone").val();
+  	                         var  requestid=$("#requestId").val();
+                      	  	 var codata={"transId":transid,"userId":userid,"cardNo":cardno,"phone":phone,"requestId":requestid};
+                      	  	     $.ajax({
+                      	  	     	 	type:"post",
+				                        url:"${basePath}/yeePay/bindCard.do",
+				                        data:codata,
+				                        dataType:"json",
+				                        success:function(data){
+                                            if(data.resCode!="0000"){
+                                              ca.prompt(data.resMsg);
+                                            }    
+				                        }
+                      	  	     })
+                      	  })
+                      }
+
+                  }
+                 codes.inIt();
+
+		    })
+			  
+		</script>
+	</body>
+
+</html>

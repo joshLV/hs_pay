@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>dd</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	     <link rel="stylesheet" href="css/mui.css">
+		<link rel="stylesheet" href="css/wx.css">
+	</head>
+
+	<body>
+	
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定快捷支付</h1>
+		</header>
+		<div class="mui-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row banktbom">
+						<label style="width:35%">短信验证码</label>
+					<input style="width:65%" type="text" class="" name="card" id="card" placeholder="输入短信验证码"><button style="" class="codebutn">获取</button>
+					</div>
+				</form>
+			    <button class="next casnext"  >下一步</button>
+		
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script src="js/castapp.js"></script>
+		<script>
+		    $(function(){
+                   ca.init();
+                  var casnext=ca.className('casnext');
+                  casnext[0].addEventListener("tap",function(){
+                  	    var  card=$("#card").val();
+                  	    if (card=="") {
+                  	    	  ca.prompt("验证码不能为空");return;
+                  	    }
+                  	   
+
+                  	    $(this).attr("id","butonbg");
+                  })
+                $("#card").keyup(function() {
+                      if ($(this).val()=="") {
+                      	         $(".casnext").attr("id",""); return;
+                      	       // ca.prompt("手机号不能为空");return;
+                      }
+                      $(".casnext").attr("id","butonbg");
+
+                 });
+                
+
+
+		    })
+			  
+		</script>
+	</body>
+
+</html>

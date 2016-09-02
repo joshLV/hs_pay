@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hszsd.account.dao.AccountQuickBankMapper" >
+  <resultMap id="BaseResultMap" type="com.hszsd.account.po.AccountQuickBankPO" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="REQUEST_ID" property="requestId" jdbcType="VARCHAR" />
+    <result column="USER_IP" property="userIp" jdbcType="VARCHAR" />
+    <result column="CARD_TOP" property="cardTop" jdbcType="VARCHAR" />
+    <result column="CARD_LAST" property="cardLast" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BIND_STATUS" property="bindStatus" jdbcType="DECIMAL" />
+    <result column="VALID_STATUS" property="validStatus" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DECIMAL" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DECIMAL" />
+    <result column="MODIFY_BY" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_TYPE, USER_ID, REQUEST_ID, USER_IP, CARD_TOP, CARD_LAST, BANK_CODE, BIND_STATUS, 
+    VALID_STATUS, CREATE_TIME, CREATE_BY, MODIFY_TIME, MODIFY_BY
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hszsd.entity.example.AccountQuickBankExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ACCOUNT_QUICK_BANK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ACCOUNT_QUICK_BANK
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HSPRD.TB_ACCOUNT_QUICK_BANK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.AccountQuickBankExample" >
+    delete from HSPRD.TB_ACCOUNT_QUICK_BANK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.account.po.AccountQuickBankPO" >
+    insert into HSPRD.TB_ACCOUNT_QUICK_BANK (ID, USER_TYPE, USER_ID, 
+      REQUEST_ID, USER_IP, CARD_TOP, 
+      CARD_LAST, BANK_CODE, BIND_STATUS, 
+      VALID_STATUS, CREATE_TIME, CREATE_BY, 
+      MODIFY_TIME, MODIFY_BY)
+    values (#{id,jdbcType=VARCHAR}, #{userType,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, 
+      #{requestId,jdbcType=VARCHAR}, #{userIp,jdbcType=VARCHAR}, #{cardTop,jdbcType=VARCHAR}, 
+      #{cardLast,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{bindStatus,jdbcType=DECIMAL}, 
+      #{validStatus,jdbcType=DECIMAL}, #{createTime,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=DECIMAL}, #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.account.po.AccountQuickBankPO" >
+    insert into HSPRD.TB_ACCOUNT_QUICK_BANK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="requestId != null" >
+        REQUEST_ID,
+      </if>
+      <if test="userIp != null" >
+        USER_IP,
+      </if>
+      <if test="cardTop != null" >
+        CARD_TOP,
+      </if>
+      <if test="cardLast != null" >
+        CARD_LAST,
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE,
+      </if>
+      <if test="bindStatus != null" >
+        BIND_STATUS,
+      </if>
+      <if test="validStatus != null" >
+        VALID_STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME,
+      </if>
+      <if test="modifyBy != null" >
+        MODIFY_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="requestId != null" >
+        #{requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null" >
+        #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTop != null" >
+        #{cardTop,jdbcType=VARCHAR},
+      </if>
+      <if test="cardLast != null" >
+        #{cardLast,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bindStatus != null" >
+        #{bindStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="validStatus != null" >
+        #{validStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.AccountQuickBankExample" resultType="java.lang.Integer" >
+    select count(*) from HSPRD.TB_ACCOUNT_QUICK_BANK
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update HSPRD.TB_ACCOUNT_QUICK_BANK
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        USER_TYPE = #{record.userType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestId != null" >
+        REQUEST_ID = #{record.requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIp != null" >
+        USER_IP = #{record.userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardTop != null" >
+        CARD_TOP = #{record.cardTop,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardLast != null" >
+        CARD_LAST = #{record.cardLast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCode != null" >
+        BANK_CODE = #{record.bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bindStatus != null" >
+        BIND_STATUS = #{record.bindStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.validStatus != null" >
+        VALID_STATUS = #{record.validStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createBy != null" >
+        CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifyTime != null" >
+        MODIFY_TIME = #{record.modifyTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.modifyBy != null" >
+        MODIFY_BY = #{record.modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update HSPRD.TB_ACCOUNT_QUICK_BANK
+    set ID = #{record.id,jdbcType=VARCHAR},
+      USER_TYPE = #{record.userType,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      REQUEST_ID = #{record.requestId,jdbcType=VARCHAR},
+      USER_IP = #{record.userIp,jdbcType=VARCHAR},
+      CARD_TOP = #{record.cardTop,jdbcType=VARCHAR},
+      CARD_LAST = #{record.cardLast,jdbcType=VARCHAR},
+      BANK_CODE = #{record.bankCode,jdbcType=VARCHAR},
+      BIND_STATUS = #{record.bindStatus,jdbcType=DECIMAL},
+      VALID_STATUS = #{record.validStatus,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=DECIMAL},
+      CREATE_BY = #{record.createBy,jdbcType=VARCHAR},
+      MODIFY_TIME = #{record.modifyTime,jdbcType=DECIMAL},
+      MODIFY_BY = #{record.modifyBy,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.account.po.AccountQuickBankPO" >
+    update HSPRD.TB_ACCOUNT_QUICK_BANK
+    <set >
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="requestId != null" >
+        REQUEST_ID = #{requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIp != null" >
+        USER_IP = #{userIp,jdbcType=VARCHAR},
+      </if>
+      <if test="cardTop != null" >
+        CARD_TOP = #{cardTop,jdbcType=VARCHAR},
+      </if>
+      <if test="cardLast != null" >
+        CARD_LAST = #{cardLast,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCode != null" >
+        BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bindStatus != null" >
+        BIND_STATUS = #{bindStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="validStatus != null" >
+        VALID_STATUS = #{validStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DECIMAL},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        MODIFY_TIME = #{modifyTime,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyBy != null" >
+        MODIFY_BY = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.account.po.AccountQuickBankPO" >
+    update HSPRD.TB_ACCOUNT_QUICK_BANK
+    set USER_TYPE = #{userType,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      REQUEST_ID = #{requestId,jdbcType=VARCHAR},
+      USER_IP = #{userIp,jdbcType=VARCHAR},
+      CARD_TOP = #{cardTop,jdbcType=VARCHAR},
+      CARD_LAST = #{cardLast,jdbcType=VARCHAR},
+      BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      BIND_STATUS = #{bindStatus,jdbcType=DECIMAL},
+      VALID_STATUS = #{validStatus,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=DECIMAL},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      MODIFY_TIME = #{modifyTime,jdbcType=DECIMAL},
+      MODIFY_BY = #{modifyBy,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

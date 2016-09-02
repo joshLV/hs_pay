@@ -1,12 +1,12 @@
 package com.hszsd.user.dao;
 
+import com.hszsd.dao.BaseDao;
+
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import com.hszsd.dao.BaseDao;
 import com.hszsd.entity.Userinfo;
 import com.hszsd.entity.example.UserinfoExample;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserinfoMapper extends BaseDao {
     int countByExample(UserinfoExample example);

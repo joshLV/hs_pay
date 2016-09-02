@@ -1,0 +1,267 @@
+body{font-family: "微软雅黑";background: #fff;overflow:auto;-webkit-overflow-scrolling;}
+.mui-table-view  .liu{
+    border-bottom: 1px solid #F3F3F3;
+    font-size: 15px;
+    padding: 13px  15px;
+}
+.mui-table-view-cell:after{
+	 background: none;
+
+}
+input[type='password']{
+	 padding: 26px  15px;
+}
+.mui-input-row .mui-input-clear ~ .mui-icon-clear, .mui-input-row .mui-input-speech ~ .mui-icon-speech, .mui-input-row .mui-input-password ~ .mui-icon-eye{
+	top:16px !important;
+}
+.spname{
+	float: left;
+	font-weight: 300;
+	font-size: 14px;
+	color: #666;
+	/*font-family: "宋体";*/
+}
+.mui-content{
+   background: #fff;
+   width: 100%;
+}
+.spuser,.spprice{
+	 float: right;
+	 font-size: 15px;
+	
+}
+
+.spprice{
+	 color: #FF6600;
+}
+.spprice em{
+	font-style: normal;
+}
+.mui-title img{
+	width: 100%
+}
+a {
+	color: #666;
+}
+.mui-bar{
+	background: #fff;
+}
+.mui-table-view{
+   margin-bottom: 10px;
+}
+.mui-input-row label{
+	 font-family: "微软雅黑";
+	font-size: 14px;
+		color: #666;
+		padding:18px 15px;
+}
+.mui-navigate-right:after, .mui-push-right:after{
+	font-size: 22px;
+	color: #666;
+	right: 10px;
+}
+.fright{float: right; margin-right: 20px;}
+.fright i{font-size: 14px;font-style: normal;}
+.fcard{
+	  float: right; margin-right: 20px;
+	  color: #666;
+}
+
+/*弹窗的css*/
+.msgbg{
+	background: #DADADA;
+    position: fixed;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 8;
+    display: none;
+}
+.dialogs {
+    border-top:1px solid #ccc;
+    width: 100%;
+    z-index: 10000;
+    position: fixed;
+    /*height: 300px;*/
+    bottom: -20px;
+    left:0px;
+    background: #fff;
+    display: none;
+}
+
+.mui-table-view  .bogli{
+    border-bottom: 1px solid #F3F3F3;
+    position: relative;
+    padding-right: 0px;
+
+  
+}
+.ctiitle{
+	  height:45px;
+	  width: 100%;
+	  line-height:45px;
+	  text-align: center;
+}
+.ctiitle .tits{
+font-size: 16px;
+}
+
+.mui-icon-closeempty{
+	 margin-right: 10px;
+	 font-size: 30px;
+}
+.icon-gongshang{
+	 font-size: 34px;
+	 color: #eb4f38;
+}
+.incos{
+	 float: left;
+	 width: 15%;
+	 margin-top: 5px;
+}
+.icon-gongshang:before{
+	float: left;
+	display: inline;
+}
+.icon-qian{
+	 font-size: 34px;
+	 color: #f4c600;
+	 float: left;
+	 display:inline;  
+}
+.mutitle{
+   font-size: 14px;
+
+   margin-top:3px;
+   float: left;
+    width: 70%;
+ 
+
+}
+.mui-table-view .boghide {
+    border-bottom: 1px solid #F3F3F3;
+     position: relative; 
+    padding-right: 0px;
+}
+.boghide .mubank .banktxt,.boghide .mubank .banknum{
+	  color: #999 !important;
+}
+.cellhu{
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    -webkit-touch-callout: none;
+}
+.msrigh{
+	  width: 100% !important;
+}
+.mubank{
+	     float: left;  
+	    width: 100%;
+	     overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+}
+.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after{
+	 right: 0px;
+}
+.mulimit{
+	 color:#999;
+	 font-size: 12px;
+}
+.mui-btn-block{
+    padding: 10px  0;
+    width: 90%;
+    margin:  0px auto;
+}
+input[type='submit'], .mui-btn-primary, .mui-btn-blue{
+	    background: #89D439;
+	    border: 1px solid #89D439;
+
+}
+
+/*绑定卡号的页面、*/
+.mui-input-group .mui-input-row:after{
+	 background: no-repeat;
+}
+.banktbom{
+	  border-bottom: 1px solid #F3F3F3;
+	  height: 50px !important;
+}
+.nextbg{
+	  width: 90%;
+    margin: 20px auto;
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #89D439;
+    color: #999;
+     color:#fff;
+}
+input[type=text],input[type=number],input[type=tel]{
+	 /*height: 45px;*/
+	 /*padding: 28px 15px;*/
+}
+.descm{
+	 padding: 8px 15px;
+
+}
+.mui-input-row label{
+	width: 30%;
+
+}
+.mui-input-row label~input{
+   width: 70%;
+   height: 50px;
+}
+.next{
+    width: 90%;
+    margin: 20px auto;
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #EEEEEE;
+    color: #999;
+}
+#butonbg{
+    
+    background: #89D439;
+    color: #fff;
+   
+}
+.codebutn{
+	position: absolute;
+	top:7px;
+	right:5px;
+	width:70px; 
+	background:#FF6600;
+	color:#fff;
+	border:none;
+}
+
+/*绑卡成功的提示*/
+.success{
+	 width: 100%;
+	 display: none;
+	 margin-top: 20px;
+
+}
+
+.suctitle{
+	 text-align: center;
+	 width: 100%;
+	
+
+}
+.icon-chenggong{
+	 text-align: center;
+	 width: 100%;
+	 font-size: 85px;
+    color: #89D439;
+	 margin-top:35px;
+}
+.times{
+	 margin-top: 40px;
+	 text-align: center;
+	 font-size: 14px;
+}

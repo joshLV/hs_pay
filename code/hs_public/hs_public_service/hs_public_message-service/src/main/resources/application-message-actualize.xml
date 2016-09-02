@@ -10,9 +10,9 @@
     http://www.zhaoshangdai.com/schema/iwbox-1.0.xsd">
 	<!-- 属性配置文件路径 -->
 	<!-- <context:property-placeholder location="/messageSend.properties" /> -->
-	
+
 	<bean id="messageSendServiceImpl" class="com.hszsd.message.service.impl.MessageSendServiceImpl">
-	    <property name="personal" value="${mail.personal}"></property>
+		<property name="personal" value="${mail.personal}"></property>
 		<property name="properties" value="/config/messageCode_zh_CN.properties"></property>
 		<property name="smsConfig">
 			<bean class="com.hszsd.message.util.SmsConfig">
@@ -24,8 +24,8 @@
 			</bean>
 		</property>
 		<property name="javaMailSender">
-		    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		        <property name="host" value="${mail.host}" /><!--修改为自己的邮箱发送服务 -->
+			<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+				<property name="host" value="${mail.host}" /><!--修改为自己的邮箱发送服务 -->
 				<property name="username" value="${mail.username}" /><!--修改为自己的发送邮箱地址 -->
 				<property name="password" value="${mail.password}" /><!--修改为自己的邮箱密码 -->
 				<property name="protocol" value="${mail.protocol}" />
@@ -41,7 +41,19 @@
 						<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
 					</props>
 				</property>
-		    </bean>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="iosmserviceServiceImpl" class="com.hszsd.message.service.impl.IosmserviceServiceImpl">
+		<property name="properties" value="/config/messageCode_zh_CN.properties"></property>
+		<property name="smsConfig">
+			<bean class="com.hszsd.message.util.SmsConfig">
+				<property name="smsUrl" value="${bxkj.smsUrl}"></property>
+				<property name="account" value="${bxkj.account}"></property>
+				<property name="password" value="${bxkj.password}"></property>
+				<property name="autograph" value="${bxkj.autograph}"></property>
+			</bean>
 		</property>
 	</bean>
 </beans>

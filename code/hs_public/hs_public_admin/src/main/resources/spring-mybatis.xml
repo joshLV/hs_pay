@@ -44,7 +44,7 @@
         <property name="configLocation" value="classpath:mybatis-configuration.xml" />
         <property name="mapperLocations">
             <list>
-                <value>classpath*:com/hszsd/user/entity/mapping/*.xml</value>
+                <value>classpath*:com/hszsd/*/entity/mapping/*.xml</value>
                 <!--<value>classpath*:com/hszsd/*/dao/impl/*.xml</value>-->
             </list>
         </property>

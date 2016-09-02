@@ -86,13 +86,17 @@
 		<result column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
 		<result column="ISLOCK" property="islock" jdbcType="DECIMAL" />
 		<result column="STATUS" property="status" jdbcType="DECIMAL" />
-		<result column="GROWTHVALUE" property="growthvalue" jdbcType="DECIMAL" />
+		<!--<result column="GROWTHVALUE" property="growthvalue" jdbcType="DECIMAL" />-->
 		<result column="REAL_STATUS" property="realStatus" jdbcType="DECIMAL" />
 		<result column="EMAIL_STATUS" property="emailStatus" jdbcType="DECIMAL" />
 		<result column="PHONE_STATUS" property="phoneStatus" jdbcType="DECIMAL" />
 		<result column="VIDEO_STATUS" property="videoStatus" jdbcType="DECIMAL" />
 		<result column="SCENE_STATUS" property="sceneStatus" jdbcType="DECIMAL" />
+		<result column="QUICK_STATUS" property="quickStatus" jdbcType="DECIMAL" />
 		<result column="AVATAR" property="avatar" jdbcType="VARCHAR" />
+		<result column="CARD_ID" property="cardId" jdbcType="VARCHAR"/>
+		<result column="ispaypassword" property="ispaypassword" jdbcType="VARCHAR"/>
+
 	</resultMap>
 	<!--getUser获取用户信息MAP-->
 	<resultMap id="GetUserResultMap" type="com.hszsd.user.dto.UserDTO">
@@ -111,6 +115,11 @@
 		<result column="AVATAR" property="avatar" jdbcType="VARCHAR" />
 	</resultMap>
 
+	<resultMap id="phoneMailMap" type="com.hszsd.user.dto.PhoneMailDTO">
+		<id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="PHONE" property="phone" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+	</resultMap>
 
 	<sql id="Example_Where_Clause">
 		<where>
@@ -303,9 +312,12 @@
 		where vip.minimum &lt;= u.growthvalue
 		and vip.maximal &gt;= u.growthvalue
 		and rownum = 1) as VIP_LEVEL, uf.nation, uf.email, uf.phone,
-		uf.birthday, uf.address,uf.avatar, u.type_id, u.islock, u.status, u.growthvalue,
+		uf.birthday, uf.address,uf.avatar,uf.card_id, u.type_id, u.islock, u.status, u.growthvalue,
 		uc.real_status, uc.email_status, uc.phone_status, uc.video_status,
-		uc.scene_status
+		uc.scene_status,
+   		(select case when count(1)>0 then 1 else 0 end  from TB_ACCOUNT_QUICK_BANK aqb where aqb.user_id=u.user_id and BIND_STATUS=1 and VALID_STATUS=1) as quick_status,
+		case when  u.paypassword is null then 0 else 1 end as ispaypassword
+
 		from HSPRD.TB_USER_023 u
 		inner join hsprd.tb_userinfo_024 uf
 		on u.user_id = uf.user_id
@@ -349,4 +361,17 @@
 		</if>
 
 	</select>
+
+	<!--根据传入参数获取用户编号、手机号、邮箱-->
+	<select id="getUserIdPhoneMail" resultMap="phoneMailMap" parameterType="com.hszsd.user.po.TbUserExample">
+		SELECT U.USER_ID,U.EMAIL,U.PHONE
+		FROM TB_USERINFO_024 U
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
 </mapper>

@@ -24,6 +24,7 @@ public class PropertiesUtil {
 
     private static Properties properties;
 
+
     /**
      * 设置配置文件路径
      *
@@ -76,4 +77,6 @@ public class PropertiesUtil {
         }
 
     }
+
+
 }

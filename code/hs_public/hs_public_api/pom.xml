@@ -13,10 +13,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>hs_public_user_api</module>
-        <module>hs_public_pay_api</module>
-       <!-- <module>hs_public_credit_api</module>-->
         <module>hs_public_message-api</module>
         <module>hs_system_api</module>
+        <module>hs_public_rabbitmq_api</module>
+        <module>hs_public_account_api</module>
+        <module>hs_public_core_api</module>
     </modules>
 
 

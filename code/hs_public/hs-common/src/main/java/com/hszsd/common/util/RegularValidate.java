@@ -1,6 +1,8 @@
 package com.hszsd.common.util;
 
 import com.hszsd.common.util.Properties.PropertiesUtil;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,9 +14,11 @@ import java.util.regex.Pattern;
  * @version V1.0.0
  */
 public class RegularValidate {
-    private static String PHONE_REGULAR="PHONE_REGULAR";
 
-    private static String EMAIL_REGULAR="EMAIL_REGULAR";
+    private static String PHONE_REGULAR= PropertiesUtil.getProperty("PHONE_REGULAR",null);
+
+    private static String EMAIL_REGULAR= PropertiesUtil.getProperty("EMAIL_REGULAR",null);
+
     /**
      * 手机号正则验证
      * @param phone  手机号
@@ -22,7 +26,7 @@ public class RegularValidate {
      */
     public  static boolean isValidatePhoneRegular(String phone){
 
-        Pattern pattern = Pattern.compile(PropertiesUtil.getProperty("PHONE_REGULAR",null));
+        Pattern pattern = Pattern.compile(PHONE_REGULAR);
         Matcher m = pattern.matcher(String.valueOf(phone));
         return m.matches();
     }
@@ -34,15 +38,9 @@ public class RegularValidate {
      */
     public  static boolean isValidateEmailRegular(String email){
 
-        Pattern pattern = Pattern.compile(PropertiesUtil.getProperty(EMAIL_REGULAR,null));
+        Pattern pattern = Pattern.compile(EMAIL_REGULAR);
         Matcher m = pattern.matcher(String.valueOf(email));
         return m.matches();
     }
 
-
-
-    public static  void  main(String[] agrs){
-        boolean b=RegularValidate.isValidatePhoneRegular("15285533342");
-        System.out.print(b);
-    }
 }

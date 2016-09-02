@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>招商贷支付平台</title>
+    <link rel="stylesheet" href="${basePath}/static/css/global.css">
+    <link rel="stylesheet" href="${basePath}/static/css/pay.css">
+     <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+    <script type="text/javascript" src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/public.js"></script>
+</head>
+<body>
+<div class="wamp">
+    <!-- 页面头部logo -->
+   <#top/>
+    <!-- 页面主体内容 -->
+    <div class="contbox clearfix">
+        <div class="leftbox">
+            <div class="paytitle">招商贷支付信息</div>
+            <ul>
+                <input type="hidden"  value="${map.transId}"  id="transIdval">
+                <input type="hidden"  value="${map.submitUrl}"  id="submitUrl">
+                <li><label for="">商户名称：</label><span id="merchantname">${map.source}</span></li>
+                <li><label for="">订单编号：</label><span id="ordernum">${map.orderId}</span></li>
+                <li><label for="">订单金额：</label><span class="spanprice" id="spanprice">${map.money}</span><span>元</span></li>
+                <li><label for="">交易日期：</label><span id="tradedata">${map.tradeTime}</span></li>
+            </ul>
+        </div>
+        <div class="rightbox">
+            <div class="succ" id="showsucc">
+                <img src="${basePath}/static/images/succ.png" alt="">
+                <p class="succp">支付成功!</p>
+                <div class="times"><span class="treemiao">3</span>秒后自动回到商铺</div>
+            </div>
+            <div class="succ"  id="showerrow">
+                <img src="${basePath}/static/images/err.png" alt="">
+                <p class="succp">尊敬的用户，感谢您的支持,
+                </p>
+                <p  class="succp">系统维护中，暂停使用 !</p>
+                <div class="times"><span class="timtrees">3</span>秒后自动回到商铺</div>
+            </div>
+            <ul class="showul">
+                <li><label for="">账户余额：</label><span class="yeprice" id="prices">${map.useMoney}</span><span class="spanatn">元</span><div class="aems"><a href="javascript:;" class="ahideshow"  id="shows">显示</a><em>/</em><a href="javascript:;" class="ahideshow"  id="hides">隐藏</a></div></li>
+                <li><label for="">支付金额：</label><span class="yeprice" id="paymoney">${map.money}</span><span>元</span></li>
+                <li><label for="">支付账户：</label><span id="username">${map.username}</span></li>
+                <li><label for="">交易密码：</label><input type="password" name="" id="pwdval" class="intext"></li>
+                <li class="errli" id="hideshowli" style="margin-bottom:15px;"><div class="login-error" style="margin-left:0px;"> <span class="note error"></span>
+                </div></li>
+                <li class="butli"><input   type="button"  class="button" id="paybutton" value="确认支付"></li>
+            </ul>
+        </div>
+    </div>
+<#footer/>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var Pay={
+             inIt:function(){
+                this.hdShow();
+                this.addPrice();
+                this.buTon();
+             },
+            buTon:function(){
+                var This=this;
+                var usermoney=$("#prices").text();
+                var paymoney=$("#paymoney").text();
+                var money=Number(usermoney)-Number(paymoney);
+                if (money<0) {
+                       $("#paybutton").attr("disabled","disabled");
+                       $("#paybutton").css("background","#ccc");
+                       This.showMsg("余额不足支付");return;
+                }   
+            },
+            hdShow:function(){
+                var shows=$("#shows");
+                var hides=$("#hides");
+                var prices=$("#prices");
+                var spanatn=$(".spanatn");
+                shows.on("click",function(){
+                    prices.show();
+                    spanatn.show();
+                });
+                hides.on("click",function(){
+                    prices.hide();
+                    spanatn.hide();
+                });
+            },
+            
+            addPrice:function(){
+                var This=this;
+                var paybutton=$("#paybutton");
+                paybutton.on("click",function(){
+                    var pwdval=$("#pwdval").val();
+                    var transIdval=$("#transIdval").val();
+                    var submitUrl=$("#submitUrl").val();
+                    if(pwdval==""){
+                        This.showMsg("密码不能为空");return;
+                    }
+                     if(pwdval.length<6){
+                        This.showMsg("密码长度不能小于6位数");return;
+                    }
+                    laytip.waIt();
+                    var treemiao=$(".treemiao");
+                    var timtrees=$(".timtrees");
+                    $.ajax({
+                        url:"${basePath}" + submitUrl,
+                        type:"post",
+                        data:{transId:transIdval,payPassword:pwdval},
+                        dataType:"json",
+                        success:function(data){
+                            laytip.cloSe();
+                            if(data.resCode=="0000"){
+                                $(".showul").hide();
+                                $("#showsucc").show();
+                            }else{
+                                This.showMsg(data.resMsg);
+                            }
+                            var returnUrl=data.returnUrl;
+                            if(returnUrl !=''&& returnUrl !='undefined' && returnUrl !=undefined){
+                                var resCode=data.resCode;
+                                var resMsg=data.resMsg;
+                                var transId=data.transId;
+                                var orderId=data.orderId;
+                                var money=data.money;
+                                var tradeStatus=data.tradeStatus;
+                                var MD5Sign=data.MD5Sign;
+                                var credits;
+                                if (data.credit!=undefined) {
+                                    credits="&credit="+data.credit;
+                                }else{
+                                    credits='';
+                                }
+                                var thurl=returnUrl+"?resCode="+resCode+"&resMsg="+resMsg+"&transId="+transId+"&orderId="+orderId+"&money="+money+"&tradeStatus="+tradeStatus+"&MD5Sign="+MD5Sign+credits;
+                                This.aDtime(treemiao,thurl);
+                            }
+                        },error:function(){
+                            $("#showerrow").show();
+                            $(".showul").hide();
+                            This.aDtime(timtrees);
+                        }
+                    })
+                });
+            },
+            showMsg:function(msg){
+                $("#hideshowli").show();
+                $("#hideshowli .error").text(msg);
+                setTimeout(function(){
+                    $("#hideshowli").hide();
+                },2000);
+
+            },
+            aDtime:function(mtrees,url){
+                var m=3;
+                setInterval(function(){
+                    m--;
+                    mtrees.html(m);
+                    if(m==0){
+                        window.location.href=url;
+                    }
+                },1500);
+            },
+        };
+        Pay.inIt();
+    })
+</script>
+</html>

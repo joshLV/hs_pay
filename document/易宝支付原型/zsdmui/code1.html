@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>dd</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	     <link rel="stylesheet" href="css/mui.css">
+	    <link rel="stylesheet" href="iconfont/iconfont.css">
+		<link rel="stylesheet" href="css/wx.css">
+	</head>
+
+	<body>
+	
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定快捷支付</h1>
+		</header>
+		<div class="mui-content">
+	            <div class="boxshows">
+				<form class="mui-input-group" >
+					<div class="mui-input-row banktbom">
+						<label style="width:35%">短信验证码</label>
+					<input style="width:65%" type="number" class="" name="code" id="code" placeholder="输入短信验证码"><button style="" class="codebutn"  id="codeads">获取</button>
+					</div>
+				</form>
+			    <button class="nextbg casnext"  >提交</button>
+			   </div>
+		        <div class="success">
+		        	  <div class="suctitle">绑定成功</div>
+		        	  <div class="iconfont icon-chenggong"></div>
+		        	   <div class="times"><span class="timtrees">2</span>秒后自动跳转</div>
+		        </div> 
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script src="js/castapp.js"></script>
+		<script>
+		    $(function(){
+                   ca.init();
+                  var codes={
+                         inIt:function(){
+                              this.doWncode();
+                              this.coDeyz();
+                              this.suCcs();
+                         },
+                         doWncode:function(){
+                              var codeads=ca.id("codeads");
+					           ca.id("codeads").removeAttribute("disabled");  
+					            var wait=10;
+					            time(codeads);
+					           function time(o) {
+							        if (wait == 0) {
+							            o.removeAttribute("disabled");            
+							            o.innerHTML="获取";
+							            wait = 60;
+							        } else {
+							            o.setAttribute("disabled", true);
+							            o.innerHTML="(" + wait + ")秒";
+							            wait--;
+							            setTimeout(function() {
+							                time(o);
+							            },1000);
+							            
+							        }
+							     }
+                         },
+                         coDeyz:function(){
+                           codeads.addEventListener("tap",function(){
+                              time(codeads) ;
+                             })
+                         },
+                         suCcs:function(){
+                         	  var This=this;
+                         	  var times=$(".times");
+                         	  var casnext=ca.className('casnext');
+					             casnext[0].addEventListener("tap",function(){
+					                  	 var  code=$("#code").val();
+					                  	 if (code=="") {
+					                  	    	  ca.prompt("验证码不能为空");return;
+					                  	    }
+					                  	var  code=$("#code").val();
+					                  	 if (code.length!=6) {
+					                  	    	  ca.prompt("验证码长度不正确");return;
+					                  	    }
+					                  	    $(".boxshows").hide();
+					                  	    $(".success").show();
+                                           This.aDtime(times);    
+                                        
+					               })  
+					      }, 
+					      aDtime:function(mtrees){
+        	              var m=2;
+                         setInterval(function(){
+                             m--;
+                             mtrees.html(m);
+                             if(m==0){
+                              window.location.href="http://www.zhaoshangdai.com/index.html";
+                                                               }
+                      	},1500);
+                 
+                
+                },
+
+
+                  }
+                 codes.inIt();
+
+		    })
+			  
+		</script>
+	</body>
+
+</html>

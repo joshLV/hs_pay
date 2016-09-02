@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>充值平台</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="${basePath}/static/css/mui.css">
+ <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="${basePath}/static/css/wx.css" />
+	<link rel="stylesheet" href="${basePath}/static/iconfont/iconfont.css">
+</head>
+<body>
+	  	<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">充值</h1>
+		</header>  
+		<div class="mui-content"  id="hidemuis">
+		  <div class="mui-card">
+			  	@if(map.quickBankOutDTOs.~size == 0){
+			  		<div class="cardka"  id="cardbanks">请绑定快捷卡</div>
+			  	@}else{
+			  	    <input type="hidden"  value="${map.quickBankOutDTOs[0].id}"   id="quikeDto">
+			  		<div class="mui-card-content">
+					  <div class="mui-card-content-inner">
+						  <div  class="bankimg"><img src="${basePath}/${map.quickBankOutDTOs[0].logo}" alt=""></div>
+					  </div>
+					  <div class="bankname">
+						  <div class="bankstat">${map.quickBankOutDTOs[0].bankName}</div>
+						  <div class="bankstat"><span>${map.quickBankOutDTOs[0].cardTop}</span><span>******</span><span>${map.quickBankOutDTOs[0].cardLast}</span></div>
+						
+					  </div>
+					  <div class="bankcoll">快捷支付</div>
+			  		</div>
+			  	@}
+
+			</div>
+              <div class="mui-input-row banknumnum">
+					<label class="label">充值金额</label>
+					<input id='price' type="number" class="mui-input-clear mui-input" placeholder="输入充值金额">
+				</div>
+
+             <button id='addnext' class="mui-btn mui-btn-block mui-btn-primary" >下一步</button>
+             <input type="hidden"  value="${map.userId}"   id="userId">
+             <input type="hidden"  value="${map.sourceCode}"   id="sourceCode">
+             <input type="hidden"  value="${map.transId}"   id="transId">
+             <input type="hidden"  value="${map.callBackUrl}"   id="callBackUrl">
+
+         
+
+		</div>
+		<div class="msgbg" id="meshides"></div>
+		<div class="pwdhidws">
+           <div class="ctiitle" id="ctiitle"><span class="tits">请输入支付密码</span><span class="mui-icon mui-icon-closeempty mui-pull-left"></span></div>
+			     <input type="password"  id="passwordes" placeholder="输入支付密码" >
+			     <button id='countersign' class="mui-btn mui-btn-block mui-btn-primary">确认</button>
+		</div>
+      <div class="success" id="successone">
+                <div class="suctitle">充值成功</div>
+                <div class="iconfont icon-chenggong"></div>
+                 <div class="times"><span class="timtrees" id="suonetime">3</span>秒后自动跳转</div>
+     </div> 
+
+       <div class="success"  id="failetwo">
+                <div class="suctitle">充值失败</div>
+                <div class="iconfont icon-shibai"></div>
+                 <div class="times"><span class="timtrees"  id="filetime">3</span>秒后自动跳转</div>
+     </div> 
+      <div class="success"  id="failetree">
+                <div class="suctitle">等待处理</div>
+                <div class="iconfont icon-shibai"></div>
+                 <div class="times"><span class="timtrees"  id="chulitime">3</span>秒后自动跳转</div>
+     </div> 
+	    <script src="${basePath}/static/js/mui.min.js"></script>
+		<script src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+		<script src="${basePath}/static/js/castapp.js"></script>
+		<script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+	    <script type="text/javascript" src="${basePath}/static/js/public.js"></script>
+		<script type="text/javascript">
+              $(function(){
+      					    if("${map.quickBankOutDTOs.~size}"=="0"){
+      					         $("#addnext").attr("disabled","disabled");
+                         // ca.prompt("请绑定快捷卡");    
+      					     }
+                      ca.init();
+
+              	    var recharge={
+              	    	    inIt:function(){
+                                 this.nExt();
+                                 this.numPrice();
+                                 this.bankUrl();
+              	    	    },
+              	    	    nExt:function(){  
+                               var addnext=$("#addnext");
+                               var ctiitle=$("#ctiitle");
+                               var re=/^\+?(:?(:?\d+\.\d+)|(:?\d+))$/;
+                               addnext.on(_event,function(){
+                               	  var money=$("#price").val();
+                                  if (money=="") {
+                                       ca.prompt("输入正确的充值金额");return;
+                                    }
+                                  if (! re.test(money)){
+                                        ca.prompt("输入正确的充值金额");return;
+                                   }
+                                  var arr = money.split(".");
+                                   if (arr.length == 2) {
+                                      var xs = arr[1];
+                                      if (xs.length > 2) {
+                                           ca.prompt("充值金额只能保留2位小数");
+                                          return;
+                                      }
+                                  }
+              	    	     	  	    $("#passwordes").val("");
+                                    $(".msgbg").show();
+                                    $(".pwdhidws").show();
+                               })
+                                ctiitle.on(_event,function(){
+                                   $("#meshides").hide();
+                                    $(".pwdhidws").hide();
+                                })
+
+              	    	     },
+              	    	     // 充值金额
+              	    	    numPrice:function(){
+              	    	     	  var This=this;  //2015 密码错误
+              	    	     	  var countersign=$("#countersign");
+                              var suctime=$("#suonetime");
+                              var filetime=$("#filetime");
+                              var chulitime=$("#chulitime");
+              	    	     	  countersign.on(_event,function(){
+              	    	     	  	     var transid=$("#transId").val();
+              	    	     	  	     var pwd=$("#passwordes").val();
+              	    	     	  	     var price=$("#price").val();
+              	    	     	  	     var userid=$("#userId").val();
+              	    	     	  	     var onlineid="14_"+$("#quikeDto").val();
+              	    	     	  	     var sourcecode=$("#sourceCode").val();
+              	    	     	  	     if (price=="") {
+              	    	     	  	     	 ca.prompt("充值金额不能为空");return;
+              	    	     	  	     }
+              	    	     	  	     if (pwd=="") {
+                                              ca.prompt("密码不能为空");return;
+              	    	     	  	     }
+              	    	     	  	     laytip.waIt();
+                                       var rgdata={"transId":transid,"userId":userid,"onlineBankId":onlineid,"sourceCode":sourcecode,"money":price,"payPassword":pwd};
+                                        $.ajax({
+                                        	    type: "post",
+                    									        url:"${basePath}/confirmQuickRecharge.do",
+                    											    data:rgdata,
+                    											    dataType: "json",
+                    											    success: function(data){
+                    												     laytip.cloSe();
+                                                 if (data.resCode=="0000") {
+                                                    $("#number").val('');
+                                                    $(".msgbg").hide();
+                                                    $(".pwdhidws").hide();
+                                                    $("#hidemuis").hide();
+                                                    $("#successone").show();
+                                                 	  This.puBide(data.url,suctime);
+                                                 }else  if(data.resCode=="2015"){
+                                                       ca.prompt(data.resMsg);
+                                                 }else if(data.resCode=="9000"){
+                                                    $("#number").val('');
+                                                    $(".msgbg").hide();
+                                                    $(".pwdhidws").hide();
+                                                    $("#hidemuis").hide();
+                                                    $("#failetree").show();
+                                                     This.puBide(data.url,chulitime);
+                                                 }else{
+                                                    $("#number").val('');
+                                                    $(".msgbg").hide();
+                                                    $(".pwdhidws").hide();
+                                                    $("#hidemuis").hide();
+                                                    $("#failetwo").show();
+                                                 	  This.puBide(data.url,filetime);
+                                                 }
+										                       	},error:function(){
+                                                   laytip.cloSe();
+                                                   castapp.prompt("请求错误"); return;
+                                            }
+                                        })
+              	    	     	  })
+              	    	     },
+              	    	     puBide:function(url,kutns){
+                             var m=3;
+                             var timer=setInterval(function(){
+                                   m--;
+                                   kutns.html(m);
+                                   if(m==0){
+                                    window.location.href=url;
+                                    clearTimeout(timer);
+                                    }
+                                },1500);
+              	    	     },
+              	    	     // 跳转到绑卡页面
+                             bankUrl:function(){
+                               var cardbanks=$("#cardbanks");
+                               cardbanks.on(_event,function(){
+                                     var transid=$("#transId").val();
+              	    	     	  	     var userid=$("#userId").val();
+              	    	     	  	     var callBackUrl=$("#callBackUrl").val();
+                                     window.location.href='${basePath}/yeePay/toBindCard.do?userId='+userid+'&transId='+transid+'&callBackUrl='+callBackUrl+'';
+                               });
+                              
+                        },
+              	    }
+              	    recharge.inIt();
+              })
+		</script>
+</body>
+</html>

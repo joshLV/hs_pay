@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>支付平台</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="${basePath}/static/css/mui.css">
+   <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="${basePath}/static/css/wx.css" />
+	<link rel="stylesheet" href="${basePath}/static/iconfont/iconfont.css">
+</head>
+<body>
+     <header class="mui-bar mui-bar-nav">
+	      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">支付平台</h1>
+	</header>
+	 <div class="mui-content">
+		 <input type="hidden"  value="${map.transId}" id="triansid">
+		 <input type="hidden"  value="${map.userId}" id="userid">
+     <input type="hidden"  value="${map.quickBanks.~size==0?'':map.quickBanks[0].cardTop}" id="cardTop">
+     <input type="hidden"  value="${map.quickBanks.~size==0?'':map.quickBanks[0].cardLast}"  id="cardLast">
+     <input type="hidden" value="${map.quickBanks.~size==0?'':map.quickBanks[0].id}"  id="quesid">
+     <input type="hidden"  value="${map.quickBanks.~size==0?'':map.quickBanks}" id="quickBanks">
+     <input type="hidden"  value="${map.callBackUrl}"  id="callBackUrl">
+			 <ul class="mui-table-view">
+				    <li class="mui-table-view-cell liu"><label class="spname">订单信息</label><span class="spuser">${map.proName}</span></li>
+				 	 <li class="mui-table-view-cell liu"><span class="spname">订单编号</span><span class="spuser">${map.orderId}</span></li>
+			 </ul>
+        <ul class="mui-table-view">
+				 	<li class="mui-table-view-cell liu"><span class="spname">支付账号</span><span class="spuser">${map.username}</span></li>
+				  <li class="mui-table-view-cell liu"><span class="spname">支付金额</span><span class="spprice">${map.money}<em>元</em></span>
+					</li>
+      
+              <li class="mui-table-view-cell liu" id="paymanner"><a class="mui-navigate-right"><span class="spname">支付方式</span><div class="fright"><i class="bankts">可用余额</i><span class="spprice" id="payprices">(${map.useMoney})<em>元</em></span></div>
+          </a></li>
+
+           <input type="hidden"  value="{map.quickBanks[0].id}"  id="quickBanksid">
+          <input type="hidden"  value="{map.quickBanks[0].cardTop}"  id="cardTop">
+          <input type="hidden"  value="{map.quickBanks[0].cardLast}"  id="cardLast">
+             <li class="mui-table-view-cell liu" id="cradbacnks"  aid=""><a class="mui-navigate-right"><span class="spname">支付方式</span><div class="fright"><i class="bankts">${map.quickBanks.~size==0?'':map.quickBanks[0].bankName}</i><span class="spprice" id="payprices">(尾号${map.quickBanks.~size==0?'':map.quickBanks[0].cardLast})<em></em></span></div>
+           </a></li>  
+     
+				  <li class="mui-table-view-cell liu" id="addcard"><a class="mui-navigate-right"><span class="spname">支付方式</span><div class="fcard">添加快捷支付</div>
+					</a></li>   
+			 </ul>
+			 	<button id='addpay' class="mui-btn mui-btn-block mui-btn-primary">支付</button>
+			 	<button id='addpwdks' class="mui-btn mui-btn-block mui-btn-primary">支付</button>
+	      </div>
+	       <div style="clear:both;height:2em;background:#fff"></div>
+      
+  <div class="msgbg"  id="medbgn"></div>
+  <div class="dialogs"> 
+          <div class="diabog">
+          	   <div class="ctiitle" id="ctiitle"><span class="tits">选择支付方式</span><span class="mui-icon mui-icon-closeempty mui-pull-left"></span></div>
+          	   <div class="">
+          	   	  <ul class="mui-table-view mui-table-view-radio">
+                <li class="mui-table-view-cell   bogli hidebankcl" id="showlitwo" dataval="2">
+         <a class="mui-navigate-right msrigh">
+             <div class="iconfont icon-qian incos"></div>
+             <div class="mutitle">
+             <div class="mubank"><span class="banktxt">可用余额</span><span class="banknum">(${map.useMoney}元)<em></em></span></div>
+             </div>
+           </a>
+        </li>
+				    <li class="mui-table-view-cell bogli hidebankcl" id="showlione" aid="${map.quickBanks.~size==0?'':map.quickBanks[0].id}" dataval="1">
+					<a class="mui-navigate-right msrigh">
+						<div class="bankimgbg"><img src="${basePath}/${map.quickBanks.~size==0?'':map.quickBanks[0].logo}" alt=""></div>
+						   <div class="mutitle">
+						   	    <div class="mubank"><span class="banktxt">${map.quickBanks.~size==0?'':map.quickBanks[0].bankName}</span><span class="banknum">(尾号${map.quickBanks.~size==0?'':map.quickBanks[0].cardLast})</span></div>
+				      </div>   
+					</a>
+				</li>
+				
+				<!-- 余额不足的时候显示 -->
+				<li class="cellhu boghide hidebankcl"  id="showlitree">
+					   <div class="iconfont icon-qian incos"></div>
+					   <div class="mutitle">
+					   <div class="mubank"><span class="banktxt">可用余额</span><span class="banknum">(余额不足)</span></div>
+					   </div>
+				
+				</li>
+					  <li class="cellhu bankcard hidebankcl"  id="showlifour">
+						  <div class="iconfont icon-bangdcard incos"></div>
+						  <div class="mutitle">
+							  <div class="mubank"><span class="banktxt">未绑卡</span><span class="banknum">(去绑卡)</span></div>
+						  </div>
+
+					  </li>
+			</ul>
+          	</div>
+          </div>
+ </div>
+    
+		<div class="pwdhidws">
+           <div class="ctiitle" id="tiitlepwd"><span class="tits">请输入支付密码</span><span class="mui-icon mui-icon-closeempty mui-pull-left"></span></div>
+			    <input type="password"  id="passwordes" placeholder="输入支付密码" >
+           <button id='affirm' class="mui-btn mui-btn-block mui-btn-primary">确认</button>
+			    <!-- <div class="butonksd"><button id='affirm' class="classqux cltwo">确认</button></div> -->
+			     
+	</div>
+		<script src="${basePath}/static/js/mui.min.js"></script>
+		<script src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+		<script src="${basePath}/static/js/castapp.js"></script>
+		<script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/public.js"></script>
+    <script type="text/javascript">
+  $(function(){
+               ca.init();
+              $("#addpwdks").attr("disabled",false);
+			   var pays={
+                      inIt:function(){
+                      	   this.diAolg();
+                      	   this.ckBank();
+                      	   this.adData();
+                      	   this.backBal();
+                      	   this.bankUrl();
+                      	   this.payPrice();
+                      	   this.addSuk();
+                      },
+                        backBal:function(){
+                             var  datas="${map}";
+                             // console.log(datas);
+                             var  bankks=$("#quickBanks").val();
+                             var  usable="${map.useMoney}";
+                             var  payprice="${map.money}";
+                             var  prnum=Number(usable)-Number(payprice);
+                             if (bankks!="") {
+                                $("#showlione").show().addClass('mui-selected'); //弹窗银行卡
+                                 $("#showlifour").hide();
+                             }else{
+                                  $("#showlione").hide();
+                                  $("#showlifour").show();   // 这是未绑卡
+                             }
+                             if (prnum>0 && bankks!="") {
+                                    $("#showlione").show().removeClass('mui-selected');
+                             };
+                               //  如果余额大于所支付的金额
+                             if (prnum>0) {  
+                               	   $("#paymanner").show();  //这是余额够的时候就显示余额
+                               	   $("#showlitwo").show().addClass('mui-selected');  // 这是弹窗显示余额
+                               	   $("#addpay").get(0).style.display="block"; //这是余额支付按钮
+
+                             }else{
+                                 	  $("#showlitree").show();  //余额不足的时候显示 灰色
+                                 	  $("#paymanner").hide();//余额不足的时候 隐藏 选项卡
+                                 	  $("#addcard").hide();  //  绑定快捷卡选项卡隐藏
+                                 	  $("#cradbacnks").show();//余额不足就显示银行卡
+                                 	  $("#addpwdks").get(0).style.display="block";  //快捷支付
+                             }
+                             if (bankks=="" && prnum<0) {  //这是当余额不足和没有银行相关信息的时候
+                                     $("#cradbacnks").hide();  // 银行卡隐藏
+                                     $("#paymanner").hide();  //余额隐藏
+                                     $("#addcard").show(); //页面绑定快捷卡显示 
+                                     $("#addpwdks").attr("disabled","disabled");
+                             } 
+                        },
+                         //弹出银行卡
+                        diAolg:function(){
+                        	   var This=this;
+                             var paymanner=$("#paymanner");  //余额支付
+                             var cradbacnks=$("#cradbacnks");//快捷支付
+                             var ctiitle=$("#ctiitle");
+                           paymanner.on(_event,function(){
+                             	  This.pubHis();
+                             });
+          						  	  cradbacnks.on(_event,function(){
+          						  	  	  This.pubHis();
+          						  	  })
+                           ctiitle.on(_event,function(event){
+                                  $(".dialogs").css({"height":"0px"}); 
+                                  $("#medbgn").hide(); 
+                                  $(".dialogs").slideUp("slow");
+                             	  return;
+                             });
+                        },
+                        pubHis:function(){
+                          $(".dialogs").css({"height":$(window).height()/1.8}); 
+                     	    $("#medbgn").show(); 
+                     	    $(".dialogs").slideDown("slow");
+                     	    return;
+                        },
+                        //替换值 
+                        ckBank:function(){
+                             var bogli=$(".bogli");
+                             	  bogli.on(_event,function(){
+                         	  	      var valiv=$(this).attr("dataval");
+                         	  	      var  textbank=$(this).find('.banktxt').text();
+                             	      var banknum=$(this).find(".banknum").text();
+		                             	  $(".bankts").text(textbank);
+		                             	  $("#payprices").text(banknum);
+                                          if (valiv=="1") {
+                                          	    $("#addpay").hide();
+                                          	    $("#addpwdks").get(0).style.display="block";  
+                                          }else if(valiv=="2"){
+                                          	     $("#addpay").show();
+                                          	     $("#addpwdks").hide();  
+                                          }
+		                             	  $(".dialogs").css({"height":"0px"}); 
+		                             	  $(".msgbg").hide(); 
+		                             	  $(".dialogs").slideUp("slow");
+                             	  })
+                            
+                        },
+                        // 跳转到绑卡页面
+                        bankUrl:function(){
+                               var addcard=$("#addcard");
+                               var showlifour=$("#showlifour");
+                               var This=this;
+                               addcard.on(_event,function(){
+                               	      This.locaUrl();
+                               })
+                               showlifour.on(_event,function(){
+                               	     This.locaUrl();
+                               })
+                        },
+                        // 跳转到绑卡页面公共方法
+                        locaUrl:function(){
+                             var userid=$("#userid").val();
+                             var triansid=$("#triansid").val();
+                             var callBackUrl=$("#callBackUrl").val();
+                            window.location.href='${basePath}/yeePay/toBindCard.do?userId='+userid+'&transId='+triansid+'&callBackUrl='+callBackUrl+'' ;
+                        },
+                        // 支付密码弹窗
+                        payPrice:function(){
+                               var addpay=$("#addpay");
+                               addpay.on(_event,function(){
+                               	         $("#passwordes").val('');
+                                         $(".msgbg").show();
+                                         $(".pwdhidws").show();
+                               })
+
+                        },
+                       // 余额支付提交数据
+                       adData:function(){
+                             var This=this;
+                             var affirm=$("#affirm");  //确定
+                             var calloff=$("#calloff");//取消
+                             var tiitlepwd=$("#tiitlepwd");
+                            affirm.on(_event,function(){
+						                 var password=$("#passwordes").val();
+                             	  if (password==""){
+                             	    	castapp.prompt('密码不能为空'); return;
+                             	   }
+                          var quesdata={"transId":"${map.transId}","payPassword":password,"operateType":"21"};
+                             laytip.waIt();
+                              $.ajax({
+                               	 type:"post",
+								                 url:"${basePath}/pay/balancePayPwd.do",
+										             data:quesdata,
+										             dataType: "json",
+										             success: function(data){
+										            	 laytip.cloSe();
+              											if (data.resCode=="0000") {
+              												castapp.prompt('支付成功');
+              											}else if(data.resCode=="1000"){
+              												castapp.prompt("支付失败");
+              											}else if(data.resCode=="9000"){
+              												castapp.prompt('订单等待处理,请稍后...');
+              											}else{
+              												castapp.prompt(data.resMsg);
+              											}
+											             This.pubLocurl(data);
+									        	},error:function(){
+                                    laytip.cloSe();
+                                    castapp.prompt("请求错误"); return;
+                              }
+                           })
+                                $(".msgbg").hide();
+                                $(".pwdhidws").slideUp();
+                        });
+                             calloff.on(_event,function(){
+                                        $(".msgbg").hide();
+                                        $(".pwdhidws").hide();
+                             })
+                             tiitlepwd.on(_event,function(){
+                                    $(".msgbg").hide();
+                                    $(".pwdhidws").hide();
+                             })
+                       },
+
+                       // 快捷支付提交数据
+                       addSuk:function(){
+                            var This=this;
+                       	    var addpwdks=$("#addpwdks");
+                       	    var quickpay={"transId":$("#triansid").val(),"userId":$("#userid").val(),"id":$("#quesid").val(),"cardTop":$("#cardTop").val(),"cardLast":$("#cardLast").val()};
+                       	  addpwdks.on(_event,function(){
+                       	       laytip.waIt();
+                       	     $.ajax({
+                								type: "post",
+                								url:"${basePath}/yeePay/bindCardPay.do",
+                								data:quickpay,
+                								dataType: "json",
+                								success: function(data){
+                                      laytip.cloSe();
+                                 if (data.resCode=="0000") {
+													          castapp.prompt('支付成功');
+                                 }else if(data.resCode=="9000"){
+													          castapp.prompt('订单等待处理,请稍后...');
+                                 }else if(data.resCode=="1000"){
+                                     castapp.prompt("支付失败");
+                                 }else {
+													          castapp.prompt(data.resMsg);
+												         }
+                                 This.pubLocurl(data);
+										       	 },error:function(){
+                                    laytip.cloSe();
+                                    castapp.prompt("请求错误");return;
+                              }
+                           }) 
+                       })
+                    },
+                    // 支付成功跳转地址
+                    pubLocurl:function(data){
+                         if(data.returnUrl !=''&& data.returnUrl !='undefined' && data.returnUrl !=undefined){
+                           setTimeout(function(){
+                            window.location.href=data.returnUrl+"?resCode="+data.resCode+"&resMsg="+data.resMsg+"&transId="+data.transId+"&orderId="+data.orderId+"&money="+data.money+"&tradeStatus="+data.tradeStatus+"&MD5Sign="+data.MD5Sign+"";
+                            },2000);
+                           return;
+                          }
+                    },
+            	   }
+            	   pays.inIt();
+             })
+        </script>
+ 
+</body>
+</html>

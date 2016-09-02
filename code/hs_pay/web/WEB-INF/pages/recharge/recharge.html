@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值平台</title>
+    <link rel="stylesheet" href="${basePath}/static/css/global.css">
+    <link rel="stylesheet" href="${basePath}/static/css/pay.css">
+    <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+    <script type="text/javascript" src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+
+</head>
+<body>
+<div class="wamp">
+    <#top/>
+    <div class="contbox clearfix"  id="bankList">
+        <div class="form">
+            <input type="hidden" id="userId" value="${map.userId}" />
+            <input type="hidden" id="transId" value="${map.transId}"/>
+            <input type="hidden" id="sourceCode" value="${map.sourceCode}"/>
+          <input type="hidden" id="onlineBankId" value=""/>
+            <label class="label"><span>*</span> 网银充值</label>
+            <div class="field">
+                <ul class="check">
+                    @for(item in map.onlineBankList){
+                    <li>
+                        <label><input type="radio" name="onlineBankId" value="${item.key}"/>
+                            <img alt="${strutil.split(item.value,',')[0]}" src="${basePath}/${strutil.split(item.value,',')[1]}" /><i></i></label>
+                    </li>
+                    @}
+                </ul>
+            </div>
+        </div>
+        <div class="form">
+            <label class="label"><span>*</span> 第三方支付</label>
+            <div class="field">
+                <ul class="check">
+                    @for(item in map.paymentInterfaceList){
+                    <li>
+                        <label><input type="radio" name="onlineBankId" value="${item.interfaceId}"/>
+                        <img src="${basePath}/${item.logoUrl}" /><i></i></label>
+                    </li>
+                    @}
+
+                </ul>
+            </div>
+        </div>
+        <div class="form">
+            <label class="label" style="margin-left:13px;">充值账户</label>
+            <div class="field field-txt">
+                ${map.username}
+            </div>
+        </div>
+        <div class="form">
+            <label class="label" style="margin-left:13px;">可用余额</label>
+            <div class="field field-txt"> <span  class="fildprice">${map.useMoney}</span> <span class="leftds">元</span>
+                <div class="aemsas">
+                    <a href="javascript:;" class="ahideshow"  id="shows">显示</a><em class="emsjd">/</em><a href="javascript:;" class="ahideshow"  id="hides">隐藏</a>
+                </div>
+            </div>
+        </div>
+        <div class="form">
+            <label class="label"><span>*</span> 充值金额</label>
+            <div class="field">
+                <input type="text" class="input input-auto" name="money" id="money"/>
+                元
+                <div class="note"></div>
+            </div>
+        </div>
+        <div class="form">
+            <label class="label"><span>*</span> 验证码</label>
+            <div class="field">
+                <input type="text" class="input input-auto" maxlength="4" name="validCaptcha" id="textcode"/>
+                <img id="rechargeCode" src="${basePath}/captchaImage.do?type=rechargeCode"
+                     onclick="this.src='${basePath}/captchaImage.do?type=rechargeCode&'+Math.random()"/>
+                <div class="note"></div>
+            </div>
+        </div>
+        <div class="form" id="showMsg">
+            <label class="label"></label>
+            <div class="field">
+                <div class="login-error" style="min-width: 171px;">
+                    <span class="note error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form form-text">
+            <input type="button" class="button button-form bg-main" value=" 充值 " id="toRecharge"/>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="box" ></div>
+<div class="boxsss" style="display: none"></div>
+<#footer/>
+<!--对话框开始-->
+<div name="dialogMask" class="mask dialogMask" style="display: none;"></div>
+<div name="dialogMask" class="dialog dialogMask" style="display: none;">
+    <span class="close right">&times;</span>
+    <div class="dialog-body">请您在新打开的网上银行页面进行支付，支付完成前请不要关闭该窗口</div>
+    <div class="dialog-foot" align="center">
+        <button class="button bg-sub close buttonOK">已完成充值</button>
+         <button class="button bg-gray buttonCancel">充值遇到问题</button>
+    </div>
+</div>
+<!--对话框结束-->
+</body>
+</html>
+<script type="text/javascript">
+    $(function(){
+                if(window.name != "bencalie"){
+                 location.reload();
+                 window.name = "bencalie";
+                }
+                else{
+                 window.name = "";
+                }
+        var   Recharge={
+            // 总函数
+            payMent:function(){
+                this.payFs();   //支付方式
+                this.payCode();  //支付验证
+                this.hdShow(); //金额显示隐藏
+            },
+            // 点击选择支付方式
+            payFs:function(){
+                 $("#onlineBankId").val("");
+                $("#bankList li").on("click",function(){
+                    $("#bankList li").removeClass("active");
+                    $("#bankList li input").attr("checked",false);
+                    $(this).addClass("active");
+                    $(this).find("input").attr("checked",true);
+                    $("#onlineBankId").val($(this).find("input").val())
+                })
+            },
+            // 金额显示隐藏
+            hdShow:function(){
+                var shows=$("#shows");
+                var hides=$("#hides");
+                var prices=$(".fildprice");
+                var spanatn=$(".leftds");
+                shows.on("click",function(){
+                    prices.show();
+                    spanatn.show();
+                });
+                hides.on("click",function(){
+                    prices.hide();
+                    spanatn.hide();
+                });
+            },
+            payCode:function(){
+                var This=this;
+                $("#toRecharge").on('click',function(){
+                    var transId = $("#transId").val();
+                    var userId = $("#userId").val();
+                     var money = $("#money").val();
+                    var bankId=$("#onlineBankId").val();
+                    var textcode = $("#textcode").val();
+                    var sourceCode=$("#sourceCode").val();
+                    if(bankId==""){
+                        showMsg("选择支付方式");return;
+                    }
+                    if (money == "") {
+                        showMsg("充值金额不能为空");return;
+                    }
+                    if (!money.match(/^\+?(:?(:?\d+\.\d+)|(:?\d+))$/)) {
+                        showMsg("充值金额不合法");return;
+                    }
+                    var arr = money.split(".");
+                     if (arr.length == 2) {
+                        var xs = arr[1];
+                        if (xs.length > 2) {
+                            showMsg("充值金额只能保留2位小数");
+                            return;
+                        }
+                    }
+                    if (textcode == "" || textcode == null) {
+                        showMsg("验证码不能为空！");
+                        return;
+                    }
+                    var treemiao=$(".treemiao");
+                    var timtrees=$(".timtrees");
+                    $("#showMsg").hide();
+                    $.ajax({
+                            url:"${basePath}/confirmRecharge.do",
+                            type:"post",
+                            data:{transId: transId,userId: userId,onlineBankId:bankId,money:money,validCaptcha:textcode,sourceCode:sourceCode},
+                            dataType:"json",
+                            success:function(data){
+                              $("#rechargeCode").attr("src","${basePath}/captchaImage.html?type=rechargeCode&"+Math.random());      //刷新验证码  
+                                if(data.resCode == '0000'){
+                                    if(data.urlType == 'FORM'){
+                                        This.fuNs(data.url);
+                                    }else {
+                                        window.location.href=data.url;
+                                    }
+                                }else {
+                                     showMsg(data.resMsg);
+                                }
+                            },error:function(err){
+                                showMsg("请求错误");
+                            }
+                    })
+               });
+
+                function showMsg(msg){
+                    $("#showMsg").show();
+                    $("#showMsg .error").html(msg);
+                    setTimeout( function(){
+                        $("#showMsg").hide();
+                    } ,2000);
+                }
+            },
+            fuNs:function (res) {
+                $(".phides").remove();
+                var   mtns=res.indexOf("&");
+                var   msurl=res.substring(0,mtns);
+                var   mslast=res.substring(mtns,res.length);
+                var   arr=mslast.split("&");
+                var   html='';
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].length>0) {
+                        html+='<p   class="phides" datas="'+arr[i]+'"  style="display:none"/>';
+                    }
+                };
+                $(".box").append(html);
+                var phides=$(".phides");
+                 this.foRms(phides,msurl);
+            },
+            foRms:function(phides, msurl){
+                $("#datafroms").remove();
+                var htmlk='';
+                htmlk='<form action="'+msurl+'" id="datafroms">';
+                phides.each(function(em,k){
+                    var   thisd=$(this).attr("datas");
+                    var   lefts=thisd.indexOf("=");
+                    var   leftval=thisd.substr(0,lefts);
+                    var   rightval=thisd.substr(lefts,thisd.length);
+                    var   rgvals=rightval.replace(/=/g,'');
+                    // console.log(str+'-'+stk);
+                    htmlk+='<input  type="text" name="'+leftval+'"  value="'+rgvals+'"/>';
+                });
+                 htmlk+='</form>';
+                $(".boxsss").append(htmlk);
+                $("#datafroms").submit();
+            },
+        }
+        Recharge.payMent();
+    })
+</script>

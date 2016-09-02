@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500</title>
+    <link rel="stylesheet" href="${basePath}/static/css/global.css">
+    <link rel="stylesheet" href="${basePath}/static/css/404.css">
+    <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+  <link rel="stylesheet" href="${basePath}/static/iconfont/iconfont.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+    <div class="wamp">
+             <#top/>
+            <div class="hraders">
+                    <div class="eroes">500页面</div>
+            </div>
+
+      <!--       <div class="imgfour">
+                 <img src="${basePath}/static/images/500.jpg" alt="">
+                 <div class="gosy"><a href="">回到首页</a></div>
+            </div> -->
+         @if(map=="" || map.resCode==""){
+           <div class="imgfour">
+                 <img src="${basePath}/static/images/500.jpg" alt="">
+                 <div class="gosy"></div>
+            </div>
+            <div class="weixinsd"  >
+                 <div class="iconfont icon-500"></div>
+                 <div class="erroetips botonm">亲！没有找到你要的资源</div>
+                 <div class="erroetips">关闭页面在试试！</div>
+            </div>
+      @}else{
+            <div class="imgfour">
+                 <img src="${basePath}/static/images/500.jpg" alt="">
+                 <div class="gosy">${map.resMsg}</div>
+            </div>
+            <div class="weixinsd"  >
+                 <div class="iconfont icon-500"></div>
+                 <div class="erroetips botonm">${map.resMsg}</div>
+                 <!-- <div class="erroetips">重来  试试!</div> -->
+            </div>
+        @}
+           <#footer/>
+    </div>
+      <script type="text/javascript">
+            // console.log("${map}");
+    </script>
+</body>
+</html>

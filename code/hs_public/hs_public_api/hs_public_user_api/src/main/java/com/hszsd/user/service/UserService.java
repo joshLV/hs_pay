@@ -1,7 +1,8 @@
 package com.hszsd.user.service;
 
 import com.hszsd.common.util.Result;
-import com.hszsd.common.util.ReturnMsg;
+
+import java.util.List;
 
 
 /**
@@ -119,6 +120,31 @@ public interface UserService {
 	public Result isExistsUserPayPassword(String userId, String payPassword);
 
 
+	/**
+	 * 用户编号获取用户手机号和用户邮箱
+	 * @param userIds 用户编号
+	 * @return 0000 操作成功
+	 *         2000 参数缺失
+	 *         1000 操作失败
+     */
+	public Result getUserPhoneMail(List<String> userIds);
+
+
+	/**
+	 * 板块来源修改用户状态
+	 * @param userId 用户ID
+	 * @param blockSource 备注内容
+	 * @return
+     */
+	public Result updateUserBlockSource(String userId,String blockSource);
+
+	/**
+	 * 手机号身份证用户信息反查
+	 * @param phones 手机号集合
+	 * @param cards 身份证号集合
+     * @return
+     */
+	public Result counterUser(List<String> phones, List<String> cards);
 
 	/**
 	 * 使用用户名和密码进行校验用户信息<br/>
@@ -155,13 +181,15 @@ public interface UserService {
 	 *            用户新密码（未加密）
 	 * @return 001成功 <br/>
 	 */
-
+/*	@Deprecated
+	public Result updatePassword(String userId, String oldPassword,
+			String newPassword);*/
 
 	/**
 	 * 使用用户名和密码进行获取用户信息<br/>
 	 * 当用户属于正常状态时返回用户信息<br/>
 	 * 当用户不存在时返回对应错误编号
-	 * 
+	 *
 	 * @param userName
 	 *            用户名
 	 * @param password
@@ -174,7 +202,7 @@ public interface UserService {
 	 * 使用手机号和密码进行获取用户信息<br/>
 	 * 当用户属于正常状态时返回用户信息<br/>
 	 * 当手机号不存在时返回对应错误编号
-	 * 
+	 *
 	 * @param phone
 	 *            手机号
 	 * @param password
@@ -187,16 +215,16 @@ public interface UserService {
 	 * 使用用户ID获取用户信息<br/>
 	 * 当用户存在返回用户信息<br/>
 	 * 当用户不存在时返回对应错误编号
-	 * 
+	 *
 	 * @param userId
 	 *            用户编号
 	 * @return 001成功<br/>
 	 */
 	/*public Result getIdUser(String userId);*/
-	
+
 
 	/**
-	 * 使用用户名或手号获取信息<br/>
+	 * 使用用户名获取用户信息<br/>
 	 * 当用户存在返回用户信息<br/>
 	 * 当用户不存在时返回对应错误编号
 	 * 

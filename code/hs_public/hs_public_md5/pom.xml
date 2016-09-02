@@ -35,4 +35,5 @@
             </resource>
         </resources>
     </build>
+    <version>1.2-SNAPSHOT</version>
 </project>

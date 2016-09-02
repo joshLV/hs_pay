@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+      ">
+    <!--引入jdbc配置文件-->
+    <context:property-placeholder location="classpath*:*.properties"/>
+    <import resource="classpath*:dubbo-consumer.xml"/>
+    <import resource="classpath*:rabbitMq.xml"/>
+
+    <!-- 扫描指定package下所有带有如@controller,@services,@resource,@ods并把所注释的注册为Spring Beans -->
+    <context:component-scan base-package="com.hszsd.*.service"/>
+
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+    <bean id="settings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath*:/adminSystem.properties</value>
+                <value>classpath*:/rabbitmq.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--注入读取消息配置文件路径-->
+    <bean class="com.hszsd.common.util.Properties.PropertiesUtil">
+        <property name="properties" value="adminSystem.properties"/>
+    </bean>
+
+    <!-- 激活annotation功能 -->
+    <context:annotation-config />
+    <!-- 激活annotation功能 -->
+    <context:spring-configured />
+</beans>

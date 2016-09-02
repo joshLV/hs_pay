@@ -73,7 +73,7 @@ public class GetUserInfoDTO implements Serializable {
     /**
      * 用户积分,关联vip等级
      */
-    private BigDecimal growthvalue;
+//    private BigDecimal growthvalue;
     /**
      * 实名认证状态0：未认证；1-已认证
      */
@@ -94,11 +94,25 @@ public class GetUserInfoDTO implements Serializable {
      * 现场认证状态0：未认证；1-已认证
      */
     private int sceneStatus;
+    /**
+     * 绑定快捷卡状态 0：未绑定；1-已绑定
+     */
+    private int quickStatus;
 
     /**
      * 用户头像
      */
     private String avatar;
+
+    /**
+     * 身份证号
+     */
+    private String cardId;
+
+    /**
+     * 是否存在支付密码
+     */
+    private Integer ispaypassword;
 
     public String getAddress() {
         return address;
@@ -132,13 +146,13 @@ public class GetUserInfoDTO implements Serializable {
         this.emailStatus = emailStatus;
     }
 
-    public BigDecimal getGrowthvalue() {
+  /*  public BigDecimal getGrowthvalue() {
         return growthvalue;
     }
 
     public void setGrowthvalue(BigDecimal growthvalue) {
         this.growthvalue = growthvalue;
-    }
+    }*/
 
     public int getIslock() {
         return islock;
@@ -280,6 +294,31 @@ public class GetUserInfoDTO implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    
+    public int getQuickStatus() {
+		return quickStatus;
+	}
+
+	public void setQuickStatus(int quickStatus) {
+		this.quickStatus = quickStatus;
+	}
+
+    public Integer getIspaypassword() {
+        return ispaypassword;
+    }
+
+    public void setIspaypassword(Integer ispaypassword) {
+        this.ispaypassword = ispaypassword;
+    }
+
     @Override
     public String toString() {
         return "GetUserInfoDTO{" +
@@ -298,13 +337,15 @@ public class GetUserInfoDTO implements Serializable {
                 ", typeId=" + typeId +
                 ", islock=" + islock +
                 ", status=" + status +
-                ", growthvalue=" + growthvalue +
                 ", realStatus=" + realStatus +
                 ", emailStatus=" + emailStatus +
                 ", phoneStatus=" + phoneStatus +
                 ", videoStatus=" + videoStatus +
                 ", sceneStatus=" + sceneStatus +
+                ", quickStatus=" + quickStatus +
                 ", avatar='" + avatar + '\'' +
+                ", cardId='" + cardId + '\'' +
+                ", ispaypassword=" + ispaypassword +
                 '}';
     }
 }

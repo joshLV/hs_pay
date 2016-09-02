@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hszsd.account.dao.AccountCommMapper" >
+  <resultMap id="queryAccountCommBankMap" type="com.hszsd.account.dto.AccountBankDTO" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="BRANK" property="brank" jdbcType="VARCHAR" />
+    <result column="BRANCH" property="branch" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="ADDTIME" property="addtime" jdbcType="DECIMAL" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="QU" property="qu" jdbcType="VARCHAR" />
+    <result column="REQUEST_ID" property="requestId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="queryAccountQuickCommBankMap" type="com.hszsd.account.dto.AccountQuickBankDTO" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="REQUEST_ID" property="requestId" jdbcType="VARCHAR" />
+    <result column="USER_IP" property="userIp" jdbcType="VARCHAR" />
+    <result column="CARD_TOP" property="cardTop" jdbcType="VARCHAR" />
+    <result column="CARD_LAST" property="cardLast" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BIND_STATUS" property="bindStatus" jdbcType="DECIMAL" />
+    <result column="VALID_STATUS" property="validStatus" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DECIMAL" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="DECIMAL" />
+    <result column="MODIFY_BY" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    T.ID, T.USER_ID, T.ACCOUNT, T.BRANK, T.BRANCH, T.PROVINCE, T.ADDTIME, T.AREA, T.QU, T.REQUEST_ID
+  </sql>
+
+  <sql id="Base_Account_Quick_List" >
+     Z.ID, Z.USER_TYPE, Z.USER_ID, Z.REQUEST_ID, Z.USER_IP, Z.CARD_TOP, Z.CARD_LAST, Z.BANK_CODE, Z.BIND_STATUS,
+    Z.VALID_STATUS, Z.CREATE_TIME, Z.CREATE_BY, Z.MODIFY_TIME, Z.MODIFY_BY
+  </sql>
+
+  <select id="queryAccountCommBank" resultMap="queryAccountCommBankMap" parameterType="com.hszsd.account.entity.AccountCommBankExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ACCOUNT_BANK_030 T
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="queryAccountQuickCommBank" resultMap="queryAccountQuickCommBankMap" parameterType="com.hszsd.account.entity.AccountQuickCommBankExample">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Account_Quick_List" />
+    from HSPRD.TB_ACCOUNT_QUICK_BANK Z
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+
+  </select>
+</mapper>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>绑定银行卡</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		 <link rel="shortcut icon" href="${basePath}/static/images/favicon.ico">
+		<link rel="stylesheet" href="${basePath}/static/css/mui.css">
+		<link rel="stylesheet" href="${basePath}/static/css/wx.css">
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">绑定银行卡</h1>
+		</header>
+		<div class="mui-content">
+				<form class="mui-input-group">
+					<div class="mui-input-row banktbom">
+						<label>卡号</label>
+						<input type="number" class="mui-input-clear" name="card" id="card" placeholder="输入银行卡号">
+					</div>
+				   <div class="mui-input-row banktbom">
+						<label>手机号</label>
+						<input type="number" class="mui-input-clear" name="phone" id="phone"  placeholder="输入预留手机号">
+					</div>
+
+				</form>
+				  <div class="mui-input-row mui-checkbox mui-left">
+					
+						<input name="checkbox" value="" type="checkbox"  checked="checked" style="float:left"  id="checketval">
+						<div class="tongyios">
+							<span>说明:</span><br/>
+							<span>1、仅支持绑定储蓄卡</span><br/>
+							<span>2、一个账户仅可绑定一张快捷银行卡。</span>
+					</div>
+				  </div>
+			    <button class="nextbg casnext" id="next">下一步</button>
+			    <input type="hidden"  value="${map.userId}"  id="userId">
+			    <input type="hidden"  value="${map.transId}"  id="triansId">
+		</div>
+		<script src="${basePath}/static/js/mui.min.js"></script>
+		<script src="${basePath}/static/js/jquery-1.10.1.min.js"></script>
+		<script src="${basePath}/static/js/castapp.js"></script>
+		<script type="text/javascript" src="${basePath}/static/layer/layer.js"></script>
+		<script type="text/javascript" src="${basePath}/static/js/public.js"></script>
+		<script>
+		    $(function(){
+                   ca.init();
+                  $("#next").attr("disabled","disabled");
+                  var reg = /^(\d{16}|\d{19})$/;
+                  var re =/^1\d{10}$/;
+                 
+             var bankCard={
+                     inIt:function(){
+                            this.bankCode();
+                            this.bankUrl();
+                            this.clEar();
+                     },
+                     bankCode:function(){
+                         $("#card").keyup(function() {
+		                      if ($(this).val()=="") {
+		                      	   $("#next").prop("disabled","disabled"); return;
+		                      }
+		                      if ($("#phone").val()!="") {
+		                  	    	 $("#next").prop("disabled","");
+		                  	    }
+		                  });
+                           $("#phone").keyup(function() {
+		                 	   if ($("#card").val()!="") {
+		                      	     $("#next").prop("disabled",""); 
+		                      }
+		                     if ($(this).val()=="") {
+		                  	    	 $("#next").prop("disabled","disabled");
+		                  	    }
+		                 });
+                         
+
+                     },
+                   bankUrl:function(){
+                     var casnext=$('.casnext');
+                    casnext.on(_event,function(){
+                  	     var  card=$("#card").val();
+                  	     var  phone=$("#phone").val();
+                  	     var  userid=$("#userId").val();
+                  	     var triansid=$("#triansId").val();
+                  	     var check=$("#checketval").is(':checked');
+                  	     if (card=="") {
+                                ca.prompt("卡号不能为空");return;
+                         }       
+                        if(! reg.test(card)){
+                            ca.prompt("卡号有误");return;
+                        }
+                         if (phone=="") {
+                            ca.prompt("手机号不能为空");return;
+                         }
+                        if (!re.test(phone)) {
+                            ca.prompt("手机号有误");return;
+                        }   
+                         if (check==false) {
+                        	 ca.prompt("请同意绑卡操作"); return;
+                        }
+                       var formdata={"transId":triansid,"userId":userid,"cardNo":card,"phone":phone};
+                  	   $.ajax({
+	                  	   	type: "post",
+	                        url:"${basePath}/yeePay/bindCard.do",
+	                        data:formdata,
+	                        dataType: "json",
+	                        success: function(data){
+                                 if (data.resCode=="0000") {
+                                      window.location.href='${basePath}/yeePay/toBindCardConfirm.do?transId='+triansid+'&userId='+userid+'&requestId='+data.requestId+'&cardNo='+card+'&phone='+phone+'';
+                                 }else if(data.resCode=="2025"){
+                                 	  ca.prompt(data.resMsg); return;
+                                 	     
+                                 }else{
+                                 	    ca.prompt("绑卡失败"); return;
+                                 }
+	                        },error:function(err){
+                                    ca.prompt(err.resMsg);
+	                        }
+                  	   })
+                  })
+                },
+                // 清除数据
+                clEar:function(){
+                    var clear=$(".mui-icon-clear");
+                    clear[0].addEventListener("tap",function(){
+                    	   $("#next").prop("disabled","disabled"); return;
+                    })
+                    clear[1].addEventListener("tap",function(){
+                    	   $("#next").prop("disabled","disabled"); return;
+                    })
+                },
+             }
+  bankCard.inIt();
+ })
+                  
+			  
+		</script>
+	</body>
+
+</html>

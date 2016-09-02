@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hszsd.user.dao.ArtificialAuditMapper">
-  <resultMap id="BaseResultMap" type="com.hszsd.entity.ArtificialAudit">
+<mapper namespace="com.hszsd.user.dao.ArtificialauditMapper">
+  <resultMap id="BaseResultMap" type="com.hszsd.entity.Artificialaudit">
     <id column="ID" jdbcType="DECIMAL" property="id" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
@@ -76,7 +76,7 @@
     ID, USER_ID, MOBILE, EMAIL, REALNAME, CARD_ID, CARD_PIC1, CARD_PIC2, ADDTIME, TYPE, 
     SREMARK
   </sql>
-  <select id="selectByExample" parameterType="com.hszsd.entity.example.ArtificialAuditExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hszsd.entity.example.ArtificialauditExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -97,7 +97,7 @@
     from HSPRD.TB_ARTIFICIALAUDIT_050
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <insert id="insert" parameterType="com.hszsd.entity.ArtificialAudit">
+  <insert id="insert" parameterType="com.hszsd.entity.Artificialaudit">
     insert into HSPRD.TB_ARTIFICIALAUDIT_050 (ID, USER_ID, MOBILE, 
       EMAIL, REALNAME, CARD_ID, 
       CARD_PIC1, CARD_PIC2, ADDTIME, 
@@ -107,7 +107,7 @@
       #{cardPic1,jdbcType=VARCHAR}, #{cardPic2,jdbcType=VARCHAR}, #{addtime,jdbcType=DECIMAL}, 
       #{type,jdbcType=DECIMAL}, #{sremark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hszsd.entity.ArtificialAudit">
+  <insert id="insertSelective" parameterType="com.hszsd.entity.Artificialaudit">
     insert into HSPRD.TB_ARTIFICIALAUDIT_050
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -180,7 +180,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hszsd.entity.example.ArtificialAuditExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.hszsd.entity.example.ArtificialauditExample" resultType="java.lang.Integer">
     select count(*) from HSPRD.TB_ARTIFICIALAUDIT_050
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -244,7 +244,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.ArtificialAudit">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.entity.Artificialaudit">
     update HSPRD.TB_ARTIFICIALAUDIT_050
     <set>
       <if test="userId != null">
@@ -280,7 +280,7 @@
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.ArtificialAudit">
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.entity.Artificialaudit">
     update HSPRD.TB_ARTIFICIALAUDIT_050
     set USER_ID = #{userId,jdbcType=VARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},

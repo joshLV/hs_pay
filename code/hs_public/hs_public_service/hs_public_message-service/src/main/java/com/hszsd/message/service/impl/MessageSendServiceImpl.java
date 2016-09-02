@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
  * @author 艾伍 贵州合石电子商务有限公司
  * @version 1.0.0
  */
-@Service(value = "messageSendService")
+@Service(value = "messageSendServiceImpl")
 public class MessageSendServiceImpl implements MessageSendService {
 
 	Logger logger = LoggerFactory.getLogger(MessageSendServiceImpl.class);
@@ -58,7 +58,7 @@ public class MessageSendServiceImpl implements MessageSendService {
 		//使用JavaMail的MimeMessage，支付更加复杂的邮件格式和内容
 		MimeMessage mailMessage = javaMailSender.createMimeMessage();
 		Result res = getMimeMessageHelper(msg, mailMessage);
-		if (ResultMsgCode.RES_OK.equals(res.getCode())) {
+		if (ResultMsgCode.RES_OK.equals(res.getResCode())) {
 			MimeMessageHelper mail = (MimeMessageHelper) res.getResult();
 			try {
                 //发送文本并指定类型是否是HTML
@@ -73,9 +73,9 @@ public class MessageSendServiceImpl implements MessageSendService {
 									MimeUtility.encodeWord(file.getName()),
 									file);
 						} catch (UnsupportedEncodingException e) {
-							res.setCode(ResultMsgCode.ERRO_FILE);
-							res.setMessage("Attachment error:" + file.getName());
-							logger.trace(res.getMessage(), e);
+							res.setResCode(ResultMsgCode.ERRO_FILE);
+							res.setResMsg("Attachment error:" + file.getName());
+							logger.trace(res.getResMsg(), e);
 							return res;
 						}
 					}
@@ -83,14 +83,14 @@ public class MessageSendServiceImpl implements MessageSendService {
 				try {
 					javaMailSender.send(mailMessage);
 				} catch (MailException e) {
-					res.setCode(ResultMsgCode.RES_NO);
-					res.setMessage("send mail error:" + e.getMessage());
-					logger.trace(res.getMessage(), e);
+					res.setResCode(ResultMsgCode.RES_NO);
+					res.setResMsg("send mail error:" + e.getMessage());
+					logger.trace(res.getResMsg(), e);
 				}
 			} catch (MessagingException e) {
-				res.setCode(ResultMsgCode.RES_NO);
-				res.setMessage("send mail error:" + e.getMessage());
-				logger.trace(res.getMessage(), e);
+				res.setResCode(ResultMsgCode.RES_NO);
+				res.setResMsg("send mail error:" + e.getMessage());
+				logger.trace(res.getResMsg(), e);
 			}
 		}
 		res.setResult(null);
@@ -107,8 +107,8 @@ public class MessageSendServiceImpl implements MessageSendService {
 			if (null != msg.getTo() && msg.getTo().length > 0) {
 				messageHelper.setTo(msg.getTo());// 接受者
 			} else {
-				res.setCode(ResultMsgCode.NULL_TO);
-				res.setMessage("No recipient");
+				res.setResCode(ResultMsgCode.NULL_TO);
+				res.setResMsg("No recipient");
 			}
             //抄送
 			if (null != msg.getCc()) {
@@ -124,9 +124,9 @@ public class MessageSendServiceImpl implements MessageSendService {
 					messageHelper.setFrom(javaMailSender.getUsername(),
 							personal);// 发送者,这里还可以另起Email别名，不用和xml里的username一致
 				} catch (UnsupportedEncodingException e) {
-					res.setCode(ResultMsgCode.ERROR_ALIAS);
-					res.setMessage("Alias setting error");
-					logger.trace(res.getMessage(), e);
+					res.setResCode(ResultMsgCode.ERROR_ALIAS);
+					res.setResMsg("Alias setting error");
+					logger.trace(res.getResMsg(), e);
 				}
 			} else {
 				messageHelper.setFrom(javaMailSender.getUsername());// 发送者
@@ -134,14 +134,14 @@ public class MessageSendServiceImpl implements MessageSendService {
 			if (null != msg.getSubject() && !"".equals(msg.getSubject())) {
 				messageHelper.setSubject(msg.getSubject());// 主题
 			} else {
-				res.setCode(ResultMsgCode.NULL_SUBJECT);
-				res.setMessage("No theme");
+				res.setResCode(ResultMsgCode.NULL_SUBJECT);
+				res.setResMsg("No theme");
 			}
-			res.setCode(ResultMsgCode.RES_OK);
+			res.setResCode(ResultMsgCode.RES_OK);
 		} catch (MessagingException e) {
-			res.setCode(ResultMsgCode.ERROR_CONFIG_MAIL);
-			res.setMessage("Mail configuration error");
-			logger.trace(res.getMessage(), e);
+			res.setResCode(ResultMsgCode.ERROR_CONFIG_MAIL);
+			res.setResMsg("Mail configuration error");
+			logger.trace(res.getResMsg(), e);
 		}
 		res.setResult(messageHelper);
 		return res;
@@ -163,15 +163,15 @@ public class MessageSendServiceImpl implements MessageSendService {
 		content = StringUtils.trimToEmpty(content);
 		phoneName = StringUtils.trimToEmpty(phoneName);
 		if (StringUtils.isEmpty(content)) {
-			res.setCode(ResultMsgCode.RES_NONULL);
-			res.setMessage(properties.getProperty(this.getClass().getCanonicalName()
+			res.setResCode(ResultMsgCode.RES_NONULL);
+			res.setResMsg(properties.getProperty(this.getClass().getCanonicalName()
 					+ ".SMS.code-6",null));
 			return res;
 		}
 		if (StringUtils.isEmpty(phoneName)) {
-			res.setMessage(properties.getProperty(this.getClass().getCanonicalName()
+			res.setResMsg(properties.getProperty(this.getClass().getCanonicalName()
 					+ ".SMS.code-7",null));
-			res.setCode(ResultMsgCode.RES_NONULL);
+			res.setResCode(ResultMsgCode.RES_NONULL);
 			return res;
 		}
 
@@ -192,18 +192,18 @@ public class MessageSendServiceImpl implements MessageSendService {
 							* maxLength), phoneName);
 			sbuId.append(res.getResult());
 			sbuId.append(";");
-			sbuMsg.append(res.getMessage());
+			sbuMsg.append(res.getResMsg());
 			sbuMsg.append(";");
 			/**
 			 * 只要有发送成功的都标识发送成功，失败的自己根据返回的编号进行处理
 			 */
-			if (ResultMsgCode.RES_OK.equals(result.getCode())) {
-				res.setCode(ResultMsgCode.RES_OK);
+			if (ResultMsgCode.RES_OK.equals(result.getResCode())) {
+				res.setResCode(ResultMsgCode.RES_OK);
 			}
 			i++;
 		}
 		res.setResult(sbuId.toString());
-		res.setMessage(sbuMsg.toString());
+		res.setResMsg(sbuMsg.toString());
 		return res;
 	}
 
@@ -223,12 +223,12 @@ public class MessageSendServiceImpl implements MessageSendService {
 		int reponse = bs.sendBatchMessage(smsConfig.getAccount(), smsConfig.getPassword(), phoneNo, content+smsConfig.getAutograph());
 		res.setResult(reponse);
 		if (reponse < 0) {
-			res.setCode(ResultMsgCode.RES_NO);
+			res.setResCode(ResultMsgCode.RES_NO);
 			//根据编号获取对应的提示信息，没有找到时返回null
-			res.setMessage(properties.getProperty(this.getClass().getCanonicalName()
+			res.setResMsg(properties.getProperty(this.getClass().getCanonicalName()
 					+ ".SMS.code" + reponse,null));
 		} else {
-			res.setCode(ResultMsgCode.RES_OK);
+			res.setResCode(ResultMsgCode.RES_OK);
 		}
 		return res;
 	}
@@ -282,6 +282,10 @@ public class MessageSendServiceImpl implements MessageSendService {
 	 */
 	public void setPersonal(String personal) {
 		this.personal = personal;
+	}
+
+	public Properties getProperties() {
+		return properties;
 	}
 
 }

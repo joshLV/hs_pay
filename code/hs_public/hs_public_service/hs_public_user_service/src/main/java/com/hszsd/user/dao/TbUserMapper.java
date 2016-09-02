@@ -3,6 +3,7 @@ package com.hszsd.user.dao;
 import java.util.List;
 
 import com.hszsd.user.dto.GetUserInfoDTO;
+import com.hszsd.user.dto.PhoneMailDTO;
 import com.hszsd.user.dto.UserDTO;
 import org.springframework.stereotype.Repository;
 
@@ -28,4 +29,6 @@ public interface TbUserMapper extends UserMapper {
 	List<GetUserInfoDTO> getUserinfoExample(TbUserExample example);
 
 	List<UserDTO> getUserExample(TbUserExample example);
+
+	List<PhoneMailDTO> getUserIdPhoneMail(TbUserExample example);
 }

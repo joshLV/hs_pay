@@ -5,6 +5,8 @@
  *************************************************/
 package com.hszsd.md5.beartool;
 
+import java.io.UnsupportedEncodingException;
+
 /*************************************************
  md5 类实现了RSA Data Security, Inc.在提交给IETF
  的RFC1321中的MD5 message-digest 算法。
@@ -58,10 +60,15 @@ public class MD5 {
         /*
           generateMD5Sign是类MD5最主要的公共方法，入口参数是你想要进行MD5变换的字符串
           返回的是变换完的结果，这个结果是从公共成员digestHexStr取得的．
+          默认使用UTF-8编码，不然会导致加密中文不一致
         */
         public String generateMD5Sign(String inbuf) {
                 md5Init();
-                md5Update(inbuf.getBytes(), inbuf.length());
+                try {
+                        md5Update(inbuf.getBytes("UTF-8"), inbuf.length());
+                } catch (UnsupportedEncodingException e) {
+                        md5Update(inbuf.getBytes(), inbuf.length());
+                }
                 md5Final();
                 digestHexStr = "";
                 for (int i = 0; i < 16; i++) {

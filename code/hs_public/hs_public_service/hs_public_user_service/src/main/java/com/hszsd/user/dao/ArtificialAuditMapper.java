@@ -5,25 +5,25 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.hszsd.dao.BaseDao;
-import com.hszsd.entity.ArtificialAudit;
-import com.hszsd.entity.example.ArtificialAuditExample;
+import com.hszsd.entity.Artificialaudit;
+import com.hszsd.entity.example.ArtificialauditExample;
 
-public interface ArtificialAuditMapper extends BaseDao {
-    int countByExample(ArtificialAuditExample example);
+public interface ArtificialauditMapper extends BaseDao {
+    int countByExample(ArtificialauditExample example);
 
-    int insert(ArtificialAudit record);
+    int insert(Artificialaudit record);
 
-    int insertSelective(ArtificialAudit record);
+    int insertSelective(Artificialaudit record);
 
-    List<ArtificialAudit> selectByExample(ArtificialAuditExample example);
+    List<Artificialaudit> selectByExample(ArtificialauditExample example);
 
-    ArtificialAudit selectByPrimaryKey(Long id);
+    Artificialaudit selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") ArtificialAudit record, @Param("example") ArtificialAuditExample example);
+    int updateByExampleSelective(@Param("record") Artificialaudit record, @Param("example") ArtificialauditExample example);
 
-    int updateByExample(@Param("record") ArtificialAudit record, @Param("example") ArtificialAuditExample example);
+    int updateByExample(@Param("record") Artificialaudit record, @Param("example") ArtificialauditExample example);
 
-    int updateByPrimaryKeySelective(ArtificialAudit record);
+    int updateByPrimaryKeySelective(Artificialaudit record);
 
-    int updateByPrimaryKey(ArtificialAudit record);
+    int updateByPrimaryKey(Artificialaudit record);
 }

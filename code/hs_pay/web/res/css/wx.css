@@ -1,0 +1,419 @@
+body{font-family: "微软雅黑";background: #fff;overflow:auto;}
+/*-webkit-overflow-scrolling;*/
+.mui-table-view  .liu{
+	border-bottom: 1px solid #F3F3F3;
+	font-size: 15px;
+	padding: 13px  15px;
+}
+.mui-table-view-cell:after{
+	background: none;
+
+}
+.mui-checkbox{
+	padding-bottom: 5px;
+}
+input[type='password']{
+	padding: 26px  15px;
+}
+.mui-input-row .mui-input-clear ~ .mui-icon-clear, .mui-input-row .mui-input-speech ~ .mui-icon-speech, .mui-input-row .mui-input-password ~ .mui-icon-eye.mui-card{
+	top:16px !important;
+}
+.spname{
+	float: left;
+	font-weight: 300;
+	font-size: 14px;
+	color: #666;
+	/*font-family: "宋体";*/
+}
+.mui-card{
+   border-radius: 6px;
+}
+.mui-content{
+	background: #fff;
+	width: 100%;
+}
+.spuser,.spprice{
+	float: right;
+	font-size: 15px;
+
+}
+
+ .mui-checkbox input[type='checkbox']:before{
+ 		 font-size: 25px;
+ 		 
+ }
+.mui-checkbox input[type='checkbox']{
+  top:8px;
+ }
+.tongyios{
+	 float: left;
+    margin-left: 48px;
+    margin-top: 5px;
+    font-size:12px;
+    color: #999;
+    padding: 2px 10px;
+}
+
+.spprice{
+	color: #FF6600;
+}
+.spprice em{
+	font-style: normal;
+}
+.mui-title img{
+	width: 100%
+}
+a {
+	color: #666;
+}
+.mui-bar{
+	background: #fff;
+}
+.mui-table-view{
+	margin-bottom: 10px;
+}
+.mui-input-row label{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #666;
+	padding:18px 15px;
+}
+.mui-navigate-right:after, .mui-push-right:after{
+	font-size: 22px;
+	color: #666;
+	right: 10px;
+}
+.fright{float: right; margin-right: 20px;}
+.fright i{font-size: 14px;font-style: normal;}
+.fcard{
+	float: right; margin-right: 20px;
+	color: #666;
+}
+.hidebankcl{
+	display: none;
+}
+#addcard{
+	display: none;
+}
+#cradbacnks{
+	display: none;
+}
+#paymanner{
+	display: none;
+}
+#addpay{
+	display: none;
+}
+#addpwdks{
+	display: none;
+}
+.butonksd{
+	width: 90%;
+	margin: 0 auto;
+}
+.classqux{
+	width: 40%;
+}
+.clone{
+	background: #ccc;
+	float:left;
+}
+.cltwo{
+	background:#89D439;
+	color: #fff;
+	float: right;
+}
+/*弹窗的css*/
+.msgbg{
+	background: #DADADA;
+	position: fixed;
+	opacity: 0.6;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 8;
+	display: none;
+	z-index: 99;
+}
+.dialogs {
+	border-top:1px solid #efefef;
+	width: 100%;
+	z-index: 10000;
+	position: fixed;
+	/*height: 300px;*/
+	bottom: -20px;
+	left:0px;
+	background: #fff;
+	display: none;
+}
+
+.mui-table-view  .bogli{
+	border-bottom: 1px solid #F3F3F3;
+	position: relative;
+	padding-right: 0px;
+
+
+}
+.ctiitle{
+	height:35px;
+	width: 100%;
+	line-height:35px;
+	text-align: center;
+
+	border-bottom: 1px solid #efefef;
+}
+.ctiitle .tits{
+font-size: 14px;
+}
+
+.mui-icon-closeempty{
+	margin-right: 10px;
+	font-size: 30px;
+	margin-top: 3px;
+	margin-left: 5px;
+}
+.icon-gongshang{
+	font-size: 30px;
+	color: #eb4f38;
+}
+.mui-icon-closeempty{
+	 color: #999;
+}
+.incos{
+	float: left;
+	width: 36px;
+	margin-top: 5px;
+}
+.bankimgbg{
+	float: left;
+	width: 42px;
+	margin-top: -3px;
+	margin-left: -3px;
+	/*border:1px solid red;*/
+}
+.bankimgbg img{
+	width: 100%;
+	height: 36px;
+}
+.icon-gongshang:before{
+	float: left;
+	display: inline;
+}
+.icon-qian{
+	font-size: 30px;
+	color: #f4c600;
+	float: left;
+	display:inline;
+	height: 34px;
+}
+.mutitle{
+	font-size: 14px;
+	margin-top:5px;
+	float: left;
+	width: 70%;
+
+
+}
+.mui-table-view .boghide {
+	border-bottom: 1px solid #F3F3F3;
+	position: relative;
+	padding-right: 0px;
+}
+.boghide .mubank .banktxt,.boghide .mubank .banknum{
+	color: #999 !important;
+	/*border: 1px solid red;*/
+}
+.cellhu{
+	position: relative;
+	overflow: hidden;
+	padding: 11px 15px;
+	-webkit-touch-callout: none;
+}
+.msrigh{
+	width: 100% !important;
+}
+.mubank{
+	float: left;
+	width: 100%;
+	overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+	/*border:1px solid red;*/
+}
+.mui-table-view-radio .mui-table-view-cell .mui-navigate-right:after{
+	right: 0px;
+}
+.mulimit{
+	color:#999;
+	font-size: 12px;
+}
+.mui-btn-block{
+	padding: 10px  0;
+	width: 90%;
+	margin:  0px auto;
+}
+input[type='submit'], .mui-btn-primary, .mui-btn-blue{
+	background: #2B8BF9;
+	border: 1px solid #2B8BF9;
+
+}
+
+/*绑定卡号的页面、*/
+.mui-input-group .mui-input-row:after{
+	background: no-repeat;
+}
+.banktbom{
+	border-bottom: 1px solid #F3F3F3;
+	height: 50px !important;
+}
+.nextbg{
+	width: 90%;
+	margin: 20px auto;
+	display: block;
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #2B8BF9;
+	color:#fff;
+}
+input[type=text],input[type=number],input[type=tel]{
+	/*height: 45px;*/
+	/*padding: 28px 15px;*/
+}
+.cardka{
+	  padding: 10px 0px;
+	  text-align: center;
+	  color: #999;
+}
+.banknumnum{
+	border-bottom: 1px solid #efefef;
+	border-top: 1px solid #efefef;
+	margin-bottom: 20px;
+}
+.icon-bangdcard{;
+	color: #a9b7b7;
+	font-size: 30px;
+	height: 30px;
+}
+.descm{
+	padding: 8px 15px;
+
+}
+.mui-input-row label{
+	width: 30%;
+
+}
+.mui-input-row label~input{
+	width: 70%;
+	height: 52px;
+}
+.next{
+	width: 90%;
+	margin: 20px auto;
+	display: block;
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #EEEEEE;
+	color: #999;
+}
+#butonbg{
+
+	background: #89D439;
+	color: #fff;
+
+}
+.codebutn{
+	position: absolute;
+	top:7px;
+	right:5px;
+	width:75px;
+	background:#2B8BF9;
+	color:#fff;
+	border:none;
+}
+
+/*绑卡成功的提示*/
+.success{
+	width: 100%;
+	display: none;
+	margin-top:60px;
+   
+}
+
+.suctitle{
+	text-align: center;
+	width: 100%;
+}
+.icon-chenggong{
+	text-align: center;
+	width: 100%;
+	font-size: 85px;
+	color: #89D439;
+	margin-top:35px;
+}
+.icon-shibai{
+	text-align: center;
+	width: 100%;
+	font-size: 85px;
+	color:#FF6600;
+	margin-top:35px;
+}
+.times{
+	margin-top: 40px;
+	text-align: center;
+	font-size: 14px;
+}
+
+
+
+/*微信充值页面css*/
+.mui-card{
+	border:1px solid #efefef;
+	box-shadow: 0px  0px  0px;
+}
+
+.bankimg{
+	float: left;
+	width:85px;
+	height: 85px;
+	overflow: hidden;
+}
+.bankimg img{width: 100%;}
+
+.bankname{
+	float: left;
+	/*border:1px solid red;*/
+}
+.bankname  .bankstat{
+	line-height: 30px;
+}
+.bankcoll{
+	position: absolute;
+	top:8px;
+	right: 20px;
+	color: #ccc;
+}
+.banknum{
+	/*	 border-bottom: 1px solid #efefef;
+         border-top: 1px solid #efefef;*/
+	margin-bottom: 20px;
+}
+.pwdhidws{
+	width: 90%;
+	height: 190px;
+	border:1px solid #efefef;
+	background: #fff;
+	position: fixed;
+	top:50%;
+	left:50%;
+	margin-top: -100px;
+	margin-left: -45%;
+	z-index:129;
+	display: none;
+	border-radius:6px;
+}
+#passwordes{
+	width: 90%;
+	margin:22px auto;
+	display: block;
+	padding: 22px 15px;
+	margin-bottom: 15px;
+}

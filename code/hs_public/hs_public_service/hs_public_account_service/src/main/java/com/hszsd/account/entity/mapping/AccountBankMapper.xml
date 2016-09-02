@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hszsd.account.dao.AccountBankMapper" >
+  <resultMap id="BaseResultMap" type="com.hszsd.account.po.AccountBankPO" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+    <result column="BRANK" property="brank" jdbcType="VARCHAR" />
+    <result column="BRANCH" property="branch" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="ADDTIME" property="addtime" jdbcType="DECIMAL" />
+    <result column="AREA" property="area" jdbcType="VARCHAR" />
+    <result column="QU" property="qu" jdbcType="VARCHAR" />
+    <result column="REQUEST_ID" property="requestId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, ACCOUNT, BRANK, BRANCH, PROVINCE, ADDTIME, AREA, QU, REQUEST_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hszsd.entity.example.AccountBankExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ACCOUNT_BANK_030
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from HSPRD.TB_ACCOUNT_BANK_030
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from HSPRD.TB_ACCOUNT_BANK_030
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hszsd.entity.example.AccountBankExample" >
+    delete from HSPRD.TB_ACCOUNT_BANK_030
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hszsd.account.po.AccountBankPO" >
+    insert into HSPRD.TB_ACCOUNT_BANK_030 (ID, USER_ID, ACCOUNT, 
+      BRANK, BRANCH, PROVINCE, 
+      ADDTIME, AREA, QU, 
+      REQUEST_ID)
+    values (HSPRD.SEQ_TB_ACCOUNT_BANK_030.nextval, #{userId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR},
+      #{brank,jdbcType=VARCHAR}, #{branch,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=DECIMAL}, #{area,jdbcType=VARCHAR}, #{qu,jdbcType=VARCHAR}, 
+      #{requestId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hszsd.account.po.AccountBankPO" >
+    insert into HSPRD.TB_ACCOUNT_BANK_030
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="account != null" >
+        ACCOUNT,
+      </if>
+      <if test="brank != null" >
+        BRANK,
+      </if>
+      <if test="branch != null" >
+        BRANCH,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="addtime != null" >
+        ADDTIME,
+      </if>
+      <if test="area != null" >
+        AREA,
+      </if>
+      <if test="qu != null" >
+        QU,
+      </if>
+      <if test="requestId != null" >
+        REQUEST_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="brank != null" >
+        #{brank,jdbcType=VARCHAR},
+      </if>
+      <if test="branch != null" >
+        #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="qu != null" >
+        #{qu,jdbcType=VARCHAR},
+      </if>
+      <if test="requestId != null" >
+        #{requestId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hszsd.entity.example.AccountBankExample" resultType="java.lang.Integer" >
+    select count(*) from HSPRD.TB_ACCOUNT_BANK_030
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update HSPRD.TB_ACCOUNT_BANK_030
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null" >
+        ACCOUNT = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brank != null" >
+        BRANK = #{record.brank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.branch != null" >
+        BRANCH = #{record.branch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null" >
+        ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.area != null" >
+        AREA = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qu != null" >
+        QU = #{record.qu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestId != null" >
+        REQUEST_ID = #{record.requestId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update HSPRD.TB_ACCOUNT_BANK_030
+    set ID = #{record.id,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=VARCHAR},
+      ACCOUNT = #{record.account,jdbcType=VARCHAR},
+      BRANK = #{record.brank,jdbcType=VARCHAR},
+      BRANCH = #{record.branch,jdbcType=VARCHAR},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      ADDTIME = #{record.addtime,jdbcType=DECIMAL},
+      AREA = #{record.area,jdbcType=VARCHAR},
+      QU = #{record.qu,jdbcType=VARCHAR},
+      REQUEST_ID = #{record.requestId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hszsd.account.po.AccountBankPO" >
+    update HSPRD.TB_ACCOUNT_BANK_030
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        ACCOUNT = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="brank != null" >
+        BRANK = #{brank,jdbcType=VARCHAR},
+      </if>
+      <if test="branch != null" >
+        BRANCH = #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        ADDTIME = #{addtime,jdbcType=DECIMAL},
+      </if>
+      <if test="area != null" >
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="qu != null" >
+        QU = #{qu,jdbcType=VARCHAR},
+      </if>
+      <if test="requestId != null" >
+        REQUEST_ID = #{requestId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hszsd.account.po.AccountBankPO" >
+    update HSPRD.TB_ACCOUNT_BANK_030
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      ACCOUNT = #{account,jdbcType=VARCHAR},
+      BRANK = #{brank,jdbcType=VARCHAR},
+      BRANCH = #{branch,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      ADDTIME = #{addtime,jdbcType=DECIMAL},
+      AREA = #{area,jdbcType=VARCHAR},
+      QU = #{qu,jdbcType=VARCHAR},
+      REQUEST_ID = #{requestId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

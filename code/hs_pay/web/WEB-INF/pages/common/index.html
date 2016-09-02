@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+This server is started
+<form action="toRecharge.do" method="post">
+    <input type="text" id="userId" name="userId" value="b3b20ba08ea548b9a9852db1b583f8f2"/>
+    <input type="text" id="mobile" name="mobile" value="15021819164"/>
+    <input type="text" id="sourceCode" name="sourceCode" value="SH"/>
+    <input type="text" id="returnUrl" name="returnUrl" value="https://pay.zhaoshangdai.com/testFront.html"/>
+    <input type="text" id="noticeUrl" name="noticeUrl" value="https://pay.zhaoshangdai.com/testBack.html"/>
+    <input type="text" id="MD5Sign" name="MD5Sign" value="F6CC6E827F9AE91B00D07C0FAED3F4BB"/>
+    <input type="submit" value="充值"/>
+</form>
+<form action="toQuickRecharge.do" method="post">
+    <input type="text" id="userId1" name="userId" value="b3b20ba08ea548b9a9852db1b583f8f2"/>
+    <input type="text" id="mobile1" name="mobile" value="15021819164"/>
+    <input type="text" id="sourceCode1" name="sourceCode" value="H5"/>
+    <input type="text" id="returnUrl1" name="returnUrl" value="https://pay.zhaoshangdai.com/testFront.html"/>
+    <input type="text" id="noticeUrl1" name="noticeUrl" value="https://pay.zhaoshangdai.com/testBack.html"/>
+    <input type="text" id="MD5Sign1" name="MD5Sign" value="C7505393CE88FD0C6D2B8143EAFD345B"/>
+    <input type="submit" value="快捷充值"/>
+</form>
+<form action="yeePayQueryBind" method="post">
+    <input type="text" id="userId2" name="userId" value="b3b20ba08ea548b9a9852db1b583f8f2"/>
+    <input type="submit" value="查询绑卡"/>
+</form>
+<form action="yeePayUnbind" method="post">
+    <input type="text" id="userId3" name="userId" value=""/>
+    <input type="text" id="bindId" name="bindId" value=""/>
+    <input type="text" id="cardTop" name="cardTop" value=""/>
+    <input type="text" id="cardLast" name="cardLast" value=""/>
+    <input type="submit" value="解绑"/>
+</form>
+<form action="logout" method="POST">
+    <input type="submit" value="tete"/>
+</form>
+</body>
+</html>

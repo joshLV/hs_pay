@@ -78,6 +78,11 @@ public interface ResultCode {
 	public static final String USER_NO_EMAIL="5012";
 
 	/**
+	 *银行编号不存在
+	 */
+	public static final String BANK_CODE_NULL="5013";
+
+	/**
 	 * 标题超出长度
 	 */
 	public static final String RES_LENGTH_MAX = "6000";
@@ -114,4 +119,19 @@ public interface ResultCode {
 	 * 等待处理
 	 */
 	public static final String WAIT_PROCESS = "9000";
+
+	/**
+	 * 银行卡账号已存在
+	 *
+	 */
+	public static final String ACCOUNT_CODE_YES = "7003";
+
+	/**
+	 * 快捷卡绑定已存在
+	 *
+	 */
+	public static final String ACCOUNT_QUICK_CODE_YES = "7004";
+
+
+
 }
