@@ -1,0 +1,16 @@
+欢迎您选择中国移动和包提供的支付接入服务，此目录的例子是ASP.NET代码版本的。
+您可以直接把所有文件放在WEB服务器上应用的目录下，进行测试运行。
+文件目录说明
+|--simple.NET2.0  目录
+   |--Index.aspx  和包商户2.0.0接入演示首页
+   |--DoGWDirectPaymentInput.aspx 即时到账（网银网关）接口，参数输入演示文件
+   |--DoGWDirectPayment.aspx       即时到账（网银网关）接口，接入和包平台演示文件    
+   |--OrderRefundInput.aspx    退款接口，参数输入演示文件
+   |--OrderRefund.aspx         退款接口，接入和包平台演示文件   
+   |--OrderQueryInput.aspx    订单查询接口，参数输入演示文件
+   |--OrderQuery.aspx          订单查询接口，接入和包平台演示文件                               
+   |--BackUrl.aspx             页面通知接口。和包平台通知商户系统支付结果演示文件（页面发起）
+   |--profile/MerchantInfo.xml 商家属性文件,商家可以在此文件中修改商家的ID和密钥和支付返回地址(后台，页面)等信息
+   |--App_Code/    公共函数库文件。
+   
+                                                                                                                              

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<MerchantInfo>
+  <callbackUrl>http://212.240.192.205:60010/merc_interface_easyNET/BackUrl.aspx</callbackUrl>
+  <notifyUrl>http://212.240.192.205:60010/merc_interface_easyNET/NotifyUrl.aspx</notifyUrl>
+  <characterSet>01</characterSet>
+  <version>2.0.0</version>
+  <signType>MD5</signType>
+  <reqUrl>https://ipos.10086.cn/ips/cmpayService</reqUrl>
+  <merchantId>商户号</merchantId>
+  <signKey>商户密钥</signKey>
+</MerchantInfo>

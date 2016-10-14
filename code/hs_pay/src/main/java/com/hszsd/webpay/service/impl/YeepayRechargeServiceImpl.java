@@ -1,5 +1,7 @@
 package com.hszsd.webpay.service.impl;
 
+import com.hszsd.account.service.AccountService;
+import com.hszsd.common.util.Result;
 import com.hszsd.common.util.math.MathUtil;
 import com.hszsd.entity.RechargeRecord;
 import com.hszsd.webpay.common.GlobalConstants;
@@ -15,6 +17,7 @@ import com.hszsd.webpay.web.dto.AccountQuickBankDTO;
 import com.hszsd.webpay.web.dto.PaymentInterfaceDTO;
 import com.hszsd.webpay.web.dto.RechargeInDTO;
 import com.hszsd.webpay.web.dto.RechargeOutDTO;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +41,9 @@ public class YeepayRechargeServiceImpl extends RechargeService{
 
     @Autowired
     private AccountQuickBankDao accountQuickBankDao;
+
+    @Autowired
+    private AccountService accountService;
 
     /**
      * 返回易宝充值类型对象
@@ -212,8 +219,27 @@ public class YeepayRechargeServiceImpl extends RechargeService{
         Map<String, String> map = new HashMap<String, String>();
         AccountQuickBankDTO accountQuickBankDTO = accountQuickBankDao.selectByPrimaryKey(rechargeInDTO.getBankId());
         if(accountQuickBankDTO == null){
-            logger.error("initSignData failed and account quick bank isn't exist and id={}", rechargeInDTO.getBankId());
-            return map;
+            try {
+                //调用dubbox查询用户快捷卡信息
+                com.hszsd.account.dto.AccountQuickBankDTO dubboCondition = new com.hszsd.account.dto.AccountQuickBankDTO();
+                dubboCondition.setUserId(rechargeInDTO.getUser().getUserId());
+                dubboCondition.setRequestId(rechargeInDTO.getBankId());
+                Result result = accountService.queryAccountQuickBank(dubboCondition);
+                if(ResultConstants.OPERATOR_SUCCESS.getCode().equals(result.getResCode())){
+                    List<com.hszsd.account.dto.AccountQuickBankDTO> dubboQuickBanks = (List<com.hszsd.account.dto.AccountQuickBankDTO>) result.getResult();
+                    if(dubboQuickBanks.size() > 0) {
+                        accountQuickBankDTO = new AccountQuickBankDTO();
+                        BeanUtils.copyProperties(accountQuickBankDTO, dubboQuickBanks.get(0));
+                    }
+                }
+            }catch (Exception e){
+                logger.error("initSignData occurs an error and cause by {}", e.getMessage());
+            }finally {
+                if(accountQuickBankDTO == null){
+                    logger.error("initSignData failed and account quick bank isn't exist and id={}", rechargeInDTO.getBankId());
+                    return map;
+                }
+            }
         }
         //封装充值接口参数
         //必输项

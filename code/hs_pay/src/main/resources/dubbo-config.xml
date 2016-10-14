@@ -11,16 +11,23 @@
 	<dubbo:application name="hs_pay" />
 
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
-	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
-	<!--<dubbo:registry address="zookeeper://120.27.198.183:2181" />-->
+	<!-- 测试 -->
 	<dubbo:registry address="zookeeper://192.168.0.164:2181" />
 
 	<!-- 生成远程服务代理，可以像使用本地bean一样使用Service -->
 	<dubbo:reference id="userService"
 					 interface="com.hszsd.user.service.UserService" version="1.0.2"/>
 	<dubbo:reference id="coreService"
-					 interface="com.hszsd.core.service.CoreService" protocol="rmi" version="1.0.2"/>
+					 interface="com.hszsd.core.service.CoreService" version="1.0.2"/>
 	<dubbo:reference id="accountService"
 					 interface="com.hszsd.account.service.AccountService" version="1.0.0"/>
+	<!-- 生产 -->
+	<!--<dubbo:registry address="zookeeper://10.46.69.33:2181" />
+	<dubbo:reference id="userService"
+					 interface="com.hszsd.user.service.UserService" version="1.0.0"/>
+	<dubbo:reference id="coreService"
+					 interface="com.hszsd.core.service.CoreService" version="1.0.0"/>
+	<dubbo:reference id="accountService"
+					 interface="com.hszsd.account.service.AccountService" version="1.0.0"/>-->
 
 </beans>

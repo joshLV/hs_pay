@@ -110,7 +110,9 @@ public class RechargeController {
                 //向请求方返回错误提示
                 HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), validatorResult);
             }
-            return new ModelAndView("/common/500");
+            map.put("resCode", validatorResult.getCode());
+            map.put("resMsg", validatorResult.getMsg());
+            return new ModelAndView("/common/500", "map", map);
         }
 
         //获取用户信息
@@ -120,13 +122,15 @@ public class RechargeController {
         }catch (Exception e){
             logger.error("toRecharge occurs an error and cause by {}", e.getMessage());
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.OPERATOR_FAIL);
-            return new ModelAndView("/common/500");
+            return new ModelAndView("/common/500","map",map);
         }
         if (!ResultCode.RES_OK.equals(userResult.getResCode())) {
             logger.error("toRecharge failed and UserResult={}", JsonUtil.obj2json(userResult));
             //向请求方返回错误提示
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.USERID_ISNULL);
-            return new ModelAndView("/common/500");
+            map.put("resCode", ResultConstants.USERID_ISNULL.getCode());
+            map.put("resMsg", ResultConstants.USERID_ISNULL.getMsg());
+            return new ModelAndView("/common/500","map", map);
         }
         GetUserInfoDTO userInfoDTO = (GetUserInfoDTO) userResult.getResult();
         logger.info("userService.getUserInfo userInfoDTO = {}", userInfoDTO);
@@ -135,14 +139,18 @@ public class RechargeController {
             logger.error("toRecharge failed and user type is borrower");
             //向请求方返回错误提示
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.USER_ISERROR);
-            return new ModelAndView("/common/500");
+            map.put("resCode", ResultConstants.USER_ISERROR.getCode());
+            map.put("resMsg", ResultConstants.USER_ISERROR.getMsg());
+            return new ModelAndView("/common/500","map", map);
         }
         //判断是否实名认证，用户未实名认证则不能进行充值操作
         if (GlobalConstants.RECHARGE.REALSTATUS_ISYES != userInfoDTO.getRealStatus()) {
             logger.error("toRecharge failed and user isn't auth for real name");
             //向请求方返回错误提示
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.REALSTATUS_ISNOT);
-            return new ModelAndView("/common/500");
+            map.put("resCode", ResultConstants.REALSTATUS_ISNOT.getCode());
+            map.put("resMsg", ResultConstants.REALSTATUS_ISNOT.getMsg());
+            return new ModelAndView("/common/500","map", map);
         }
         map.put("userId", userInfoDTO.getUserId());
         map.put("username", userInfoDTO.getUsername());
@@ -160,7 +168,7 @@ public class RechargeController {
         } finally {
             if (!tradeResult.getIsSuccess()) {
                 HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.OPERATOR_FAIL);
-                return new ModelAndView("/common/500");
+                return new ModelAndView("/common/500", "map", map);
             }
             map.put("transId", tradeResult.getParams());
         }
@@ -169,7 +177,7 @@ public class RechargeController {
         Map bankMap = rechargeBankService.queryRechargeBank();
         if (bankMap == Collections.EMPTY_MAP) {
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.OPERATOR_FAIL);
-            return new ModelAndView("/common/500");
+            return new ModelAndView("/common/500", "map", map);
         }
         map.putAll(bankMap);
 
@@ -273,7 +281,9 @@ public class RechargeController {
                 //向请求方返回错误提示
                 HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), validatorRes);
             }
-            return new ModelAndView("/common/500");
+            map.put("resCode", validatorRes.getCode());
+            map.put("resMsg", validatorRes.getMsg());
+            return new ModelAndView("/common/500", "map", map);
         }
 
         //获取用户信息
@@ -283,13 +293,15 @@ public class RechargeController {
         }catch (Exception e){
             logger.error("toQuickRecharge occurs an error and cause by {}", e.getMessage());
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.OPERATOR_FAIL);
-            return new ModelAndView("/common/500");
+            return new ModelAndView("/common/500", "map", map);
         }
         if (!ResultCode.RES_OK.equals(userResult.getResCode())) {
             logger.error("toQuickRecharge failed and UserResult={}", userResult);
             //向请求方返回错误提示
-            HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.USER_ISERROR);
-            return new ModelAndView("/common/500");
+            HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.USERID_ISNULL);
+            map.put("resCode", ResultConstants.USERID_ISNULL.getCode());
+            map.put("resMsg", ResultConstants.USERID_ISNULL.getMsg());
+            return new ModelAndView("/common/500", "map", map);
         }
         GetUserInfoDTO userInfoDTO = (GetUserInfoDTO) userResult.getResult();
         logger.info("userService.getUserInfo userInfoDTO = {}", userInfoDTO);
@@ -297,14 +309,18 @@ public class RechargeController {
             logger.error("toQuickRecharge failed and user type is borrower");
             //向请求方返回错误提示
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.USER_ISERROR);
-            return new ModelAndView("/common/500");
+            map.put("resCode", ResultConstants.USER_ISERROR.getCode());
+            map.put("resMsg", ResultConstants.USER_ISERROR.getMsg());
+            return new ModelAndView("/common/500", "map", map);
         }
         //判断是否实名认证
         if (GlobalConstants.RECHARGE.REALSTATUS_ISYES != userInfoDTO.getRealStatus()) {
             logger.error("toQuickRecharge failed and user isn't auth for real name");
             //向请求方返回错误提示
             HttpUtils.sendErrorPostRequest(tradeForm.getReturnUrl(), ResultConstants.REALSTATUS_ISNOT);
-            return null;
+            map.put("resCode", ResultConstants.REALSTATUS_ISNOT.getCode());
+            map.put("resMsg", ResultConstants.REALSTATUS_ISNOT.getMsg());
+            return new ModelAndView("/common/500", "map", map);
         }
         map.put("userId", userInfoDTO.getUserId());
 
@@ -319,7 +335,7 @@ public class RechargeController {
             tradeResult.setIsSuccess(false);
         } finally {
             if (tradeResult == null || !tradeResult.getIsSuccess()) {
-                return new ModelAndView("/common/500");
+                return new ModelAndView("/common/500", "map", map);
             }
             map.put("transId", tradeResult.getParams());
         }
@@ -812,7 +828,6 @@ public class RechargeController {
 
         return paramMap;
     }
-
     @RequestMapping({"testFront"})
     public ModelAndView testFront(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> map = WebUtils.requestToMap(request);
